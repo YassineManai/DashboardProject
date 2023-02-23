@@ -1,44 +1,63 @@
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Side = () => {
-    return (
-        <section id="sidebar">
-            <a href="#" className="brand">
 
+const Side = () => {
+    const [activeMenuItem, setActiveMenuItem] = useState(null);
+    function handleMenuItemClick(event) {
+        const menuItem = event.currentTarget.id;
+        setActiveMenuItem(menuItem);
+        console.log(menuItem)
+    }
+
+
+    return (
+        <div>
+
+            <a href="#" className="brand">
                 <img width="100%" src="sbs.png"></img>
             </a>
             <ul className="side-menu top">
-                <li className="active">
-                <Link to="/dash">
-                        <i className='bx bxs-dashboard' ></i>
-                        <span className="text">Dashboard</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/UserPage">
-                        <i className='bx bxs-shopping-bag-alt' ></i>
-                        <span className="text">Users</span>
-                    </Link>
+
+
+                <a id="1" onClick={handleMenuItemClick} >
+                    <li className={activeMenuItem == 1 ? 'active' : ''}>
+                        <Link to="/dash" >
+                            <i className='bx bxs-dashboard' ></i>
+                            <span className="text"  >Dashboard</span>
+                        </Link>
+                    </li>
+                </a>
+
+
+                <li className={activeMenuItem == 2 ? 'active' : ''} >
+                    <a id="2" onClick={handleMenuItemClick} >
+                        <Link to="/UserPage">
+                            <i className='bx bxs-shopping-bag-alt' ></i>
+                            <span className="text" >Users</span>
+                        </Link>
+                    </a>
 
 
                 </li>
-                <li>
-                    <a href="#">
+                <li className={activeMenuItem == 3 ? "active" : ''} >
+                    <a id="3" onClick={handleMenuItemClick} >
                         <i className='bx bxs-doughnut-chart' ></i>
-                        <span className="text">Analytics</span>
+                        <span className="text" >Analytics  </span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
+                <li className={activeMenuItem == 4 ? "active" : ''} >
+                    <a id="4" onClick={handleMenuItemClick}>
                         <i className='bx bxs-message-dots' ></i>
-                        <span className="text">Message</span>
+                        <span className="text"  >Message</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#">
+
+                <li className={activeMenuItem == 5 ? 'active' : ''}>
+                    <a id="5" onClick={handleMenuItemClick} >
                         <i className='bx bxs-group' ></i>
-                        <span className="text">Team</span>
+                        <span className="text" >Team</span>
                     </a>
                 </li>
             </ul>
@@ -61,6 +80,10 @@ const Side = () => {
 
                 </li>
             </ul>
-        </section>)
+        </div>
+
+
+
+    )
 }
 export default Side;

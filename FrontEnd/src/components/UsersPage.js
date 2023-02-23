@@ -1,52 +1,54 @@
-import Nav from "../secondary -components/nav"
+
 import Side from "../secondary -components/sidebar"
+import { useRef } from "react";
 const UsersPage = () => {
+
+    const sidebar = useRef(null);
+    const menubar = useRef(null)
+    function handleMenuClick() {
+
+        sidebar.current.classList.toggle('hide')
+        console.log('test')
+    }
     return (
         <div>
-
-            <div >
+             <section id="sidebar" ref={sidebar} className="show" >
                 <Side />
-
-
-
-                <section id="content">
-
-                    <Nav />
-
-
-
-
-                    <main>
-                        <div className="head-title">
-                            <div className="left">
-                                <h1>Dashboard</h1>
-                                <ul className="breadcrumb">
-                                    <li>
-                                        <a href="#">Dashboard</a>
-                                    </li>
-                                    <li><i className='bx bx-chevron-right' ></i></li>
-                                    <li>
-                                        <a className="active" href="#">Home</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <a href="#" className="btn-download">
-                                <i className='bx bxs-cloud-download' ></i>
-                                <span className="text">Download PDF</span>
-                            </a>
+            </section>
+            <section ref={menubar} id="content">
+                <nav>
+                    <i className='bx bx-menu' onClick={handleMenuClick}></i>
+                    <a href="#" className="nav-link">Categories</a>
+                    <form action="#">
+                        <div className="form-input">
+                            <input type="search" placeholder="Search..." />
+                            <button type="submit" className="search-btn"><i className='bx bx-search' ></i></button>
                         </div>
-                        <p> Hello Users </p>
+                    </form>
+                    <input type="checkbox" id="switch-mode" hidden />
+                    <label for="switch-mode" className="switch-mode"></label>
+
+                    <a href="#" className="notification">
+                        <i className='bx bxs-bell' ></i>
+                        <span className="num">8</span>
+                    </a>
+                    <a href="#" className="profile">
+                        <img src="img/people.png" />
+                    </a>
+
+                </nav>
 
 
 
+                <main>
+                    
+           HALLLO USER
+                  
+                </main>
 
+            </section>
 
-
-                    </main>
-
-                </section>
-
-            </div>
+          
 
         </div>
     )
