@@ -19,11 +19,11 @@ const Userligne = (props) => {
 
                 <tbody>
 
-                    <td>{props.single.FirstName}</td>
+                    <td >{props.single.FirstName}</td>
                     <td>{props.single.LastName}</td>
                     <td>{props.single.Email}</td>
                     <td>{props.single.Phone}</td>
-                    <td> <img src="trash.png" height={"15px"} className="trash" onClick={del}></img> </td>
+                    <td> <img src={require('../assets/trash.png')} height={"15px"} className="trash" onClick={del}></img> </td>
 
 
                 </tbody>

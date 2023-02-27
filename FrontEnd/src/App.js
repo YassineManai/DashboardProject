@@ -1,10 +1,11 @@
 import "./componentsCss/login-signup.css"
 import './App.css';
-import Login from './components/login';
-import SignUp from './components/Signup';
-import UsersPage from "./components/UsersPage";
+import './componentsCss/alluser.css'
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Dash from "./components/dash";
+import Home from "./pages/Home";
+import PUsers from "./DashPages/PUsers";
+import NavSide from "./components/NavSide";
+import PProjects from "./DashPages/PProjects";
 
 
 
@@ -19,15 +20,13 @@ function App() {
 
   return (
     <div >
-
-      <BrowserRouter>
+      <NavSide>
         <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/dash" element={<Dash />}></Route>
-          <Route path="/UserPage" element={<UsersPage/>}></Route>
+          <Route path="/Dash/Home" element={<Home />}></Route>
+          <Route path="/Dash/PUsers" element={<PUsers />}></Route>
+          <Route path="/Dash/PProjects" element={<PProjects/>}></Route>
         </Routes>
-      </BrowserRouter>
+      </NavSide>
     </div>
   );
 }
