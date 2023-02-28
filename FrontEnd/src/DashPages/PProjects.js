@@ -2,24 +2,87 @@ import axios from "axios"
 
 import { useEffect, useState } from "react";
 import SingleProject from "../secondary -components/singleProject";
+
 const PProjects = () => {
 
   const [Projects, setProjects] = useState([]);
   const [show, setshow] = useState(false);
+  const [ProjectName, setProjectName] = useState('');
+  const [CompanyName, setCompanyName] = useState('');
+  const [Designation, setDesignation] = useState('');
 
+
+  /*const handleSubmit = e => {
+    // Prevent the default submit and page reload
+    e.preventDefault()
+
+    axios.post("http://127.0.0.1:3000/project/CreateProject", { ProjectName, CompanyName, Designation })
+      .then(response => {
+
+        console.log(response)
+        setshow(false);
+      })
+      .catch(error => console.error(error));
+    
+
+  }
 
 
   useEffect(() => {
+  
     axios.get('http://127.0.0.1:3000/project/allprojects').then((res) => {
       setProjects(res.data);
     }
     )
       .catch(error => console.error(error));
-  }, [])
 
-  const listProject = Projects.map((single, k) =>
+
+
+
+  }, []) */
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    try {
+      const response = await axios.get('http://127.0.0.1:3000/project/allprojects');
+      setProjects(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://127.0.0.1:3000/project/CreateProject', {
+        ProjectName: ProjectName,
+        CompanyName: CompanyName,
+        Designation: Designation,
+      });
+
+      setProjects([...Projects, response.data]); // Update the state of the list to include the new item
+      setProjectName('');
+      setCompanyName('');
+      setDesignation('');
+      setshow(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+
+  /*const listProject = Projects.map((single, k) =>
     single.Status === false ? <SingleProject single={single} key={k} /> : null
-  );
+  );*/
+  const listProject = Projects.map((project, index) =>
+    project.Status === false ? <SingleProject project={project} key={index} /> : null
+  )
+
 
 
   return (
@@ -27,28 +90,25 @@ const PProjects = () => {
 
       <div className={show ? "box-1" : "box-2"}>
 
-
-
         <div className="animated bounceInDown">
           <div className="container">
             <span className="error animated tada" id="msg"></span>
 
-            <form name="form1" className="box" >
+            {show && (<form name="form1" className="box" onSubmit={handleSubmit} >
               <h4>Smart <span>Business Solution</span></h4>
-              <img width="30%" src="sbs.png"></img>
-              <h5>Sign in to your account.</h5>
-              <input type="text" name="email" placeholder="Email" autocomplete="off"
+              <img width="30%" src={require('../assets/sbs.png')}></img>
+              <h5>Create Project </h5>
+
+              <input type="text" name="Pname" placeholder="Project Name" id="Pname" onChange={(e) => { setProjectName(e.target.value) }} autocomplete="off"
               />
-              <i className="typcn typcn-eye" ></i>
-              <input type="password" name="password" placeholder="Passsword" id="pwd" autocomplete="off"
+              <input type="text" name="Cname" placeholder="Company Name" id="Cname" onChange={(e) => { setCompanyName(e.target.value) }} autocomplete="off"
               />
 
-              <a href="#" className="forgetpass">Forget Password?</a>
+              <input type="text" name="Destination" placeholder="Destination" id="Destination" onChange={(e) => { setDesignation(e.target.value) }} autocomplete="off"
+              />
+              <input type="submit" value="Done" className="btn2" />
 
-              <input type="submit" value="Login" className="btn1" />
-
-
-            </form>
+            </form>)}
 
           </div>
 
@@ -92,9 +152,9 @@ const PProjects = () => {
             <table className="fl-table">
               <thead >
                 <tr>
-                  <th>Name</th>
+                  <th>Project Name</th>
                   <th>Company Name</th>
-                  <th>Designation</th>
+                  <th>Destination</th>
                 </tr>
               </thead>
             </table>

@@ -36,7 +36,7 @@
   font-family: 'Source Sans Pro', sans-serif;
   color: #234b9a;
   font-size: 18px;
-  margin-top: 94px;
+  margin-top: 70px;
   ;
 }
 
@@ -140,6 +140,7 @@ label span {
   cursor: pointer;
   
 }
+
 .btn2:hover {
   background: #0c48df;
 }

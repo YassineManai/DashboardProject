@@ -3,14 +3,18 @@ import axios from "axios";
 import '../componentsCss/alluser.css'
 
 
-const Userligne = (props) => {
-    const del = () => {
-        axios.delete(`http://127.0.0.1:3000/user/deluser/${props.single._id}`)
-            .then(res => {
-                console.log(res);
-                console.log(res.data);
-            })
-        this.forceUpdate()
+const Userligne = ({user, onDeleteUser }) => {
+   /* const del = () => {
+      axios.delete(`http://127.0.0.1:3000/user/deluser/${props.single._id}`)
+      .then(res => {
+          console.log(res);
+          console.log(res.data);
+          props.setUsers(prevUsers => prevUsers.filter(user => user._id !== props.single._id));
+      })
+      .catch(error => console.error(error));
+    }*/
+    const handleDeleteClick = () => {
+      onDeleteUser(user._id);
     }
     return (<div className="tableuser">
 
@@ -19,11 +23,12 @@ const Userligne = (props) => {
 
                 <tbody>
 
-                    <td >{props.single.FirstName}</td>
-                    <td>{props.single.LastName}</td>
-                    <td>{props.single.Email}</td>
-                    <td>{props.single.Phone}</td>
-                    <td> <img src={require('../assets/trash.png')} height={"15px"} className="trash" onClick={del}></img> </td>
+                    <td >{user.FirstName}</td>
+                    <td>{user.LastName}</td>
+                    <td>{user.Email}</td>
+                    <td>{user.Phone}</td>
+                    <td> <img src={require('../assets/trash.png')} height={"15px"} className="trash" onClick={handleDeleteClick}></img> </td>
+                  
 
 
                 </tbody>

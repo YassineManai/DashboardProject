@@ -223,9 +223,11 @@ body {
 /* CONTENT */
 #content {
 	position: relative;
-	width: calc(100% - 280px);
+	width: calc(100% - 250px);
 	left: 250px;
 	transition: .3s ease;
+	height: 1000px;
+	overflow: hidden;
 }
 
 #sidebar.hide~#content {
@@ -386,7 +388,7 @@ body {
 	width: 100%;
 	padding: 36px 24px;
 	font-family: var(--poppins);
-	max-height: calc(100vh - 56px);
+	
 	overflow-y: auto;
 }
 
@@ -644,6 +646,7 @@ body {
 	#content {
 		width: calc(100% - 60px);
 		left: 200px;
+		
 	}
 
 	#content nav .nav-link {
@@ -708,7 +711,7 @@ body {
 .box-1{
 	
 	position: absolute;
-    top: 50%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%,-60%);
 	width: 500px;

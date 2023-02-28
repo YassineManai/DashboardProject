@@ -10,6 +10,7 @@ require('./config/Connect');
 
 const userRoute = require('./routes/user');
 const ProjectRoute = require('./routes/Project')
+const BillRoute = require('./routes/Bill')
 
 
 
@@ -18,6 +19,7 @@ const ProjectRoute = require('./routes/Project')
 
 app.use('/user', userRoute);
 app.use('/project',ProjectRoute)
+app.use('/Bill',BillRoute)
 
 
 

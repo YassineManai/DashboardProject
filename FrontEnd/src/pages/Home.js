@@ -16,19 +16,30 @@ const Home = () => {
     const [value, onChange] = useState(new Date());
 
 
+    const handleDeleteUser = (id) => {
+        axios.delete(`http://127.0.0.1:3000/user/deluser/${id}`)
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+                setUsers(prevUsers => prevUsers.filter(user => user._id !== id));
+            })
+            .catch(error => console.error(error));
+    }
 
 
-
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:3000/user/allusers');
+            setUsers(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
 
     useEffect(() => {
 
-        axios.get('http://127.0.0.1:3000/user/allusers').then((res) => {
-            setUsers(res.data);
-        }
-        )
-            .catch(error => console.error(error));
-
+        fetchUsers();
 
         axios.get('http://127.0.0.1:3000/project/allprojects').then((res) => {
             setProjects(res.data);
@@ -47,9 +58,11 @@ const Home = () => {
 
 
 
-    const listusers = Users.map((single, k) => <Userligne single={single} key={k} />)
+    //const listusers = Users.map((single, k) => <Userligne single={single} key={k} />)
 
-    // className={isDarkMode ? 'dark' : ''}
+    const listUsers = Users.map((user, index) => {
+        return <Userligne key={index} user={user} onDeleteUser={handleDeleteUser} />;
+    });
 
 
 
@@ -132,11 +145,14 @@ const Home = () => {
                             </thead>
                         </table>
                     </div>
-                    {listusers}
+                    {listUsers}
+
 
                 </div>
+                
 
-                <Calendar onChange={onChange} value={value} />
+                <Calendar  onChange={onChange} value={value} />
+               
 
             </div>
 

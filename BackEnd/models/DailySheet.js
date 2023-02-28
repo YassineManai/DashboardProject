@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const DailySheet = mongoose.model('User',{
+const DailySheet = mongoose.model('DailySheet',{
 
 UserId : {
     type: Int
@@ -38,3 +38,4 @@ Year : {
 }
     
 })
+module.exports = DailySheet

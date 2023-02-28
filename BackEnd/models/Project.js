@@ -15,7 +15,8 @@ Designation : {
     type: String
 },
 Status:{
-    type: Boolean
+    type: Boolean,
+    default : false
 }
     
 })

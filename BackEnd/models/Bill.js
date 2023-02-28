@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const Bill = mongoose.model('User',{
+const Bill = mongoose.model('Bill',{
 
 UserId : {
     type : Number
@@ -17,3 +17,4 @@ Price:{
 
 }
 })
+module.exports = Bill

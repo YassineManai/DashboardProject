@@ -3,7 +3,7 @@ import React from "react";
 import '../componentsCss/alluser.css'
 
 
-const SingleProject = (props) => {
+const SingleProject = ({project}) => {
    
     return (<div className="tableuser">
 
@@ -11,9 +11,9 @@ const SingleProject = (props) => {
             <table className="fl-table">
 
                 <tbody>
-                    <td >{props.single.ProjectName}</td>
-                    <td>{props.single.CompanyName}</td>
-                    <td>{props.single.Designation}</td>
+                    <td >{project.ProjectName}</td>
+                    <td>{project.CompanyName}</td>
+                    <td>{project.Designation}</td>
                 </tbody>
 
             </table>

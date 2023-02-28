@@ -3,14 +3,13 @@ const PUsers = () => {
 
 
     return (
-        <div>
+        <div >
              
 
 
-               <main>
+          
                Welcome to Users components
-               </main>
-                    
+             
           
           
                   

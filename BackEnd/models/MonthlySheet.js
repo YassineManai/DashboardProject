@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const MonthlySheet = mongoose.model('User',{
+const MonthlySheet = mongoose.model('MonthlySheet',{
 
 UserId : {
     type: Number
@@ -35,3 +35,4 @@ Year : {
 }
     
 })
+module.exports = MonthlySheet

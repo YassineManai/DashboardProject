@@ -27,13 +27,6 @@ const NavSide = ({ children }) => {
 
 
 
-
-
-
-
-
-
-
     return (
         <div>
             <body className={isDarkMode ? 'dark' : ''} >
@@ -132,7 +125,7 @@ const NavSide = ({ children }) => {
 
                     </nav>
 
-                    <main  >{children}</main>
+                    <main >{children}</main>
                 </section>
 
             </body>
