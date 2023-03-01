@@ -2,6 +2,7 @@ import React from 'react';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import '../App.css';
 
 const NavSide = ({ children }) => {
     const sidebar = useRef(null);
@@ -29,7 +30,7 @@ const NavSide = ({ children }) => {
 
     return (
         <div>
-            <body className={isDarkMode ? 'dark' : ''} >
+            <body className={isDarkMode ? '' : 'dark'} >
                 <section id="sidebar" ref={sidebar} className="show" >
 
                     <a href="#" className="brand">

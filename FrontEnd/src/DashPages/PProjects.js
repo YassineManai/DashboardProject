@@ -144,7 +144,7 @@ const PProjects = () => {
       <div className="table-data">
         <div className="order">
           <div className="head">
-            <h3>All Users</h3>
+            <h3>All Projects</h3>
             <i className='bx bx-search' ></i>
             <i className='bx bx-filter' ></i>
           </div>
@@ -158,8 +158,13 @@ const PProjects = () => {
                 </tr>
               </thead>
             </table>
+            <div className='ligne1'>
+            {listProject}
+            </div>
+            
           </div>
-          {listProject}
+          
+          
 
         </div>
       </div>

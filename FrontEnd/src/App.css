@@ -79,6 +79,8 @@ body.dark {
 	--light: #0C0C1E;
 	--grey: #060714;
 	--dark: #FBFBFB;
+	height: 100vh;
+	
 
 }
 
@@ -226,7 +228,7 @@ body {
 	width: calc(100% - 250px);
 	left: 250px;
 	transition: .3s ease;
-	height: 1000px;
+
 	overflow: hidden;
 }
 
@@ -251,7 +253,7 @@ body {
 	top: 0;
 	left: 0;
 	z-index: 1000;
-	
+
 }
 
 #content nav::before {
@@ -388,7 +390,7 @@ body {
 	width: 100%;
 	padding: 36px 24px;
 	font-family: var(--poppins);
-	
+
 	overflow-y: auto;
 }
 
@@ -511,7 +513,7 @@ body {
 	border-radius: 20px;
 	background: var(--light);
 	padding: 24px;
-	overflow-x: auto;
+
 }
 
 #content main .table-data .head {
@@ -646,7 +648,7 @@ body {
 	#content {
 		width: calc(100% - 60px);
 		left: 200px;
-		
+
 	}
 
 	#content nav .nav-link {
@@ -708,21 +710,41 @@ body {
 }
 
 
-.box-1{
-	
+.box-1 {
+
 	position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%,-60%);
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -60%);
 	width: 500px;
 	height: 500px;
 	display: flex;
 }
-.box-2{
+
+.box-2 {
 	display: none;
 }
 
-
-
-
-
+.ligne {
+	max-height: 300px;
+	overflow: auto;
+}
+.ligne1 {
+	max-height: 500px;
+	overflow: auto;
+}
+::-webkit-scrollbar {
+	width: 16px;
+  }
+  ::-webkit-scrollbar-track {
+	background: var(--scrollbarBG);
+  }
+  ::-webkit-scrollbar-thumb {
+	background-color: var(--thumbBG);
+	box-shadow: 0 -100vh 0 100vh var(--shadow), 0 0 15px 5px black;
+  }
+  :root {
+	
+	
+	--thumbBG: #282c34;
+  }

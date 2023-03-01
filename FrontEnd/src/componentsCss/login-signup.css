@@ -193,8 +193,12 @@ label span {
   color: #7f60eb;
 }
 
+
 .error {
-  background: #ff3333;
+  
+  font-size: 15px;
+ 
+  
   text-align: center;
   width: 337px;
   height: 20px;
@@ -203,10 +207,68 @@ label span {
   border-radius: 5px;
   margin: 10px auto 10px;
   position: absolute;
-  top: 31%;
+  top: 23%;
   left: 7.2%;
-  color: white;
-  display: none;
+  color: red;
+}
+.success {
+  font-size: 15px;
+ 
+  
+  text-align: center;
+  width: 337px;
+  height: 20px;
+  padding: 2px;
+  border: 0;
+  border-radius: 5px;
+  margin: 10px auto 10px;
+  position: absolute;
+  top: 34%;
+  left: 7.2%;
+  color: green;
+}
+.error1 {
+  
+  font-size: 15px;
+ 
+  
+  text-align: center;
+  width: 337px;
+  height: 20px;
+  padding: 2px;
+  border: 0;
+  border-radius: 5px;
+  margin: 10px auto 10px;
+  position: absolute;
+  top: 34%;
+  left: 7.2%;
+  color: red;
+}
+
+.animated {
+  animation-duration: 1s;
+}
+
+.tada {
+  animation-name: tada;
+}
+
+@keyframes tada {
+  0% {
+    transform: scale(1);
+  }
+  10%, 20% {
+    transform: scale(0.9) rotate(-3deg);
+  }
+  30%, 50%, 70%, 90% {
+    transform: scale(1.1) rotate(3deg);
+  }
+  40%, 60%, 80% {
+    transform: scale(1.1) rotate(-3deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
 }
 
 .footer {

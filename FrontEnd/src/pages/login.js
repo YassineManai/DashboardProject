@@ -1,36 +1,36 @@
 import { Link } from "react-router-dom";
 import { useState } from 'react'
-
+import axios from "axios";
 
 const Login = () => {
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
-
+    const [ErrorMessage, setErrorMessage] = useState("")
     async function loginUser(event) {
-        console.log(Email)
-        console.log(Password)
         event.preventDefault()
+        if (!Email || !Password ) {
+            setErrorMessage("Please fill out all fields");
+            return;
+          }
 
-        const response = await fetch('http://127.0.0.1:3000/user/Login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+        try {
+            const response = await axios.post('http://127.0.0.1:3000/user/Login', {
                 Email,
                 Password,
-            }),
-        })
+            })
+            const data = response.data
+            console.log(data.mytoken)
 
-        const data = await response.json()
-        console.log(data.mytoken)
-
-        if (data.mytoken) {
-            localStorage.setItem('token', data.mytoken)
-            alert('Login successful')
-            window.location.href = 'Dash/Home'
-        } else {
-            alert('Please check your username and password')
+            if (data.mytoken) {
+                localStorage.setItem('token', data.mytoken)
+                setErrorMessage('Login successful')
+                window.location.href = 'Dash/Home'
+            } else {
+                setErrorMessage('Please check your username and password')
+            }
+        } catch (error) {
+            console.log(error)
+            setErrorMessage('An error occurred while logging in')
         }
     }
 
@@ -60,23 +60,37 @@ const Login = () => {
 
             <div className="animated bounceInDown">
                 <div className="container">
-                    <span className="error animated tada" id="msg"></span>
-
+                    <span className={`error1 animated tada ${ErrorMessage ? 'show' : ''}`} id="msg">
+                        {ErrorMessage}
+                    </span>
                     <form name="form1" className="box" onSubmit={loginUser}>
-                        <h4>Smart <span>Business Solution</span></h4>
+                        <h4>
+                            Smart <span>Business Solution</span>
+                        </h4>
                         <img width="30%" src="sbs.png"></img>
                         <h5>Sign in to your account.</h5>
-                        <input type="text" name="email" placeholder="Email" autocomplete="off" value={Email}
-                            onChange={(e) => setEmail(e.target.value)} />
-                        <i className="typcn typcn-eye" ></i>
-                        <input type="password" name="password" placeholder="Passsword" id="pwd" autocomplete="off" value={Password}
-                            onChange={(e) => setPassword(e.target.value)} />
-
-                        <a href="#" className="forgetpass">Forget Password?</a>
-                       
-                            <input type="submit" value="Login" className="btn1" />
-                       
-
+                        <input
+                            type="text"
+                            name="email"
+                            placeholder="Email"
+                            autoComplete="off"
+                            value={Email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <i className="typcn typcn-eye"></i>
+                        <input
+                            type="password"
+                            name="password"
+                            placeholder="Passsword"
+                            id="pwd"
+                            autoComplete="off"
+                            value={Password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <a href="#" className="forgetpass">
+                            Forget Password?
+                        </a>
+                        <input type="submit" value="Login" className="btn1" />
                     </form>
                     <Link to="/signup" > <a className="dnthave">Don't have an account?  SignUp </a></Link>
                 </div>

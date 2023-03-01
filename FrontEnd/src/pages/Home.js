@@ -1,6 +1,6 @@
 import 'react-calendar/dist/Calendar.css';
+import '../App.css';
 
-//import '../js files/dashfile'
 import { useEffect, useState } from "react"
 import Calendar from 'react-calendar';
 
@@ -144,20 +144,21 @@ const Home = () => {
                                 </tr>
                             </thead>
                         </table>
+                        <div className='ligne'>
+                            {listUsers}
+
+                        </div>
+
+
                     </div>
-                    {listUsers}
-
-
                 </div>
-                
 
-                <Calendar  onChange={onChange} value={value} />
-               
+                <Calendar onChange={onChange} value={value} />
+
+
+
 
             </div>
-
-
-
 
         </div>
 
