@@ -3,11 +3,8 @@ import React from "react";
 import '../componentsCss/alluser.css'
 
 
-const SingleProject = ({ project , onArchieveProject }) => {
-    const handleAchieveClick = () => {
-        onArchieveProject(project._id);
-    }
-
+const SingleArchivedProject = ({project}) => {
+   
     return (<div className="tableuser">
 
         <div className="table-wrapper">
@@ -17,7 +14,6 @@ const SingleProject = ({ project , onArchieveProject }) => {
                     <td >{project.ProjectName}</td>
                     <td>{project.CompanyName}</td>
                     <td>{project.Designation}</td>
-                    <td> <img src={require('../assets/project.png')} height={"15px"} className="trash" onClick={handleAchieveClick}></img> </td>
                 </tbody>
 
             </table>
@@ -34,4 +30,4 @@ const SingleProject = ({ project , onArchieveProject }) => {
 
 
 
-export default SingleProject;
+export default SingleArchivedProject;

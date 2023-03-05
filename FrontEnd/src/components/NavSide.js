@@ -30,11 +30,11 @@ const NavSide = ({ children }) => {
 
     return (
         <div>
-            <body className={isDarkMode ? '' : 'dark'} >
+            <body className={isDarkMode ? 'dark' : ''} >
                 <section id="sidebar" ref={sidebar} className="show" >
 
                     <a href="#" className="brand">
-                    <img src={require('../assets/sbs.png')} width="90%" />
+                        <img src={require('../assets/sbs.png')} width="90%" />
                     </a>
                     <ul className="side-menu top">
 
@@ -62,22 +62,28 @@ const NavSide = ({ children }) => {
                         <li className={activeMenuItem == 3 ? "active" : ''} >
                             <a id="3" onClick={handleMenuItemClick} >
                                 <Link to="/Dash/PProjects">
-                                <i className='bx bxs-doughnut-chart' ></i>
-                                <span className="text" >Projects  </span>
+                                    <i className='bx bxs-doughnut-chart' ></i>
+                                    <span className="text" >Projects  </span>
                                 </Link>
                             </a>
                         </li>
+
                         <li className={activeMenuItem == 4 ? "active" : ''} >
                             <a id="4" onClick={handleMenuItemClick}>
+
                                 <i className='bx bxs-message-dots' ></i>
                                 <span className="text"  >Message</span>
+
                             </a>
                         </li>
 
                         <li className={activeMenuItem == 5 ? 'active' : ''}>
                             <a id="5" onClick={handleMenuItemClick} >
-                                <i className='bx bxs-group' ></i>
-                                <span className="text" >Team</span>
+                                <Link to='/Dash/PArchived'>
+                                    <i className='bx bxs-group' ></i>
+                                    <span className="text" >ArchivedProjects</span>
+                                </Link>
+
                             </a>
                         </li>
                     </ul>

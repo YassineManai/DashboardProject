@@ -29,4 +29,15 @@ router.post('/CreateProject', async (req, res) => {
 
 })
 
+router.put("/updateProject/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const newData = {Status : "true" }; // only updating the title attribute
+      const updated = await Project.findByIdAndUpdate(id, { $set: newData }, { new: true });
+      res.send(updated);
+    } catch (error) {
+      res.send(error);
+    }
+  });
+
 module.exports = router

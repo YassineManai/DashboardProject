@@ -54,4 +54,123 @@
     hyetna khayba
 
     
+
+
+     Sidemenu.current.forEach(item => {
+        const li = item.parentElement ;
+        const funcion handleclick (){
+            Sidemenu.current.forEach(i =>{
+                i.parentElement.classList.remove('active')
+            })
+            li.classList.add('active')
+
+        }
+    });
+
+
+
+
+
+
+
+
+
+router.post('/CreateDailySheet/:id', async (req, res) => {
+
+    try {
+        const idUser = req.params.id;
+        data = req.body;
+        data.UserId = idUser
+        Dsheet = new DailySheet(data);
+        savedDsheet = await Dsheet.save();
+        res.status(200).send(savedDsheet)
+    }
+
+    catch (error) {
+        res.status(404).send(error)
+    }
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.post('/CreateDailySheet/:id', async (req, res) => {
+
+    try {
+      const idUser = req.params.id;
+      data = req.body;
+      data.UserId = idUser
+      // Create new daily sheet entry from request body
+      const dailySheet = new DailySheet(req.body);
+      await dailySheet.save();
+      
+      // Update monthly sheet for the same user and month
+      const options = { month: 'long' };
+      const { UserId, Date: dateString, TypeJ } = req.body;
+      const month = new Date(dateString).toLocaleString('en-US', options); // getMonth() returns 0-based month
+      const year = new Date(data.Date).getFullYear();
+      const monthlySheet = await MonthlySheet.findOne({ UserId, Month: month, Year: year });
+      if (!monthlySheet) {
+        // Create new monthly sheet entry if it doesn't exist
+        const newMonthlySheet = new MonthlySheet({ UserId, Month: month, Year: year });
+        
+        const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet;
+        const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
+        const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
+        const newNbrJConge = TypeJ === 'Congé' ? (NbrJConge || 0) + 1 : NbrJConge;
+        const newNbrJFeries = TypeJ === 'Férié' ? (NbrJFeries || 0) + 1 : NbrJFeries;
+        const newNbrHours = (NbrHours || 0) + parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
+        monthlySheet.set({ NbrJTrav: newNbrJTrav, NbrJConge: newNbrJConge, NbrJFeries: newNbrJFeries, NbrHours: newNbrHours });
+        await newMonthlySheet.save();
+        
+      } else {
+        // Update existing monthly sheet entry with new daily sheet data
+        const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet;
+        const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
+        const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
+        const newNbrJConge = TypeJ === 'Congé' ? (NbrJConge || 0) + 1 : NbrJConge;
+        const newNbrJFeries = TypeJ === 'Férié' ? (NbrJFeries || 0) + 1 : NbrJFeries;
+        const newNbrHours = (NbrHours || 0) + parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
+        monthlySheet.set({ NbrJTrav: newNbrJTrav, NbrJConge: newNbrJConge, NbrJFeries: newNbrJFeries, NbrHours: newNbrHours });
+        await monthlySheet.save();
+      }
+      
+      res.status(201).send(dailySheet);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error.message);
+    }
+  
+  })
+
+
     */

@@ -3,6 +3,7 @@ import axios from "axios"
 import { useEffect, useState } from "react";
 import SingleProject from "../secondary -components/singleProject";
 
+
 const PProjects = () => {
 
   const [Projects, setProjects] = useState([]);
@@ -12,34 +13,19 @@ const PProjects = () => {
   const [Designation, setDesignation] = useState('');
 
 
-  /*const handleSubmit = e => {
-    // Prevent the default submit and page reload
-    e.preventDefault()
-
-    axios.post("http://127.0.0.1:3000/project/CreateProject", { ProjectName, CompanyName, Designation })
-      .then(response => {
-
-        console.log(response)
-        setshow(false);
-      })
-      .catch(error => console.error(error));
-    
-
-  }
-
-
-  useEffect(() => {
-  
-    axios.get('http://127.0.0.1:3000/project/allprojects').then((res) => {
-      setProjects(res.data);
-    }
-    )
-      .catch(error => console.error(error));
 
 
 
+  const handleArchieve = (id) => {
+    axios.put(`http://127.0.0.1:3000/project/updateProject/${id}`)
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+            setProjects(prevProjects => prevProjects.filter(Project => Project._id !== id));
+        })
+        .catch(error => console.error(error));
+}
 
-  }, []) */
 
   useEffect(() => {
     fetchProjects();
@@ -80,7 +66,7 @@ const PProjects = () => {
     single.Status === false ? <SingleProject single={single} key={k} /> : null
   );*/
   const listProject = Projects.map((project, index) =>
-    project.Status === false ? <SingleProject project={project} key={index} /> : null
+    project.Status === false ? <SingleProject project={project} key={index} onArchieveProject={handleArchieve} /> : null
   )
 
 
@@ -155,6 +141,7 @@ const PProjects = () => {
                   <th>Project Name</th>
                   <th>Company Name</th>
                   <th>Destination</th>
+                  <th></th>
                 </tr>
               </thead>
             </table>
