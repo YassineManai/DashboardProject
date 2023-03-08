@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 const PMonthlysheet = () => {
     const { userId } = useParams();
-   
+
     const [MonthlySheet, setMonthlySheet] = useState([]);
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
@@ -15,9 +15,40 @@ const PMonthlysheet = () => {
     const lastName = queryParams.get('lastName');
 
 
+    const handleValid = (id) => {
+        axios.put(`http://127.0.0.1:3000/monthlysheet/updateMonthlySheet/${id}`)
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+                // update MonthlySheet state with the updated data
+                setMonthlySheet(prevMsheet => prevMsheet.map((Msheet) => {
+                    if (Msheet._id === id) {
+                        return res.data;
+                    } else {
+                        return Msheet;
+                    }
+                }));
+            })
+            .catch(error => console.error(error));
+    }
 
-
-
+   
+    const handlerefuse = (id) => {
+        axios.put(`http://127.0.0.1:3000/monthlysheet/updateMonthlySheetFalse/${id}`)
+            .then(res => {
+                console.log(res);
+                console.log(res.data);
+                // update MonthlySheet state with the updated data
+                setMonthlySheet(prevMsheet => prevMsheet.map((Msheet) => {
+                    if (Msheet._id === id) {
+                        return res.data;
+                    } else {
+                        return Msheet;
+                    }
+                }));
+            })
+            .catch(error => console.error(error));
+    }
 
 
 
@@ -42,7 +73,7 @@ const PMonthlysheet = () => {
 
 
     const listMsheet = MonthlySheet.map((Msheet, index) =>
-        <MonthlySheetLigneinfo Msheet={Msheet} key={index} />
+        <MonthlySheetLigneinfo Msheet={Msheet} key={index} onValideMonth={handleValid} onRefuseMonth={handlerefuse} />
     )
 
     if (!userId) {
@@ -72,9 +103,9 @@ const PMonthlysheet = () => {
 
                         <Link to="/Dash/PUsers">
                             <li>
-                            <a>Users</a>
+                                <a>Users</a>
                             </li>
-                            
+
                         </Link>
                         <li><i class='bx bx-chevron-right' ></i></li>
                         <li>
@@ -104,10 +135,11 @@ const PMonthlysheet = () => {
                                     <th>NbrJConge</th>
                                     <th>NbrJFeries</th>
                                     <th>NbrHours</th>
+                                    <th>Statue</th>
                                     <th>Details</th>
-                                   
 
-                                </tr>                              
+
+                                </tr>
                             </thead>
                         </table>
                         <div className='ligne1'>

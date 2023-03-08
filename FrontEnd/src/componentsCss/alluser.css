@@ -33,7 +33,7 @@ h2{
     background-color: white;
 }
 
-.fl-table td, .fl-table th {
+.fl-table td, .fl-table th  {
     text-align: center;
     padding: 8px;
     width:10%;
@@ -47,13 +47,19 @@ h2{
 
 }
 
+
 .fl-table thead th {
     color: #ffffff;
     background: #282c34;
     text-align: center;
 
 }
+.fl-table thead th1 {
+    color: #ffffff;
+    background: var(--light);
+    text-align: center;
 
+}
 
 .fl-table thead th:nth-child(odd) {
     color: #ffffff;

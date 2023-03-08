@@ -71,9 +71,10 @@ const NavSide = ({ children }) => {
                         <li className={activeMenuItem == 4 ? "active" : ''} >
                             <a id="4" onClick={handleMenuItemClick}>
 
-                                <i className='bx bxs-message-dots' ></i>
-                                <span className="text"  >Message</span>
-
+                            <Link to="/Dash/Task">
+                                    <i className='bx bxs-doughnut-chart' ></i>
+                                    <span className="text" >Task  </span>
+                                </Link>
                             </a>
                         </li>
 

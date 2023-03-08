@@ -552,6 +552,8 @@ body {
 
 #content main .table-data .order table td {
 	padding: 16px 0;
+	border-bottom: 1px solid var(--grey);
+	border-right: 2px solid var(--grey);
 }
 
 #content main .table-data .order table tr td:first-child {
@@ -791,4 +793,14 @@ body {
 .button-26:active {
   background-color: #0039D7;
   border-color: #0039D7;
+}
+
+label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input,
+label {
+    margin: 0.4rem 0;
 }

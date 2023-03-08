@@ -18,13 +18,13 @@ const PProjects = () => {
 
   const handleArchieve = (id) => {
     axios.put(`http://127.0.0.1:3000/project/updateProject/${id}`)
-        .then(res => {
-            console.log(res);
-            console.log(res.data);
-            setProjects(prevProjects => prevProjects.filter(Project => Project._id !== id));
-        })
-        .catch(error => console.error(error));
-}
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        setProjects(prevProjects => prevProjects.filter(Project => Project._id !== id));
+      })
+      .catch(error => console.error(error));
+  }
 
 
   useEffect(() => {
@@ -146,12 +146,12 @@ const PProjects = () => {
               </thead>
             </table>
             <div className='ligne1'>
-            {listProject}
+              {listProject}
             </div>
-            
+
           </div>
-          
-          
+
+
 
         </div>
       </div>

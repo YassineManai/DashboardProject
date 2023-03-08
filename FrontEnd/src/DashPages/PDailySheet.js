@@ -108,8 +108,11 @@ const PDailySheet = () => {
                                     <th>Date</th>
                                     <th>Type of Day </th>
                                     <th>Project Project Name</th>
+                                    <th>Task</th>
                                     <th>Time Start</th>
                                     <th>Time Finish</th>
+                                    <th>Location</th>
+                                    <th>VehiclePrice</th>
                                     
                                    
 

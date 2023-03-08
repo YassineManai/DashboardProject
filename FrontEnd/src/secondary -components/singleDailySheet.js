@@ -14,11 +14,14 @@ const DailySheetLigneinfo = ({ Dsheet }) => {
 
                 <tbody>
 
-                    <td >{Dsheet.Date}</td>
+                    <td >{Dsheet.Date.substring(0,10)}</td>
                     <td >{Dsheet.TypeJ}</td>
                     <td >{Dsheet.ProjectName}</td>
+                    <td >{Dsheet.Task}</td>
                     <td >{Dsheet.Timed}</td>
                     <td >{Dsheet.TimeF}</td>
+                    <td >{Dsheet.Location}</td>
+                    <td >{Dsheet.VehiclePrice}DT</td>
                    
                 </tbody>
 

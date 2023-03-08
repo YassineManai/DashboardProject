@@ -9,7 +9,7 @@ import PProjects from "./DashPages/PProjects";
 import PArchived from './DashPages/PArchived';
 import PMonthlysheet from './DashPages/PMonthlysheet';
 import PDailySheet from './DashPages/PDailySheet';
-
+import ProjectManagement from './DashPages/ProjectManagement';
 
 
 
@@ -29,6 +29,7 @@ function App() {
           <Route path="/Dash/PArchived" element={<PArchived />}></Route>
           <Route path="/Dash/PMsheet/:userId" element={<PMonthlysheet />}></Route>
           <Route path="/Dash/PDsheet/:MsheetId" element={<PDailySheet />}></Route>
+          <Route path="/Dash/Task" element={<ProjectManagement />}></Route>
         </Routes>
       </NavSide>
     </div>
