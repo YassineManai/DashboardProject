@@ -173,4 +173,174 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
   })
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+const ProjectManagement = () => {
+    const [taskData, setTaskData] = useState([]);
+    const [userData, setUserData] = useState([]);
+
+    useEffect(() => {
+        // Fetch task data
+        const fetchTaskData = async () => {
+            const response = await fetch('http://localhost:3000/task/allTasks');
+            const data = await response.json();
+            setTaskData(data);
+        };
+        fetchTaskData();
+    }, []);
+
+    useEffect(() => {
+        // Fetch user data
+        const fetchUserData = async () => {
+            const response = await fetch('http://localhost:3000/user/allUsers');
+            const data = await response.json();
+            setUserData(data);
+        };
+        fetchUserData();
+    }, []);
+
+    // Extract unique project names from task data
+    const projectNames = [...new Set(taskData.map(task => task.ProjectName))];
+
+    // Generate table rows for each user
+    const tableRows = taskData.reduce((rows, task) => {
+        const { UserId, ProjectName, TotlHours } = task;
+        const user = userData.find(user => user._id === UserId);
+        const userName = user ? `${user.FirstName} ${user.LastName}` : '';
+        const userRowIndex = rows.findIndex(row => row.userName === userName);
+        if (userRowIndex === -1) {
+            // Create a new row for this user
+            rows.push({ userName, projects: { [ProjectName]: TotlHours } });
+        } else {
+            // Add total hours for this project to existing row for this user
+            const projects = rows[userRowIndex].projects;
+            projects[ProjectName] = (projects[ProjectName] || 0) + TotlHours;
+        }
+        return rows;
+    }, []).map((row, rowIndex) => {
+        // Generate table columns for each project
+        const tableColumns = projectNames.map((projectName, columnIndex) => {
+            const totalHours = row.projects[projectName] || 0;
+            return <td key={`${rowIndex}-${columnIndex}`}>{totalHours}</td>;
+        });
+        return (
+
+           
+            <tr key={rowIndex}>
+                <th>{row.userName}</th>
+                {tableColumns}
+            </tr>
+
+
+        );
+    });
+
+    return (
+        <div>
+            <div className="head-title">
+                <div className="left">
+                    <h1>Project Management</h1>
+                    <ul className="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li>
+                            <i className="bx bx-chevron-right"></i>
+                        </li>
+                        <li>
+                            <a className="active" href="#">
+                                Project Management
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div className="table-data">
+                <div className="order">
+                    <div className="head">
+                        <h3>Project Management</h3>
+                        <i className="bx bx-search"></i>
+                        <i className="bx bx-filter"></i>
+                    </div>
+                    <div className="table-wrapper">
+                        <table className="fl-table">
+                            <thead>
+                                <tr>
+                                    <th>Users / Projects</th>
+                                    {projectNames.map((projectName, index) => (
+                                        <th key={index}>{projectName}</th>
+                                    ))}
+                                </tr>
+                            
+                                {tableRows}
+                            </thead>
+
+
+
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ProjectManagement;
+
+
+
+
+
+
+
+
+
+
+
+
+// Generate table row for total hours per user
+    /*const totalUserRow = (
+        <tr key="total-user-row">
+
+            {projectNames.map((projectName, columnIndex) => {
+                const totalHours = tableRows.reduce(
+                    (sum, row) => (row.projects[projectName] ? sum + row.projects[projectName] : sum),
+                    0
+                );
+                return <td key={`total-user-${columnIndex}`}>{totalHours}</td>;
+            })}
+
+        </tr>
+    );
+
+    // Generate table row for total hours per project
+    const totalProjectRow = (
+        <tr key="total-project-row">
+            <th>Total Hours</th>
+            {projectColumns}
+            <td>{taskData.reduce((sum, task) => sum + task.TotlHours, 0)}</td>
+        </tr>
+    );*/
+
+
     */
