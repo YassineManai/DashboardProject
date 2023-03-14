@@ -2,7 +2,11 @@ const express = require('express')
 const router = express.Router();
 const DailySheet = require('../models/DailySheet')
 const MonthlySheet = require('../models/MonthlySheet')
+const Task = require('../models/Task')
 const mongoose = require('mongoose')
+const moment = require('moment');
+
+
 router.post('/CreateDailySheet/:id', async (req, res) => {
 
   try {
@@ -13,16 +17,20 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
     const dailySheet = new DailySheet(req.body);
 
     // Update monthly sheet for the same user and month
-    const options = { month: 'long' };
+
     const { UserId, Date: dateString, TypeJ } = req.body;
-    const month = new Date(dateString).toLocaleString('en-US', options); // getMonth() returns 0-based month
-    const year = new Date(data.Date).getFullYear();
+    const date = moment.utc(dateString, 'DD/MM/YYYY').toDate(); // parse date string and create UTC moment object
+    const month = moment.utc(date).format('MMMM'); // format month name in UTC timezone
+    const year = moment.utc(date).year(); // get year in UTC timezone
+    dailySheet.Date = date; // set date to JavaScript Date object
+    dailySheet.Month = month; // set month to formatted month name
+    dailySheet.Year = year; // set year to year in UTC timezone
     const monthlySheet = await MonthlySheet.findOne({ UserId, Month: month, Year: year });
     if (!monthlySheet) {
       // Create new monthly sheet entry if it doesn't exist
       const newMonthlySheet = new MonthlySheet({ UserId, Month: month, Year: year });
       newMonthlySheet._id = mongoose.Types.ObjectId();
-    
+
       const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet ?? {};
       const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
       const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
@@ -47,6 +55,33 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
       await dailySheet.save();
     }
 
+
+
+    // Check if a task with the same project name and user name already exists for the same day
+
+    const { ProjectName } = req.body;
+    const existingTask = await Task.findOne({ ProjectName, UserId, Month: month, Year: year });
+
+    let task;
+    let totalHours = parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
+
+    if (existingTask) {
+      // If a task already exists, update the totalHours and save it
+      task = existingTask;
+      totalHours += task.TotlHours;
+      task.TotlHours = totalHours;
+
+      await task.save();
+    } else {
+      // If a task doesn't exist, create a new one
+      task = new Task({ ProjectName, TotlHours: totalHours, UserId: idUser, Month: month, Year: year });
+      await task.save();
+    }
+
+    // Assign the monthly sheet id and task id to the daily sheet
+    dailySheet.Monthlysheetid = monthlySheet._id;
+    dailySheet.Taskid = task._id
+
     res.status(201).send(dailySheet);
   } catch (error) {
     console.error(error);
@@ -60,7 +95,7 @@ router.get("/allDailySheet/:id", async (req, res) => {
 
   try {
     const id = req.params.id;
-    Dsheet = await DailySheet.find({ Monthlysheetid : id })
+    Dsheet = await DailySheet.find({ Monthlysheetid: id })
     res.send(Dsheet)
 
   }

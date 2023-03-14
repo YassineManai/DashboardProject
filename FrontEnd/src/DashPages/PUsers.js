@@ -3,19 +3,22 @@ import { useState, useEffect } from "react";
 import Userligneinfo from "../secondary -components/Singleuserinfo";
 const PUsers = () => {
     const [Users, setUsers] = useState([]);
-    
 
-    const fetchUsers = async () => {
+
+    const fetchUsers = async (searchTerm) => {
         try {
-          const response = await axios.get('http://127.0.0.1:3000/user/allusers');
-          // Add the Id property to each user object in the array
-          const usersWithId = response.data.map(user => ({ ...user, Id: user._id }));
-          setUsers(usersWithId);
+            const response = await axios.get('http://127.0.0.1:3000/user/allusers');
+            // Add the Id property to each user object in the array
+            const usersWithId = response.data.map(user => ({ ...user, Id: user._id }));
+            // Filter the users array by first name if a search term is provided
+            const filteredUsers = searchTerm
+                ? usersWithId.filter(user => user.FirstName.toLowerCase().includes(searchTerm.toLowerCase()))
+                : usersWithId;
+            setUsers(filteredUsers);
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-
+    };
 
 
 
@@ -58,8 +61,21 @@ const PUsers = () => {
                 <div className="order">
                     <div className="head">
                         <h3>All Users</h3>
-                        <i className='bx bx-search' ></i>
-                        <i className='bx bx-filter' ></i>
+                        <i >
+                            <form action="" class="search-bar">
+                                <input
+                                    type="search"
+                                    name="search"
+                                    pattern=".*\S.*"
+                                    required
+                                    onChange={(event) => fetchUsers(event.target.value)}
+                                />
+                                <button class="search-btn" type="submit">
+                                    <span>Search</span>
+                                </button>
+                            </form>
+                        </i>
+
                     </div>
                     <div className="table-wrapper">
                         <table className="fl-table">

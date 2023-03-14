@@ -26,7 +26,8 @@ const MonthlySheet = mongoose.model('MonthlySheet', {
 
     },
     Status: {
-        type: Boolean
+        type: Boolean,
+        default : false
     },
     NbrHours: {
         type: Number

@@ -52,7 +52,7 @@ const NavSide = ({ children }) => {
                         <li className={activeMenuItem == 2 ? 'active' : ''} >
                             <a id="2" onClick={handleMenuItemClick} >
                                 <Link to="/Dash/PUsers">
-                                    <i className='bx bxs-shopping-bag-alt' ></i>
+                                    <i className='bx bxs-group' ></i>
                                     <span className="text" >Users</span>
                                 </Link>
                             </a>
@@ -71,7 +71,7 @@ const NavSide = ({ children }) => {
                         <li className={activeMenuItem == 4 ? "active" : ''} >
                             <a id="4" onClick={handleMenuItemClick}>
 
-                            <Link to="/Dash/Task">
+                                <Link to="/Dash/Task">
                                     <i className='bx bxs-doughnut-chart' ></i>
                                     <span className="text" >Task  </span>
                                 </Link>
@@ -81,7 +81,8 @@ const NavSide = ({ children }) => {
                         <li className={activeMenuItem == 5 ? 'active' : ''}>
                             <a id="5" onClick={handleMenuItemClick} >
                                 <Link to='/Dash/PArchived'>
-                                    <i className='bx bxs-group' ></i>
+
+                                    <i className='bx bxs-shopping-bag-alt' ></i>
                                     <span className="text" >ArchivedProjects</span>
                                 </Link>
 
@@ -112,24 +113,18 @@ const NavSide = ({ children }) => {
                 <section ref={menubar} id="content">
                     <nav>
                         <i className='bx bx-menu' onClick={handleMenuClick}></i>
-                        <a href="#" className="nav-link">Categories</a>
-                        <form action="#">
-                            <div className="form-input">
-                                <input type="search" placeholder="Search..." />
-                                <button type="submit" className="search-btn"><i className='bx bx-search' ></i></button>
-                            </div>
-                        </form>
 
-                        <input type="checkbox" id="switch-mode" onChange={handleModeChange} hidden />
-                        <label htmlFor="switch-mode" className="switch-mode"></label>
 
-                        <a href="#" className="notification">
-                            <i className='bx bxs-bell' ></i>
-                            <span className="num">8</span>
-                        </a>
-                        <a href="#" className="profile">
-                            <img src="img/people.png" />
-                        </a>
+
+                        <div className='navprofile'>
+                            <input type="checkbox" id="switch-mode" onChange={handleModeChange} hidden />
+                            <label htmlFor="switch-mode" className="switch-mode"></label>
+
+
+                            <a href="#" className="profile">
+                                <img src={require('../assets/User.png')} />
+                            </a>
+                        </div>
 
                     </nav>
 

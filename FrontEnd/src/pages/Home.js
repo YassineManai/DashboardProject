@@ -46,14 +46,15 @@ const Home = () => {
         }
         )
             .catch(error => console.error(error));
-        axios.get('http://127.0.0.1:3000/Bill/allBills').then((res) => {
-            setBILL(res.data);
-        }
-        )
+            axios.get('http://127.0.0.1:3000/project/allprojects')
+            .then((res) => {
+                const filteredProjects = res.data.filter(project => project.Status === true);
+                setBILL(filteredProjects);
+            })
             .catch(error => console.error(error));
     }, [])
 
-
+   
 
 
 
@@ -108,19 +109,13 @@ const Home = () => {
                     </span>
                 </li>
                 <li>
-                    <i className='bx bxs-dollar-circle' ></i>
+                    <i className='bx bxs-calendar-check' ></i>
                     <span className="text">
                         <h3>{BILL.length}</h3>
-                        <p>Total bills per month</p>
+                        <p>Archived Project</p>
                     </span>
                 </li>
-                <li>
-                    <i className='bx bxs-dollar-circle' ></i>
-                    <span className="text">
-                        <h3>5</h3>
-                        <p>Facture</p>
-                    </span>
-                </li>
+              
             </ul>
 
 

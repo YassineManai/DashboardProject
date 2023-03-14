@@ -14,6 +14,18 @@ const PMonthlysheet = () => {
     const firstName = queryParams.get('firstName');
     const lastName = queryParams.get('lastName');
 
+    const [startDate, setStartDate] = useState("");
+    const today = new Date().toISOString().slice(0, 7);
+    console.log(today)
+    const [year] = startDate.split("-");
+    const monthName = new Date(startDate).toLocaleString('default', { month: 'long' });
+
+
+
+    useEffect(() => {
+        setStartDate(today)
+    }, []);
+
 
     const handleValid = (id) => {
         axios.put(`http://127.0.0.1:3000/monthlysheet/updateMonthlySheet/${id}`)
@@ -32,7 +44,7 @@ const PMonthlysheet = () => {
             .catch(error => console.error(error));
     }
 
-   
+
     const handlerefuse = (id) => {
         axios.put(`http://127.0.0.1:3000/monthlysheet/updateMonthlySheetFalse/${id}`)
             .then(res => {
@@ -52,20 +64,17 @@ const PMonthlysheet = () => {
 
 
 
-    useEffect(() => {
-        if (userId) {
-            fetchMonthlySheet();
-        }
-    }, [userId]);
 
-    const fetchMonthlySheet = async () => {
-        try {
-            const response = await axios.get(`http://127.0.0.1:3000/monthlysheet/allMonthlySheet/${userId}`);
-            setMonthlySheet(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    useEffect(() => {
+        const fetchMonthlySheet = async () => {
+            const response = await fetch(`http://127.0.0.1:3000/monthlysheet/allMonthlySheet/${userId}`);
+            const data = await response.json();
+            const filteredData = data.filter(task => (task.Month === monthName) && (task.Year == year) );
+            setMonthlySheet(filteredData);
+            console.log(filteredData)
+        };
+        fetchMonthlySheet();
+    }, [startDate, userId]);
 
 
 
@@ -113,6 +122,17 @@ const PMonthlysheet = () => {
                         </li>
                     </ul>
                 </div>
+                <a>
+                    <span htmlFor="start">Pick a Date</span> <br></br>
+                    <input
+                        type="month"
+                        id="start"
+                        name="start"
+                        min="2018-03"
+                        defaultValue={today}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    />
+                </a>
             </div>
 
 

@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router();
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
-const Jwt = require('jsonwebtoken');
+
+
 
 
 //res.header("Access-Control-Allow-Origin", "*");
@@ -68,6 +69,7 @@ router.get("/allusers", async (req, res) => {
     }
 })
 
+
 router.delete("/deluser/:id", async (req, res) => {
 
     try {
@@ -86,7 +88,7 @@ router.put("/updateuser/:id", async (req, res) => {
 
     try {
         id = req.params.id
-        newData=req.body
+        newData = req.body
         updated = await User.findByIdAndUpdate({ _id: id }, newData)
         res.send(updated)
 

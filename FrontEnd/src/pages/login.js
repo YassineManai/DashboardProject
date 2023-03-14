@@ -6,12 +6,19 @@ const Login = () => {
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
     const [ErrorMessage, setErrorMessage] = useState("")
+
+
+
+
+
+
+
     async function loginUser(event) {
         event.preventDefault()
-        if (!Email || !Password ) {
+        if (!Email || !Password) {
             setErrorMessage("Please fill out all fields");
             return;
-          }
+        }
 
         try {
             const response = await axios.post('http://127.0.0.1:3000/user/Login', {
@@ -24,7 +31,7 @@ const Login = () => {
             if (data.mytoken) {
                 localStorage.setItem('token', data.mytoken)
                 setErrorMessage('Login successful')
-                window.location.href = 'Dash/Home'
+                window.location.href = '/User'
             } else {
                 setErrorMessage('Please check your username and password')
             }

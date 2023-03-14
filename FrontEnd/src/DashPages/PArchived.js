@@ -14,10 +14,14 @@ const PArchived = () => {
     fetchProjects();
   }, []);
 
-  const fetchProjects = async () => {
+  const fetchProjects = async (searchTerm) => {
     try {
       const response = await axios.get('http://127.0.0.1:3000/project/allprojects');
-      setProjects(response.data);
+      const ProjectWithId = response.data.map(project => ({ ...project, Id: project._id }));
+      const filteredProject = searchTerm
+        ? ProjectWithId.filter(project => project.ProjectName.toLowerCase().includes(searchTerm.toLowerCase()))
+        : ProjectWithId;
+      setProjects(filteredProject);
     } catch (error) {
       console.error(error);
     }
@@ -64,8 +68,21 @@ const PArchived = () => {
         <div className="order">
           <div className="head">
             <h3>All Projects</h3>
-            <i className='bx bx-search' ></i>
-            <i className='bx bx-filter' ></i>
+            <i >
+            <form action="" class="search-bar">
+                <input
+                  type="search"
+                  name="search"
+                  pattern=".*\S.*"
+                  required
+                  onChange={(event) => fetchProjects(event.target.value)}
+                />
+                <button class="search-btn" type="submit">
+                  <span>Search</span>
+                </button>
+              </form>
+            </i>
+           
           </div>
           <div className="table-wrapper">
             <table className="fl-table">

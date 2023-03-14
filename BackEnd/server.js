@@ -13,6 +13,7 @@ const ProjectRoute = require('./routes/Project')
 const BillRoute = require('./routes/Bill')
 const DailySheet = require('./routes/DailySheet')
 const MonthlySheet = require('./routes/MonthlySheet')
+const Task = require('./routes/Task')
 
 
 
@@ -24,6 +25,7 @@ app.use('/project',ProjectRoute)
 app.use('/Bill',BillRoute)
 app.use('/dailysheet',DailySheet)
 app.use('/monthlysheet',MonthlySheet)
+app.use('/task',Task)
 
 
 

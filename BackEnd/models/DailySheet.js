@@ -21,6 +21,9 @@ const DailySheet = mongoose.model('DailySheet', {
     TypeJ: {
         type: String
     },
+    Task:{
+        type:String
+    },
     ProjectName: {
         type: String
     },
@@ -31,7 +34,8 @@ const DailySheet = mongoose.model('DailySheet', {
         type: String
     },
     VehiclePrice: {
-        type: String
+        type: String,
+        default: 0
     },
     Location: {
         type: String
