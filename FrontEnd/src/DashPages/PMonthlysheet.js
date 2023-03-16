@@ -69,7 +69,7 @@ const PMonthlysheet = () => {
         const fetchMonthlySheet = async () => {
             const response = await fetch(`http://127.0.0.1:3000/monthlysheet/allMonthlySheet/${userId}`);
             const data = await response.json();
-            const filteredData = data.filter(task => (task.Month === monthName) && (task.Year == year) );
+            const filteredData = data.filter(task =>  (task.Year == year) );
             setMonthlySheet(filteredData);
             console.log(filteredData)
         };

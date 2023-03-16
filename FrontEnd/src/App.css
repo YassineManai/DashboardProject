@@ -725,6 +725,7 @@ body {
 	width: 500px;
 	height: 500px;
 	display: flex;
+	z-index: 1;
 }
 
 .box-2 {
@@ -991,3 +992,166 @@ input {
     right: 2%;
 	position: fixed;
 }
+
+.Datepicker{
+	
+position: absolute;
+right: 2%;
+top: 2%;
+color: white;
+align-items: center;
+}
+.yearpicker{
+	
+    background-color: #090d1c;
+    border-radius: 4px;
+    border-width: 0;
+    box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #dfdeee;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "JetBrains Mono", monospace;
+    height: 40px;
+    width: 100%;
+   
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    border: white 1px solid;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s, transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 18px;
+}
+.blur {
+	filter: blur(5px);
+  }
+  
+
+
+.controls {
+	text-align: left;
+	position: relative;
+}
+.controls input[type="text"], .controls input[type="email"], .controls input[type="number"], .controls input[type="date"], .controls input[type="tel"], .controls textarea, .controls button, .controls select {
+	padding: 12px;
+	font-size: 14px;
+	border: 1px solid #c6c6c6;
+	width: 100%;
+	margin-bottom: 18px;
+	color: #888;
+	font-family: 'Lato', 'sans-serif';
+	font-size: 16px;
+	font-weight: 300;
+}
+.controls input[type="text"]:focus, .controls input[type="email"]:focus, .controls input[type="number"]:focus, .controls input[type="date"]:focus, .controls input[type="tel"]:focus, .controls textarea:focus, .controls button:focus, .controls select:focus, .controls input[type="text"]:hover, .controls input[type="email"]:hover, .controls input[type="number"]:hover, .controls input[type="date"]:hover, .controls input[type="tel"]:hover, .controls textarea:hover, .controls button:hover, .controls select:hover {
+	outline: none;
+	border-color: #9fb1c1;
+}
+.controls input[type="text"]:focus + label, .controls input[type="email"]:focus + label, .controls input[type="number"]:focus + label, .controls input[type="date"]:focus + label, .controls input[type="tel"]:focus + label, .controls textarea:focus + label, .controls button:focus + label, .controls select:focus + label, .controls input[type="text"]:hover + label, .controls input[type="email"]:hover + label, .controls input[type="number"]:hover + label, .controls input[type="date"]:hover + label, .controls input[type="tel"]:hover + label, .controls textarea:hover + label, .controls button:hover + label, .controls select:hover + label {
+	color: #bdcc00;
+	cursor: text;
+}
+.controls .fa-sort {
+	position: absolute;
+	right: 10px;
+	top: 17px;
+	color: #999;
+}
+.controls select {
+	cursor: pointer;
+}
+.controls label {
+	position: absolute;
+	left: 8px;
+	top: 12px;
+	width: 60%;
+	color: #999;
+	font-size: 16px;
+	display: inline-block;
+	padding: 4px 10px;
+	font-weight: 400;
+	background-color: rgba(255, 255, 255, 0);
+	background-color: rgba(255, 255, 255, 1);
+}
+.controls label.active {
+	top: -11px;
+	color: #555;
+	background-color: rgba(255, 255, 255, 1);
+	width: auto;
+}
+.controls textarea {
+	resize: none;
+	height: 200px;
+}
+
+
+* {
+    box-sizing: border-box;
+  }
+  .myForm {
+    display: grid;
+    grid-template-areas: 
+      "customer taxi"
+      "customer extras"
+      "pickup dropoff"
+      "instructions instructions"
+      "submit submit";
+  	grid-template-columns: auto auto;  
+  	grid-template-rows: auto auto auto auto;
+    grid-gap: .8em .5em;
+   color: white;
+    padding: 1.2em;
+  }
+  .myForm textarea {
+    height: calc(100% - 1.5em);
+    }
+  .myForm button {
+    background: gray;
+    color: white;
+    padding: 1em;
+    }
+  .myForm input:not([type=radio]):not([type=checkbox]), 
+  .myForm textarea, 
+  .myForm select {
+   	width: 100%;
+    border: 0;
+    padding: 1em;
+    margin: .5em 0;
+  }
+  .myForm label {
+   display: block; 
+  }
+  fieldset {
+    border: 0;
+  }
+  #customer {
+    grid-area: customer;
+  }
+  #taxi {
+    grid-area: taxi;
+  }
+  #extras {
+    grid-area: extras;
+  }
+  #pickup {
+    grid-area: pickup;
+  }
+  #dropoff {
+    grid-area: dropoff;
+  }
+  #instructions {
+    grid-area: instructions;
+  }
+  #submit {
+    grid-area: submit;
+  }
