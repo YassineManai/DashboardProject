@@ -8,6 +8,8 @@ import Login from './pages/login';
 import SignUp from './pages/Signup';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import User from './pages/User';
+import DailyUser from './pages/DailyUser';
+import ProtectedRoute from './util/ProtectedRoute'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,8 +19,13 @@ root.render(
       <Routes>
         <Route exact path="/" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
-        <Route path="/User" element={<User/>}></Route>
-        <Route path="*" element={<App />}></Route>
+        
+        <Route path="/User" element={<ProtectedRoute> <User/> </ProtectedRoute>}></Route>
+        <Route path="/DailyUser/:MsheetId" element={<ProtectedRoute><DailyUser/> </ProtectedRoute>}></Route>
+        <Route path="*" element={ 
+          <ProtectedRoute>  <App /> </ProtectedRoute>
+      
+        }></Route>
 
       </Routes>
     </BrowserRouter>

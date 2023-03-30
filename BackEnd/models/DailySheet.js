@@ -9,7 +9,7 @@ const DailySheet = mongoose.model('DailySheet', {
     Monthlysheetid: {
         type: String
     },
-    Date: {
+    date: {
         type: Date
     },
     Timed: {

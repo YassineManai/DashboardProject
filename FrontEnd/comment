@@ -343,4 +343,409 @@ export default ProjectManagement;
     );*/
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+import axios from "axios"
+import { useState } from "react"
+import { useEffect } from "react";
+import jwtDecode from 'jwt-decode';
+import MonthCard from "../secondary -components/MonthCard";
+
+
+
+function getUserIdFromToken(token) {
+  try {
+    const decodedToken = jwtDecode(token);
+
+    return decodedToken._id;
+
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+function getUserName(token) {
+  try {
+    const decodedToken = jwtDecode(token);
+
+    return decodedToken.FirstName;
+
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+
+
+
+const User = () => {
+  //DailySheet Form : 
+  const [date, setdate] = useState('')
+  const [TypeJ, setTypeJ] = useState('')
+  const [ProjectName, setProjectName] = useState('')
+  const [Task, setTask] = useState('')
+  const [Timed, setTimed] = useState('')
+  const [TimeF, setTimeFinsih] = useState("");
+  const [Location, setLocation] = useState("");
+  const [VehiclePrice, setVehiclePrice] = useState("");
+  const [error, setError] = useState("");
+  const [Projects, setProjects] = useState([]);
+  const [pickupPlace, setPickupPlace] = useState("");
+
+console.log(date)
+
+console.log(Timed)
+
+console.log(TimeF)
+
+
+
+
+
+
+
+
+
+
+  //Extract UserId  from token : 
+
+  const userToken = localStorage.getItem('token');
+  const userId = getUserIdFromToken(userToken);
+  const Username = getUserName(userToken)
+  const [MonthlySheet, setMonthlySheet] = useState([]);
+  const [show, setshow] = useState(false);
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const [Year, setYear] = useState(currentYear);
+
+  const Years = Array.from({ length: 50 }, (v, i) => currentYear - i);
+
+
+
+
+  const handleSelect = (event) => {
+    setYear(event.target.value);
+    console.log(Year)
+  };
+
+  useEffect(() => {
+
+    axios.get('http://127.0.0.1:3000/project/allprojects')
+      .then((res) => {
+        const filteredProjects = res.data.filter(project => project.Status === false);
+        setProjects(filteredProjects);
+        console.log(filteredProjects)
+      })
+      .catch(error => console.error(error));
+
+    const fetchMonthlySheet = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:3000/monthlysheet/allMonthlySheet/${userId}`);
+        const data = response.data;
+        const filteredData = data.filter(task => (task.Year == Year));
+        setMonthlySheet(filteredData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchMonthlySheet();
+
+
+  }, [userId, Year]);
+
+
+
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    // Make API request
+    axios.post(`http://127.0.0.1:3000/dailysheet/CreateDailySheet/${userId}`, {
+      date ,
+      TypeJ: "travail",
+      ProjectName,
+      Task,
+      Timed ,
+      TimeF ,
+      Location,
+      VehiclePrice
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}` // Include user token in header
+      }
+    })
+      .then((response) => {
+        setError('Task saved');
+        setshow(false);
+        console.log(response);
+
+      })
+      .catch((error) => {
+        console.log(error);
+        setError('An error occurred, please try again');
+      });
+  }
+
+
+  const listMsheet = MonthlySheet.map((Msheet) => (
+    <MonthCard key={Msheet._id} Msheet={Msheet} />
+  ));
+
+
+  const handleProjectChange = (e) => {
+    setProjectName(e.target.value);
+
+  }
+
+  const handlePickupPlaceChange = (event) => {
+    setPickupPlace(event.target.value);
+  };
+
+
+
+
+  return (
+    <div>
+
+      <div className={show ? "box-1" : "box-2"}>
+
+        <div className="animated bounceInDown">
+          <div className="container3">
+            <div className="daily">
+              <h4>Smart <span>Business Solution</span></h4>
+              <img width="300px" src="sbs.png"></img>
+
+            </div>
+            {error && <span className="error animated tada">{error}</span>}
+
+            <form name="form1" className=" myForm box" id="login" method="post" onSubmit={handleSubmit}  >
+
+
+
+              <fieldset id="customer">
+                <label for="pickup_time">Pickup Date/Time</label>
+                <input
+                  type="date"
+                  name="Date"
+                  id="Date"
+                  value={date}
+                  onChange={(e) => setdate(e.target.value)}
+                  placeholder="Date"
+                  autoComplete="off"
+                />
+
+
+
+              </fieldset>
+
+              <fieldset id="taxi">
+
+                <label for="pickup_time">Start Time</label>
+                <input
+                  type="time"
+                  name="Timed"
+                  id="Timed"
+                  value={Timed}
+                  onChange={(e) => setTimed(e.target.value)}
+                  placeholder=" Timed"
+                  autoComplete="off"
+                />
+                <label for="pickup_time">Finish Time</label>
+                <input
+                  type="time"
+                  name="TimeF"
+                  id="TimeF"
+                  value={TimeF}
+                  onChange={(e) => setTimeFinsih(e.target.value)}
+                  placeholder="TimeF"
+                  autoComplete="off"
+                />
+              </fieldset>
+
+
+
+              <fieldset id="pickup">
+
+                <select name="pickup_place" id="pickup_place" onChange={handleProjectChange} >
+                  <option value="" selected="selected">Select Project </option>
+                  {Projects.map(project => (
+                    <option key={project._id} value={project.ProjectName} >{project.ProjectName}</option>
+                  ))}
+                </select>
+
+
+                <select name="pickup_place" id="pickup_place" onChange={handlePickupPlaceChange}>
+                  <option value="" selected disabled>Select Transport</option>
+                  <option value="office">Taxi</option>
+                  <option value="town_hall">Voiture Privé</option>
+                </select>
+
+              </fieldset>
+
+              <fieldset id="dropoff">
+                {pickupPlace === "office" && (
+                  <input
+                    type="text"
+                    name="vehicle_price"
+                    id="vehicle_price"
+                    value={VehiclePrice}
+                    onChange={(e) => setVehiclePrice(e.target.value)}
+                    placeholder="Vehicle Price"
+                    autoComplete="off"
+                  />
+                )}
+                <input
+                  type="text"
+                  name="Location"
+                  id="Location"
+                  value={Location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder="Location"
+                  autoComplete="off"
+                />
+
+              </fieldset>
+
+              <fieldset id="instructions">
+
+
+                <input
+                  type="text"
+                  name="Task"
+                  id="Task"
+                  value={Task}
+                  onChange={(e) => setTask(e.target.value)}
+                  placeholder="Task"
+                  autoComplete="off"
+                />
+              </fieldset>
+
+              <input type="submit" value="Done" className="btn3" />
+
+            </form>
+
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+
+      <div className="area" >
+        <ul className="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <img src={require('../assets/sbs.png')} width="9%" />
+        <div className="Userinfo">
+          <div className="Username">Hello ! {Username}</div>
+          <img src={require('../assets/User.png')} width="7.5%" height="6%" />
+
+
+        </div>
+
+      </div >
+
+
+
+      <div className=" animated bounceInDown" >
+
+        <div className={show ? " blur  container2" : "container2"}>
+          <button class="button-30" onClick={() => { setshow(!show) }} role="button">Add Dailysheet</button> <br></br>
+          <button class="button-30" role="button">Add Off day</button>
+
+          <div className="Datepicker">
+            <label htmlFor="year">Select Year:</label>
+            <select id="year" className="yearpicker" value={Year} onChange={handleSelect}>
+              {Years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="ft-recipe">
+            {listMsheet}
+          </div>
+
+
+
+        </div>
+
+      </div>
+
+
+
+
+
+    </div>
+
+  );
+};
+export default User
+
+
+
+
+
+
+
+
     */

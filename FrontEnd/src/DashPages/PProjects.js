@@ -77,108 +77,113 @@ const PProjects = () => {
 
   return (
     <div>
-
-      <div className={show ? "box-1" : "box-2"}>
-
-        <div className="animated bounceInDown">
-          <div className="container">
-            <span className="error animated tada" id="msg"></span>
-
-            {show && (<form name="form1" className="box" onSubmit={handleSubmit} >
-              <h4>Smart <span>Business Solution</span></h4>
-              <img width="30%" src={require('../assets/sbs.png')}></img>
-              <h5>Create Project </h5>
-
-              <input type="text" name="Pname" placeholder="Project Name" id="Pname" onChange={(e) => { setProjectName(e.target.value) }} autocomplete="off"
-              />
-              <input type="text" name="Cname" placeholder="Company Name" id="Cname" onChange={(e) => { setCompanyName(e.target.value) }} autocomplete="off"
-              />
-
-              <input type="text" name="Destination" placeholder="Destination" id="Destination" onChange={(e) => { setDesignation(e.target.value) }} autocomplete="off"
-              />
-              <input type="submit" value="Done" className="btn2" />
-
-            </form>)}
-
-          </div>
-
-        </div>
-      </div>
+   
 
 
+        <div className={show ? "box-1" : "box-2"}>
 
+          <div className="animated bounceInDown">
+            <div className="container">
+            <img src={require('../assets/close.png')} width="10%" height="8%" className="close"  onClick={() => { setshow(!show) }}   />
+              <span className="error animated tada" id="msg"></span>
 
-      <div class="head-title">
-        <div class="left">
-          <h1>Projects</h1>
-          <ul class="breadcrumb">
-            <li>
-              <a href="#">Dashboard</a>
-            </li>
-            <li><i class='bx bx-chevron-right' ></i></li>
-            <li>
-              <a class="active" href="#">Projects</a>
-            </li>
-          </ul>
-        </div>
-        <a href="#" class="btn-download">
-          <i class='bx bxs-cloud-download' ></i>
-          <span onClick={() => { setshow(!show) }} class="text">Add Project</span>
+              {show && (<form name="form1" className="box" onSubmit={handleSubmit} >
+                <h4>Smart <span>Business Solution</span></h4>
+                <img width="30%" src={require('../assets/sbs.png')}></img>
+                <h5>Create Project </h5>
 
-        </a>
-      </div>
-
-
-
-
-
-
-
-
-
-
-      <div className="table-data">
-        <div className="order">
-          <div className="head">
-            <h3>All Projects</h3>
-            <i >
-              <form action="" class="search-bar">
-                <input
-                  type="search"
-                  name="search"
-                  pattern=".*\S.*"
-                  required
-                  onChange={(event) => fetchProjects(event.target.value)}
+                <input type="text" name="Pname" placeholder="Project Name" id="Pname" onChange={(e) => { setProjectName(e.target.value) }} autocomplete="off"
                 />
-                <button class="search-btn" type="submit">
-                  <span>Search</span>
-                </button>
-              </form>
-            </i>
+                <input type="text" name="Cname" placeholder="Company Name" id="Cname" onChange={(e) => { setCompanyName(e.target.value) }} autocomplete="off"
+                />
 
-          </div>
-          <div className="table-wrapper">
-            <table className="fl-table">
-              <thead >
-                <tr>
-                  <th>Project Name</th>
-                  <th>Company Name</th>
-                  <th>Destination</th>
-                  <th></th>
-                </tr>
-              </thead>
+                <input type="text" name="Destination" placeholder="Destination" id="Destination" onChange={(e) => { setDesignation(e.target.value) }} autocomplete="off"
+                />
+                <input type="submit" value="Done" className="btn2" />
 
-            </table>
-            <div className='ligne1'>
-              {listProject}
+              </form>)}
+
             </div>
 
           </div>
-
-
-
         </div>
-      </div>
+
+
+
+
+        <div class="head-title">
+          <div class="left">
+            <h1>Projects</h1>
+            <ul class="breadcrumb">
+              <li>
+                <a href="#">Dashboard</a>
+              </li>
+              <li><i class='bx bx-chevron-right' ></i></li>
+              <li>
+                <a class="active" href="#">Projects</a>
+              </li>
+            </ul>
+          </div>
+          <a href="#" class="btn-download">
+            <i class='bx bxs-cloud-download' ></i>
+            <span onClick={() => { setshow(!show) }} class="text">Add Project</span>
+
+          </a>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div className={show ? " blur  table-data" : "table-data"}>
+          <div className="order">
+            <div className="head">
+              <h3>All Projects</h3>
+              <i >
+                <form action="" class="search-bar">
+                  <input
+                    type="search"
+                    name="search"
+                    pattern=".*\S.*"
+                    required
+                    onChange={(event) => fetchProjects(event.target.value)}
+                  />
+                  <button class="search-btn" type="submit">
+                    <span>Search</span>
+                  </button>
+                </form>
+              </i>
+
+            </div>
+            <div className="table-wrapper">
+              <table className="fl-table">
+                <thead >
+                  <tr>
+                    <th>Project Name</th>
+                    <th>Company Name</th>
+                    <th>Destination</th>
+                    <th></th>
+                  </tr>
+                </thead>
+
+              </table>
+              <div className='ligne1'>
+                {listProject}
+              </div>
+
+            </div>
+
+
+
+          </div>
+        </div>
+
+   
 
 
 

@@ -126,6 +126,21 @@ label span {
 
 }
 
+.btn3 {
+  border: 0;
+  background: #234b9a;
+  color: #dfdeee;
+  border-radius: 100px;
+  width: 340px;
+  height: 49px;
+  font-size: 16px;
+  position: absolute;
+  top: 95%;
+  right: 0.2%;
+  transition: 0.3s;
+  cursor: pointer;
+
+}
 .btn2 {
   border: 0;
   background: #234b9a;
@@ -644,6 +659,7 @@ label span {
       border-radius: 9px;
      height: 50%;
      column-gap: 20px;
+     row-gap: 20px;
   
 }
  .ft-recipe .ft-recipe__thumb {
@@ -702,6 +718,7 @@ label span {
 	 font-family: var(--headlinesFont);
 	 font-weight: 600;
    color: white;
+   vertical-align: 10px;
 }
  .ft-recipe .ft-recipe__content .content__header .recipe-details {
 	 display: flex;
@@ -751,14 +768,17 @@ label span {
 	 letter-spacing: 0.2px;
 	 font-size: 17px;
 	 transition: transform 250ms ease, box-shadow 250ms ease;
+   cursor: pointer;
 }
  .ft-recipe .ft-recipe__content .content__footer a:hover {
 	 transform: translateY(-3px);
 	 box-shadow: 0 10px 34px 0 rgba(37, 3, 115, 0.32);
 }
 .Cart{
-  margin: 10px;
- width: 98%;
+  
+ width: 330px;
+ height: 75%;
+
   
  
 }

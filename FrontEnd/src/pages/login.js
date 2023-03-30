@@ -1,6 +1,18 @@
 import { Link } from "react-router-dom";
 import { useState } from 'react'
 import axios from "axios";
+import jwtDecode from 'jwt-decode';
+function getUserIdFromToken(token) {
+    try {
+        const decodedToken = jwtDecode(token);
+
+        return decodedToken._id;
+
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
 
 const Login = () => {
     const [Email, setEmail] = useState('')
@@ -27,14 +39,21 @@ const Login = () => {
             })
             const data = response.data
             console.log(data.mytoken)
-
-            if (data.mytoken) {
+            const userId = getUserIdFromToken(data.mytoken);
+          
+            if (userId == ("6418909ca52211e323c3964d")) {
+                localStorage.setItem('token', data.mytoken)
+                setErrorMessage('Login successful')
+                window.location.href = '/Dash/Home'
+            }
+            else if (data.mytoken) {
                 localStorage.setItem('token', data.mytoken)
                 setErrorMessage('Login successful')
                 window.location.href = '/User'
             } else {
-                setErrorMessage('Please check your username and password')
+                setErrorMessage('An error occurred while logging in')
             }
+
         } catch (error) {
             console.log(error)
             setErrorMessage('An error occurred while logging in')

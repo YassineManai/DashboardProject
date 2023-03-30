@@ -14,7 +14,7 @@ const DailySheetLigneinfo = ({ Dsheet }) => {
 
                 <tbody>
 
-                    <td >{Dsheet.Date.substring(0,10)}</td>
+                    <td >{Dsheet.date.substring(0,10)}</td>
                     <td >{Dsheet.TypeJ}</td>
                     <td >{Dsheet.ProjectName}</td>
                     <td >{Dsheet.Task}</td>

@@ -14,17 +14,20 @@ const PMonthlysheet = () => {
     const firstName = queryParams.get('firstName');
     const lastName = queryParams.get('lastName');
 
-    const [startDate, setStartDate] = useState("");
-    const today = new Date().toISOString().slice(0, 7);
-    console.log(today)
-    const [year] = startDate.split("-");
-    const monthName = new Date(startDate).toLocaleString('default', { month: 'long' });
 
 
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const [Year, setYear] = useState(currentYear);
 
-    useEffect(() => {
-        setStartDate(today)
-    }, []);
+    const Years = Array.from({ length: 50 }, (v, i) => currentYear - i);
+
+    const handleSelect = (event) => {
+        setYear(event.target.value);
+        console.log(Year)
+    };
+
+
 
 
     const handleValid = (id) => {
@@ -66,17 +69,21 @@ const PMonthlysheet = () => {
 
 
     useEffect(() => {
-        const fetchMonthlySheet = async () => {
-            const response = await fetch(`http://127.0.0.1:3000/monthlysheet/allMonthlySheet/${userId}`);
-            const data = await response.json();
-            const filteredData = data.filter(task =>  (task.Year == year) );
-            setMonthlySheet(filteredData);
-            console.log(filteredData)
-        };
+      
         fetchMonthlySheet();
-    }, [startDate, userId]);
-
-
+    }, [Year, userId]);
+   
+    const fetchMonthlySheet = async () => {
+        try {
+          const response = await axios.get(`http://127.0.0.1:3000/monthlysheet/allMonthlySheet/${userId}`);
+          const data = response.data;
+          const filteredData = data.filter(task => (task.Year == Year));
+          setMonthlySheet(filteredData);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    
 
 
 
@@ -124,14 +131,13 @@ const PMonthlysheet = () => {
                 </div>
                 <a>
                     <span htmlFor="start">Pick a Date</span> <br></br>
-                    <input
-                        type="month"
-                        id="start"
-                        name="start"
-                        min="2018-03"
-                        defaultValue={today}
-                        onChange={(e) => setStartDate(e.target.value)}
-                    />
+                    <select id="year" className="yearpicker1" value={Year} onChange={handleSelect}>
+                        {Years.map((year) => (
+                            <option key={year} value={year}>
+                                {year}
+                            </option>
+                        ))}
+                    </select>
                 </a>
             </div>
 

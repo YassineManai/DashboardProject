@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import '../App.css';
+import { useNavigate } from "react-router-dom";
 
 const NavSide = ({ children }) => {
     const sidebar = useRef(null);
@@ -25,6 +26,13 @@ const NavSide = ({ children }) => {
     const handleModeChange = (event) => {
         setIsDarkMode(event.target.checked);
     };
+
+    const navigate = useNavigate();
+
+    const logout = () => {
+        localStorage.clear();
+        navigate('/');
+    }
 
 
 
@@ -97,13 +105,13 @@ const NavSide = ({ children }) => {
                             </a>
                         </li>
                         <li>
-                            <Link to="/">
-                                <a href="#" className="logout">
+                       
+                                <a href="" className="logout">
                                     <i className='bx bxs-log-out-circle' ></i>
 
-                                    <span className="text">Logout</span>
+                                    <span className="text" onClick={logout}>Logout</span>
                                 </a>
-                            </Link>
+                          
 
 
                         </li>

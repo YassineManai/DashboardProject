@@ -986,63 +986,106 @@ input {
 
 
 
-.navprofile{
+.navprofile {
 	float: right;
-    display: flex;
-    right: 2%;
+	display: flex;
+	right: 2%;
 	position: fixed;
 }
 
-.Datepicker{
-	
-position: absolute;
-right: 2%;
-top: 2%;
-color: white;
-align-items: center;
+.Datepicker {
+
+	position: absolute;
+	right: 2%;
+	top: 2%;
+	color: white;
+	align-items: center;
 }
-.yearpicker{
-	
-    background-color: #090d1c;
-    border-radius: 4px;
-    border-width: 0;
-    box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
-    box-sizing: border-box;
-    color: #dfdeee;
-    cursor: pointer;
-    display: inline-flex;
-    font-family: "JetBrains Mono", monospace;
-    height: 40px;
-    width: 100%;
-   
-    justify-content: center;
-    line-height: 1;
-    list-style: none;
-    overflow: hidden;
-    border: white 1px solid;
-    padding-right: 16px;
-    position: relative;
-    text-align: left;
-    text-decoration: none;
-    transition: box-shadow .15s, transform .15s;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-    white-space: nowrap;
-    will-change: box-shadow, transform;
-    font-size: 18px;
+
+.yearpicker {
+
+	background-color: #090d1c;
+	border-radius: 4px;
+	border-width: 0;
+	box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+	box-sizing: border-box;
+	color: #dfdeee;
+	cursor: pointer;
+	display: inline-flex;
+	font-family: "JetBrains Mono", monospace;
+	height: 40px;
+	width: 100%;
+
+	justify-content: center;
+	line-height: 1;
+	list-style: none;
+	overflow: hidden;
+	border: white 1px solid;
+	padding-right: 16px;
+	position: relative;
+	text-align: left;
+	text-decoration: none;
+	transition: box-shadow .15s, transform .15s;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	white-space: nowrap;
+	will-change: box-shadow, transform;
+	font-size: 18px;
 }
+
+
+.yearpicker1 {
+
+	background-color: #f9f9f9;
+	border-radius: 4px;
+	border-width: 0;
+	box-shadow: rgb(45 35 66 / 40%) 0 2px 4px, rgb(45 35 66 / 30%) 0 7px 13px -3px, #d6d6e7 0 -3px 0 inset;
+	box-sizing: border-box;
+	color: #2d22c3;
+	cursor: pointer;
+	display: inline-flex;
+	font-family: "JetBrains Mono", monospace;
+	height: 40px;
+	width: 100%;
+
+	justify-content: center;
+	line-height: 1;
+	list-style: none;
+	overflow: hidden;
+	border: white 1px solid;
+	padding-right: 16px;
+	position: relative;
+	text-align: left;
+	text-decoration: none;
+	transition: box-shadow .15s, transform .15s;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	white-space: nowrap;
+	will-change: box-shadow, transform;
+	font-size: 18px;
+}
+
 .blur {
 	filter: blur(5px);
-  }
-  
+}
+
 
 
 .controls {
 	text-align: left;
 	position: relative;
 }
-.controls input[type="text"], .controls input[type="email"], .controls input[type="number"], .controls input[type="date"], .controls input[type="tel"], .controls textarea, .controls button, .controls select {
+
+.controls input[type="text"],
+.controls input[type="email"],
+.controls input[type="number"],
+.controls input[type="date"],
+.controls input[type="tel"],
+.controls textarea,
+.controls button,
+.controls select {
 	padding: 12px;
 	font-size: 14px;
 	border: 1px solid #c6c6c6;
@@ -1053,23 +1096,58 @@ align-items: center;
 	font-size: 16px;
 	font-weight: 300;
 }
-.controls input[type="text"]:focus, .controls input[type="email"]:focus, .controls input[type="number"]:focus, .controls input[type="date"]:focus, .controls input[type="tel"]:focus, .controls textarea:focus, .controls button:focus, .controls select:focus, .controls input[type="text"]:hover, .controls input[type="email"]:hover, .controls input[type="number"]:hover, .controls input[type="date"]:hover, .controls input[type="tel"]:hover, .controls textarea:hover, .controls button:hover, .controls select:hover {
+
+.controls input[type="text"]:focus,
+.controls input[type="email"]:focus,
+.controls input[type="number"]:focus,
+.controls input[type="date"]:focus,
+.controls input[type="tel"]:focus,
+.controls textarea:focus,
+.controls button:focus,
+.controls select:focus,
+.controls input[type="text"]:hover,
+.controls input[type="email"]:hover,
+.controls input[type="number"]:hover,
+.controls input[type="date"]:hover,
+.controls input[type="tel"]:hover,
+.controls textarea:hover,
+.controls button:hover,
+.controls select:hover {
 	outline: none;
 	border-color: #9fb1c1;
 }
-.controls input[type="text"]:focus + label, .controls input[type="email"]:focus + label, .controls input[type="number"]:focus + label, .controls input[type="date"]:focus + label, .controls input[type="tel"]:focus + label, .controls textarea:focus + label, .controls button:focus + label, .controls select:focus + label, .controls input[type="text"]:hover + label, .controls input[type="email"]:hover + label, .controls input[type="number"]:hover + label, .controls input[type="date"]:hover + label, .controls input[type="tel"]:hover + label, .controls textarea:hover + label, .controls button:hover + label, .controls select:hover + label {
+
+.controls input[type="text"]:focus+label,
+.controls input[type="email"]:focus+label,
+.controls input[type="number"]:focus+label,
+.controls input[type="date"]:focus+label,
+.controls input[type="tel"]:focus+label,
+.controls textarea:focus+label,
+.controls button:focus+label,
+.controls select:focus+label,
+.controls input[type="text"]:hover+label,
+.controls input[type="email"]:hover+label,
+.controls input[type="number"]:hover+label,
+.controls input[type="date"]:hover+label,
+.controls input[type="tel"]:hover+label,
+.controls textarea:hover+label,
+.controls button:hover+label,
+.controls select:hover+label {
 	color: #bdcc00;
 	cursor: text;
 }
+
 .controls .fa-sort {
 	position: absolute;
 	right: 10px;
 	top: 17px;
 	color: #999;
 }
+
 .controls select {
 	cursor: pointer;
 }
+
 .controls label {
 	position: absolute;
 	left: 8px;
@@ -1083,12 +1161,14 @@ align-items: center;
 	background-color: rgba(255, 255, 255, 0);
 	background-color: rgba(255, 255, 255, 1);
 }
+
 .controls label.active {
 	top: -11px;
 	color: #555;
 	background-color: rgba(255, 255, 255, 1);
 	width: auto;
 }
+
 .controls textarea {
 	resize: none;
 	height: 200px;
@@ -1096,62 +1176,198 @@ align-items: center;
 
 
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.myForm {
+	display: grid;
+	grid-template-areas:
+		"customer taxi"
+		"customer extras"
+		"pickup dropoff"
+		"instructions instructions"
+		"submit submit";
+	grid-template-columns: auto auto;
+	grid-template-rows: auto auto auto auto;
+	grid-gap: 0.8em 0.5em;
+	color: white;
+	padding: 1.2em;
+	position: absolute;
+	top: 25%;
+	width: 80%;
+	align-items: center;
+	left: 10%;
+}
+
+.myForm textarea {
+	height: calc(100% - 1.5em);
+}
+
+.myForm button {
+	background: gray;
+	color: white;
+	padding: 1em;
+}
+
+.myForm input:not([type=radio]):not([type=checkbox]),
+.myForm textarea,
+.myForm select {
+	width: 100%;
+	border: 0;
+	padding: 1em;
+	margin: .5em 0;
+	text-align: center;
+}
+
+.myForm label {
+	display: block;
+}
+
+fieldset {
+	border: 0;
+}
+
+#customer {
+	grid-area: customer;
+}
+
+#taxi {
+	grid-area: taxi;
+}
+
+#extras {
+	grid-area: extras;
+}
+
+#pickup {
+	grid-area: pickup;
+}
+
+#dropoff {
+	grid-area: dropoff;
+}
+
+#instructions {
+	grid-area: instructions;
+}
+
+#submit {
+	grid-area: submit;
+}
+
+.daily {
+	color: #234b9a;
+	position: absolute;
+	left: 30%;
+	top: 10%;
+}
+
+.close {
+	position: absolute;
+	right: 2%;
+	top: 2%;
+	cursor: pointer;
+}
+
+
+
+
+
+.box select {
+
+	color: black;
+	padding: 12px;
+	width: 100%;
+	border: none;
+	font-size: 20px;
+	box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+	-webkit-appearance: button;
+	appearance: button;
+	outline: none;
+}
+
+
+
+
+
+.box select option {
+	padding: 30px;
+}
+
+
+
+
+
+
+.form-control {
+	height: 50px;
+	font-size: 16px;
+	color: #414D64;
+	background: #ffffff;
+	padding: 0 15px;
+	border: 2px solid #DADEEA;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	text-align: center;
+}
+
+textarea.form-control {
+	height: 120px;
+	padding-top: 15px;
+}
+
+
+
+
+
+
+
+
+.radiob {
+	color: white;
+	display: flex;
+	justify-content: center;
+	flex-direction: row-reverse;
+	margin: 17px;
+}
+
+.loader {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	display: inline-block;
+	border-top: 4px solid #FFF;
+	border-right: 4px solid transparent;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+	position: absolute;
+	top:50%;
+	left:50%
+	;
   }
-  .myForm {
-    display: grid;
-    grid-template-areas: 
-      "customer taxi"
-      "customer extras"
-      "pickup dropoff"
-      "instructions instructions"
-      "submit submit";
-  	grid-template-columns: auto auto;  
-  	grid-template-rows: auto auto auto auto;
-    grid-gap: .8em .5em;
-   color: white;
-    padding: 1.2em;
+  .loader::after {
+	content: '';  
+	box-sizing: border-box;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	border-left: 4px solid #5c7fda;
+	border-bottom: 4px solid transparent;
+	animation: rotation 0.5s linear infinite reverse;
   }
-  .myForm textarea {
-    height: calc(100% - 1.5em);
-    }
-  .myForm button {
-    background: gray;
-    color: white;
-    padding: 1em;
-    }
-  .myForm input:not([type=radio]):not([type=checkbox]), 
-  .myForm textarea, 
-  .myForm select {
-   	width: 100%;
-    border: 0;
-    padding: 1em;
-    margin: .5em 0;
-  }
-  .myForm label {
-   display: block; 
-  }
-  fieldset {
-    border: 0;
-  }
-  #customer {
-    grid-area: customer;
-  }
-  #taxi {
-    grid-area: taxi;
-  }
-  #extras {
-    grid-area: extras;
-  }
-  #pickup {
-    grid-area: pickup;
-  }
-  #dropoff {
-    grid-area: dropoff;
-  }
-  #instructions {
-    grid-area: instructions;
-  }
-  #submit {
-    grid-area: submit;
-  }
+  @keyframes rotation {
+	0% {
+	  transform: rotate(0deg);
+	}
+	100% {
+	  transform: rotate(360deg);
+	}
+  } 

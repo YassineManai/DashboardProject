@@ -18,11 +18,11 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
 
     // Update monthly sheet for the same user and month
 
-    const { UserId, Date: dateString, TypeJ } = req.body;
-    const date = moment.utc(dateString, 'DD/MM/YYYY').toDate(); // parse date string and create UTC moment object
-    const month = moment.utc(date).format('MMMM'); // format month name in UTC timezone
-    const year = moment.utc(date).year(); // get year in UTC timezone
-    dailySheet.Date = date; // set date to JavaScript Date object
+    const { UserId, date: dateString, TypeJ } = req.body;
+    const dato = moment.utc(dateString, 'YYYY-MM-DD').toDate(); // parse date string and create UTC moment object
+    const month = moment.utc(dato).format('MMMM'); // format month name in UTC timezone
+    const year = moment.utc(dato).year(); // get year in UTC timezone
+    dailySheet.date = dato; // set date to JavaScript Date object
     dailySheet.Month = month; // set month to formatted month name
     dailySheet.Year = year; // set year to year in UTC timezone
     const monthlySheet = await MonthlySheet.findOne({ UserId, Month: month, Year: year });
@@ -79,7 +79,9 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
     }
 
     // Assign the monthly sheet id and task id to the daily sheet
-    dailySheet.Monthlysheetid = monthlySheet._id;
+    if (monthlySheet) {
+      dailySheet.Monthlysheetid = monthlySheet._id; // assign monthly sheet id to daily sheet
+    }
     dailySheet.Taskid = task._id
 
     res.status(201).send(dailySheet);
@@ -89,6 +91,70 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
   }
 
 })
+
+
+
+router.post('/CreateDailySheeto/:id', async (req, res) => {
+
+  try {
+    const idUser = req.params.id;
+    data = req.body;
+    data.UserId = idUser
+    // Create new daily sheet entry from request body
+    const dailySheet = new DailySheet(req.body);
+
+    // Update monthly sheet for the same user and month
+
+    const { UserId, date: dateString, TypeJ } = req.body;
+    const dato = moment.utc(dateString, 'YYYY-MM-DD').toDate(); // parse date string and create UTC moment object
+    const month = moment.utc(dato).format('MMMM'); // format month name in UTC timezone
+    const year = moment.utc(dato).year(); // get year in UTC timezone
+    dailySheet.date = dato; // set date to JavaScript Date object
+    dailySheet.Month = month; // set month to formatted month name
+    dailySheet.Year = year; // set year to year in UTC timezone
+    const monthlySheet = await MonthlySheet.findOne({ UserId, Month: month, Year: year });
+    if (!monthlySheet) {
+      // Create new monthly sheet entry if it doesn't exist
+      const newMonthlySheet = new MonthlySheet({ UserId, Month: month, Year: year });
+      newMonthlySheet._id = mongoose.Types.ObjectId();
+
+      const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet ?? {};
+      const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
+      const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
+      const newNbrJConge = TypeJ === 'Congé' ? (NbrJConge || 0) + 1 : NbrJConge;
+      const newNbrJFeries = TypeJ === 'Férié' ? (NbrJFeries || 0) + 1 : NbrJFeries;
+      const newNbrHours = (NbrHours || 0) + parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
+      newMonthlySheet.set({ NbrJTrav: newNbrJTrav, NbrJConge: newNbrJConge, NbrJFeries: newNbrJFeries, NbrHours: newNbrHours });
+      await newMonthlySheet.save();
+      dailySheet.Monthlysheetid = newMonthlySheet._id; // assign monthly sheet id to daily sheet
+      await dailySheet.save();
+    } else {
+      // Update existing monthly sheet entry with new daily sheet data
+      const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet ?? {};
+      const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
+      const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
+      const newNbrJConge = TypeJ === 'Congé' ? (NbrJConge || 0) + 1 : NbrJConge;
+      const newNbrJFeries = TypeJ === 'Férié' ? (NbrJFeries || 0) + 1 : NbrJFeries;
+      const newNbrHours = (NbrHours || 0) + parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
+      monthlySheet.set({ NbrJTrav: newNbrJTrav, NbrJConge: newNbrJConge, NbrJFeries: newNbrJFeries, NbrHours: newNbrHours });
+      await monthlySheet.save();
+      dailySheet.Monthlysheetid = monthlySheet._id; // assign monthly sheet id to daily sheet
+      await dailySheet.save();
+    }
+    // Assign the monthly sheet id and task id to the daily sheet
+    if (monthlySheet) {
+      dailySheet.Monthlysheetid = monthlySheet._id; // assign monthly sheet id to daily sheet
+    }
+    
+
+    res.status(201).send(dailySheet);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message);
+  }
+
+})
+
 
 
 router.get("/allDailySheet/:id", async (req, res) => {
