@@ -157,7 +157,7 @@ const styles = {
     forgotPassword: {
         alignSelf: 'flex-end',
         marginVertical: 10,
-        color: 'white'
+        color: 'red'
     },
     loginButton: {
         backgroundColor: '#234b9a',

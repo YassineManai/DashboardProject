@@ -9,6 +9,9 @@ const DailySheet = mongoose.model('DailySheet', {
     Monthlysheetid: {
         type: String
     },
+    Taskid: {
+        type: String
+    },
     date: {
         type: Date
     },

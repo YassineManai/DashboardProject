@@ -145,7 +145,7 @@ router.post('/CreateDailySheeto/:id', async (req, res) => {
     if (monthlySheet) {
       dailySheet.Monthlysheetid = monthlySheet._id; // assign monthly sheet id to daily sheet
     }
-    
+
 
     res.status(201).send(dailySheet);
   } catch (error) {
@@ -170,8 +170,119 @@ router.get("/allDailySheet/:id", async (req, res) => {
 
   }
 })
+router.get("/Daily/:id", async (req, res) => {
+
+  try {
+    const id = req.params.id;
+    Dsheet = await DailySheet.find({ _id: id })
+    res.send(Dsheet)
+
+  }
+  catch (error) {
+    res.send(error)
+
+  }
+})
+
+router.put("/updateDay/:id", async (req, res) => {
+
+  const resourceId = req.params.id;
+  const updateData = req.body;
+
+  const { Monthlysheetid } = req.body;
+
+  try {
+    const existingResource = await DailySheet.findById(resourceId);
+    if (!existingResource) {
+      return res.status(404).json({ message: 'Resource not found' });
+    }
+
+    const originalTypeJ = existingResource.TypeJ;
+    const newTypeJ = updateData.TypeJ;
+
+
+    const { UserId, date: dateString, ProjectName } = req.body;
+    const dato = moment.utc(dateString, 'YYYY-MM-DD').toDate(); // parse date string and create UTC moment object
+    const month = moment.utc(dato).format('MMMM'); // format month name in UTC timezone
+    const year = moment.utc(dato).year(); // get year in UTC timezone
+
+    let task;
+    const existingTask = await Task.findOne({ ProjectName, UserId, Month: month, Year: year });
+
+    // Calculate the new total hours
+    const oldTotalHours = parseFloat(existingResource.TimeF) - parseFloat(existingResource.Timed);
+    const newTotalHours = parseFloat(updateData.TimeF) - parseFloat(updateData.Timed);
+    const totalHoursDiff = newTotalHours - oldTotalHours;
+    // Update the total hours in the task
+    if (existingTask) {
+      const { TotlHours } = existingTask;
+      task = existingTask;
+      task.TotlHours = TotlHours + totalHoursDiff;
+     
+      console.log(TotlHours)
+      console.log(totalHoursDiff)
+      await task.save();
+    }
 
 
 
+    if (newTypeJ === "Congé" || newTypeJ === "Férié") {
+      existingResource.Task = "";
+      existingResource.VehiclePrice = "";
+      existingResource.Timed = ""
+      existingResource.TimeF = ""
+      existingResource.ProjectName = ""
+      existingResource.Location = ""
+    } else {
+      existingResource.Timed = updateData.Timed;
+      existingResource.TimeF = updateData.TimeF;
+      existingResource.ProjectName = updateData.ProjectName;
+      existingResource.Location = updateData.Location;
+      existingResource.Task = updateData.Task;
+      existingResource.VehiclePrice = updateData.VehiclePrice;
+    }
+
+    existingResource.TypeJ = newTypeJ;
+
+    const monthlySheet = await MonthlySheet.findOne({ _id: Monthlysheetid });
+    const { NbrJTrav, NbrJConge, NbrJFeries } = monthlySheet ?? {};
+    const isWorkingDay = newTypeJ === 'travail';
+    const isCongeDay = newTypeJ === 'Congé';
+    const isFerieDay = newTypeJ === 'Férié';
+    let newNbrJTrav = NbrJTrav || 0;
+    let newNbrJConge = NbrJConge || 0;
+    let newNbrJFeries = NbrJFeries || 0;
+
+    if (originalTypeJ === 'travail') {
+      newNbrJTrav--;
+    } else if (originalTypeJ === 'Congé') {
+      newNbrJConge--;
+    } else if (originalTypeJ === 'Férié') {
+      newNbrJFeries--;
+    }
+
+    if (isWorkingDay) {
+      newNbrJTrav++;
+    } else if (isCongeDay) {
+      newNbrJConge++;
+    } else if (isFerieDay) {
+      newNbrJFeries++;
+    }
+
+    monthlySheet.NbrJTrav = newNbrJTrav;
+    monthlySheet.NbrJConge = newNbrJConge;
+    monthlySheet.NbrJFeries = newNbrJFeries;
+    monthlySheet.Status = false
+
+
+    const updatedResource = await existingResource.save();
+    const updatedMonthlySheet = await monthlySheet.save();
+
+    res.status(200).json({ message: 'Resource updated successfully', data: updatedResource });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+})
 
 module.exports = router

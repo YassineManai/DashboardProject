@@ -2,45 +2,31 @@ import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, Button } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-const MonthCard = ({ Msheet }) => {
+const DayCard = ({ Dsheet }) => {
     const navigation = useNavigation();
 
     const handleDailySheetClick = () => {
-      navigation.navigate('DailyList', { id: Msheet._id, month: Msheet.Month, year: Msheet.Year });
+      navigation.navigate('Daily', { id: Dsheet._id, DateCart: Dsheet.date });
     };
 
   return (
     <View style={styles.cardContainer}>
       <View style={styles.imageContainer}>
-        <Image source={require('../assets/calender.png')} style={styles.image} />
+      {Dsheet.TypeJ =="travail" ? (
+              <Image source={require('../assets/icon2.png')} style={styles.image} />
+            ) : Dsheet.TypeJ =="Congé" ?(
+              <Image source={require('../assets/icon1.png')} style={styles.image} />
+            ) : Dsheet.TypeJ =="Ferié" ? (
+              <Image source={require('../assets/icon3.png')} style={styles.image} />
+            ) : null }
       </View>
       <View style={styles.cardContent}>
         <View style={styles.cardHeader}>
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>{Msheet.Month}</Text>
-            {Msheet.Status ? (
-              <Image source={require('../assets/valideS.png')} style={styles.detailIcon} />
-            ) : (
-              <Image source={require('../assets/refuseS.png')} style={styles.detailIcon} />
-            )}
+          <Text style={styles.title}>{new Date(Dsheet.date).toLocaleDateString('en-CA', { weekday: 'long' })}</Text>
+    
           </View>
-          <View style={styles.detailsContainer}>
-            <View style={styles.detailItem}>
-              <Image source={require('../assets/icon2.png')} style={styles.detailIcon} />
-              <Text style={styles.detailText}>{Msheet.NbrJTrav}</Text>
-              <Text style={styles.detailLabel}>NbrTrav</Text>
-            </View>
-            <View style={styles.detailItem}>
-              <Image source={require('../assets/icon1.png')} style={styles.detailIcon} />
-              <Text style={styles.detailText}>{Msheet.NbrJConge}</Text>
-              <Text style={styles.detailLabel}>NbrCongé</Text>
-            </View>
-            <View style={styles.detailItem}>
-              <Image source={require('../assets/icon3.png')} style={styles.detailIcon} />
-              <Text style={styles.detailText}>{Msheet.NbrJFeries}</Text>
-              <Text style={styles.detailLabel}>NbrFérie</Text>
-            </View>
-          </View>
+         
         </View>
         <TouchableOpacity style={styles.button} onPress={handleDailySheetClick}>
           <Text style={styles.buttonText}>View</Text>
@@ -82,15 +68,21 @@ const styles = StyleSheet.create({
     flex: 5,
     paddingLeft: 10,
     justifyContent: 'space-between',
+    
   },
   cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+   
+ 
     alignItems: 'center',
+    marginTop:30,
+   
+  
+   
   },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    
   },
   title: {
     fontSize: 18,
@@ -109,7 +101,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginBottom: 5,
-    margin:10
+   
   },
   detailText: {
     fontSize: 16,
@@ -135,4 +127,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default MonthCard
+export default DayCard

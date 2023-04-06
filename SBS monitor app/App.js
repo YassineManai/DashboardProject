@@ -7,11 +7,11 @@ import HomeScreen from './app/Screens/Home';
 const Stack = createStackNavigator();
 import axios from 'axios';
 import { useEffect } from 'react';
-import DailySheet from './app/Screens/DailySheet';
+import DailySheet from './app/Screens/AddDailySheet';
 import OffDay from './app/Screens/offDay';
-
-
-
+import MonthlySheet from './app/Screens/Monthlysheet';
+import Dailylist from './app/Screens/Dailylist';
+import OneDailySheet from './app/Screens/DailySheet';
 const App = () => {
 
  
@@ -36,7 +36,12 @@ const App = () => {
         <Stack.Screen name="Signup" component={SignUpScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="DailySheet" component={DailySheet} />
+        <Stack.Screen name="MonthlySheet" component={MonthlySheet} />
+        <Stack.Screen name="DailyList" component={Dailylist} />
+        <Stack.Screen name="Daily" component={OneDailySheet} />
         <Stack.Screen name="OffDay" component={OffDay} />
+
+
 
 
       </Stack.Navigator>
