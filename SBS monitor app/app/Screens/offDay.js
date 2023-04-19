@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import axios from 'axios';
 
-
+import { baseURL } from '../../Config';
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useNavigation } from '@react-navigation/native';
@@ -53,7 +53,7 @@ const OffDay = ({ route }) => {
 
 
     // Make API request
-    axios.post(`http://192.168.1.16:3000/dailysheet/CreateDailySheeto/${userId}`, {
+    axios.post(`${baseURL}/dailysheet/CreateDailySheeto/${userId}`, {
       date: date.toLocaleDateString('en-CA'),
       TypeJ: TypeJ,
       Timed: "0",
@@ -91,25 +91,8 @@ const OffDay = ({ route }) => {
   };
 
 
-  navigation.setOptions({
-    headerStyle: {
-      backgroundColor: '#234b9a'
 
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerTitleAlign: 'center',
-    headerTitle: () => (
-      <View>
-        <Text style={{ color: '#fff', fontSize: 20 }}>
-          ADD OffDay
-        </Text>
-      </View>
-    ),
-
-  });
+ 
   return (
 
 
@@ -148,18 +131,18 @@ const OffDay = ({ route }) => {
 
 
           <TouchableOpacity
-            style={TypeJ == "Congé" ? styles.radioSelected : styles.radio}
-            onPress={() => handleOptionChange("Congé")}
+            style={TypeJ == "DayOff" ? styles.radioSelected : styles.radio}
+            onPress={() => handleOptionChange("DayOff")}
 
           >
-            <Text style={styles.radioLabel}>Congé</Text>
+            <Text style={styles.radioLabel}>Day Off</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={TypeJ == "Férié" ? styles.radioSelected : styles.radio}
-            onPress={() => handleOptionChange("Férié")}
+            style={TypeJ == "Holiday" ? styles.radioSelected : styles.radio}
+            onPress={() => handleOptionChange("Holiday")}
           >
-            <Text style={styles.radioLabel}>Férié</Text>
+            <Text style={styles.radioLabel}>Holiday</Text>
           </TouchableOpacity>
 
 
@@ -196,7 +179,7 @@ const OffDay = ({ route }) => {
         <TouchableOpacity onPress={() => navigation.navigate('MonthlySheet')} style={styles.navigationItem} >
           <Image style={styles.icon1} source={Msheet} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Screen3')} style={styles.navigationItem} >
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.navigationItem} >
           <Image style={styles.icon1} source={Profile} />
         </TouchableOpacity>
       </View>
@@ -286,7 +269,7 @@ const styles = StyleSheet.create({
     height: 170,
     resizeMode: "contain",
     position: 'absolute',
-    top: 20,
+    top: 10,
     right: '40%',
     zIndex: 1,
   },
@@ -410,7 +393,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 30,
     marginBottom: 20,
-    marginTop: -25
+    marginTop: -74
 
 
   },

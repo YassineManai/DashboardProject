@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, Button } from 'react-na
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { baseURL } from '../../Config';
 export default function LoginScreen() {
     const navigation = useNavigation();
     const [Email, setEmail] = useState('');
@@ -20,7 +21,7 @@ export default function LoginScreen() {
         }
     
         try {
-            const response = await axios.post('http://192.168.1.16:3000/user/Login', {
+            const response = await axios.post(`${baseURL}/user/Login`, {
                 Email: Email,
                 Password: Password,
             });
@@ -45,23 +46,6 @@ export default function LoginScreen() {
         }
     }
 
-    navigation.setOptions({
-        headerStyle: {
-            backgroundColor: '#0d101b',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerTitleAlign: 'center',
-        headerTitle: () => (
-            <View>
-                <Text style={{ color: '#fff', fontSize: 20 }}>
-                    SBS Monitor
-                </Text>
-            </View>
-        ),
-    });
 
 
 
@@ -83,8 +67,8 @@ export default function LoginScreen() {
                 value={Email}
                 onChangeText={setEmail}
                 autoCapitalize="none"
-                autoCompleteType="Email"
-                keyboardType="Email-address"
+                autoCompleteType="email"
+                keyboardType="email-address"
             />
             <TextInput
                 style={styles.input}
@@ -93,9 +77,9 @@ export default function LoginScreen() {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <TouchableOpacity style={styles.forgotPassword}>
-                <Text>Forgot Password?</Text>
-            </TouchableOpacity>
+            
+         <Text style={styles.forgotPassword} >Forgot Password?</Text>
+          
             <TouchableOpacity
                 style={styles.loginButton}
                 onPress={loginUser}
@@ -117,7 +101,7 @@ const styles = {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#0d101b'
+        backgroundColor: 'white'
     },
     title: {
         fontSize: 24,
@@ -127,7 +111,7 @@ const styles = {
 
     },
     titleSpan: {
-        color: 'white',
+        color: 'black',
 
     },
     logo: {
@@ -138,6 +122,7 @@ const styles = {
     subtitle: {
         fontSize: 13,
         marginBottom: 10,
+       
 
         fontWeight: 'bold',
         color: '#a1a4ad'
@@ -152,12 +137,22 @@ const styles = {
         padding: 10,
         marginVertical: 10,
         backgroundColor: 'white',
-        color: 'black'
+        color: 'black',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+    
+        elevation: 3,
     },
     forgotPassword: {
         alignSelf: 'flex-end',
         marginVertical: 10,
-        color: 'red'
+        color: '#5c7fda',
+      
     },
     loginButton: {
         backgroundColor: '#234b9a',

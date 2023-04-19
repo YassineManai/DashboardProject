@@ -24,7 +24,7 @@ const HomeScreen = () => {
   const Msheet = require('../assets/Dsheet!acive.png');
   const Profile = require('../assets/Profile!active.png');
   const background = require('../assets/BACKGROUD.png');
-
+  const User = require('../assets/HomeUser.png');
   useFocusEffect(
     useCallback(() => {
       async function fetchData() {
@@ -43,38 +43,14 @@ const HomeScreen = () => {
   console.log(username)
   console.log(userId)
 
-  const checkUserToken = async () => {
-    const userToken = await AsyncStorage.getItem('token');
-    console.log(userToken)
-    if (!userToken) {
+
+  const handleLogout = () => {
+   
+    AsyncStorage.removeItem('userToken').then(() => {
       navigation.navigate('Login');
-    }
-  }
-
-  useEffect(() => {
-    checkUserToken();
-  }, []);
-
-
-  navigation.setOptions({
-    headerStyle: {
-   backgroundColor:'#234b9a'
-     
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerTitleAlign: 'center',
-    headerTitle: () => (
-      <View>
-        <Text style={{ color: '#fff', fontSize: 20 }}>
-          SBS Monitor
-        </Text>
-      </View>
-    ),
-
-  });
+    });
+    console.log('haloo')
+  };
 
 
 
@@ -82,15 +58,31 @@ const HomeScreen = () => {
     <View style={styles.container}>
       <Image style={styles.background} source={background} />
       <Image style={styles.logo} source={myImage} />
+      <TouchableOpacity onPress={() => handleLogout()}>
+        <Image source={require('../assets/logoutnew.png')} style={styles.detailIcon} />
+      </TouchableOpacity>
+
+      <Text style={styles.Welcome}> Welcome  {username} </Text>
+
+      <Image style={styles.User} source={User} />
+
+      <TouchableOpacity style={styles.pickerContainer}  >
+        <Text style={styles.label} > Welcome to the SBS Applicatoin , here you can track your performance during your work period at SBS and keep track of company information.</Text>
+       
+      </TouchableOpacity>
 
 
-      <Text style={styles.Welcome}> Welcome TO Home {username} </Text>
+
+
+
+
+
       <View style={styles.bottomNavigation}>
         <TouchableOpacity style={styles.navigationItem}>
           <Image style={styles.icon} source={Home} />
           <Text style={styles.navigationText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DailySheet' , { userId: userId })} style={styles.navigationItem}>
+        <TouchableOpacity onPress={() => navigation.navigate('DailySheet', { userId: userId })} style={styles.navigationItem}>
           <Image style={styles.icon1} source={Dsheet} />
 
         </TouchableOpacity>
@@ -100,7 +92,7 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={() => navigation.navigate('MonthlySheet')} style={styles.navigationItem} >
           <Image style={styles.icon1} source={Msheet} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Screen3')} style={styles.navigationItem} >
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.navigationItem} >
           <Image style={styles.icon1} source={Profile} />
         </TouchableOpacity>
       </View>
@@ -113,6 +105,48 @@ const HomeScreen = () => {
 
 
 const styles = StyleSheet.create({
+  label1: {
+    color: '#234b9a'
+},
+label: {
+    fontSize: 18,
+    fontFamily: 'sans-serif-condensed',
+    marginBottom: 5,
+    color: 'black'
+},
+  pickerContainer: {
+    position:'absolute',
+    top:'60%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: 300,
+   
+    borderRadius: 10,
+    padding: 10,
+    margin: 5,
+    color: 'black',
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    margin: 10,
+    elevation: 3,
+  },
+  detailIcon: {
+    position: 'absolute',
+    resizeMode: "contain",
+    top: -140,
+    left: 100,
+    zIndex: 1,
+    height: 50,
+    width: 60,
+
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -138,6 +172,10 @@ const styles = StyleSheet.create({
     top: 10,
     right: 20,
     zIndex: 1,
+  },
+  User: {
+    position: 'absolute',
+    top: 180,
   },
 
   bottomNavigation: {

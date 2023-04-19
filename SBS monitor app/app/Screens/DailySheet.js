@@ -1,5 +1,15 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Button, ScrollView } from 'react-native';
+import {
+
+    View,
+    Image,
+    Text,
+    ScrollView,
+    TouchableOpacity,
+    KeyboardAvoidingView,
+    Platform,
+} from 'react-native';
+
 import { StyleSheet } from 'react-native';
 import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,7 +21,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useNavigation } from '@react-navigation/native';
-
+import { baseURL } from '../../Config';
 
 
 const OneDailySheet = ({ route }) => {
@@ -20,15 +30,12 @@ const OneDailySheet = ({ route }) => {
 
 
     const Home = require('../assets/Home!active.png');
-    const Dsheet = require('../assets/ADsheetactive.png');
+    const Dsheet = require('../assets/ADsheet!active.png');
     const OffDay = require('../assets/offdayactive.png');
-    const Msheet = require('../assets/Dsheet!acive.png');
+    const Msheet = require('../assets/Dsheetactive.png');
     const Profile = require('../assets/Profile!active.png');
     const background = require('../assets/BACKGROUD.png');
     const Add = require('../assets/Adddaily.png');
-
-
-
 
 
 
@@ -38,30 +45,19 @@ const OneDailySheet = ({ route }) => {
 
     const { id } = route.params;
     const { DateCart } = route.params
-    const myDate = new Date(DateCart);
-    const formattedDate = myDate.toLocaleDateString('en-CA', { weekday: 'long' });
-    console.log(id)
-    console.log(formattedDate)
 
-    navigation.setOptions({
-        headerStyle: {
-            backgroundColor: '#234b9a'
 
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerTitleAlign: 'center',
-        headerTitle: () => (
-            <View>
-                <Text style={{ color: '#fff', fontSize: 20 }}>
-                  {formattedDate}
-                </Text>
-            </View>
-        ),
 
-    });
+
+    const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+    const onKeyboardShow = () => {
+        setKeyboardVisible(true);
+    };
+
+    const onKeyboardHide = () => {
+        setKeyboardVisible(false);
+    };
 
 
 
@@ -80,7 +76,7 @@ const OneDailySheet = ({ route }) => {
 
     const fetchDaily = async (id) => {
         try {
-            const response = await axios.get(`http://192.168.1.16:3000/dailysheet/Daily/${id}`);
+            const response = await axios.get(`${baseURL}/dailysheet/Daily/${id}`);
             const data = response.data;
             setDaily(data);
             console.log(Daily)
@@ -94,16 +90,20 @@ const OneDailySheet = ({ route }) => {
 
 
     return (
-
-        <View style={styles.container} >
-
-
-
-
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.container}
+        >
 
 
-            <Image style={styles.background} source={background} />
-            <Image style={styles.logo} source={Add} />
+
+            <View style={styles.headerContainer}>
+                <Image style={styles.background} source={background} />
+                <Image style={styles.logo} source={Add} />
+            </View>
+
+
+
 
             <View style={styles.container1}>
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -116,28 +116,31 @@ const OneDailySheet = ({ route }) => {
 
 
 
-            <View style={styles.bottomNavigation}>
-                <TouchableOpacity style={styles.navigationItem} onPress={() => navigation.navigate('Home')}>
-                    <Image style={styles.icon1} source={Home} />
 
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.navigationItem}>
-                    <Image style={styles.icon} source={Dsheet} />
-                    <Text style={styles.navigationText}>Dsheet</Text>
+            {!keyboardVisible && (
+                <View style={styles.bottomNavigation}>
+                    <TouchableOpacity style={styles.navigationItem} onPress={() => navigation.navigate('Home')}>
+                        <Image style={styles.icon1} source={Home} />
 
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('OffDay', { userId: userId })} style={styles.navigationItem} >
-                    <Image style={styles.icon1} source={OffDay} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('MonthlySheet')} style={styles.navigationItem} >
-                    <Image style={styles.icon1} source={Msheet} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Screen3')} style={styles.navigationItem} >
-                    <Image style={styles.icon1} source={Profile} />
-                </TouchableOpacity>
-            </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.navigationItem}>
+                        <Image style={styles.icon1} source={Dsheet} />
 
-        </View>
+
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('OffDay', { userId: userId })} style={styles.navigationItem} >
+                        <Image style={styles.icon1} source={OffDay} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('MonthlySheet')} style={styles.navigationItem} >
+                        <Image style={styles.icon} source={Msheet} />
+                        <Text style={styles.navigationText}>Msheet</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.navigationItem} >
+                        <Image style={styles.icon1} source={Profile} />
+                    </TouchableOpacity>
+                </View>
+            )}
+        </KeyboardAvoidingView>
 
     );
 }
@@ -148,7 +151,7 @@ const styles = StyleSheet.create({
         height: '65%',
         width: '100%',
         position: 'absolute',
-        top:'25%'
+        top: '25%'
     },
     scrollContainer: {
         flexGrow: 1,
@@ -194,15 +197,7 @@ const styles = StyleSheet.create({
         color: 'white',
 
     },
-    logo: {
 
-        height: '10%',
-        resizeMode: "contain",
-
-        marginLeft: -133,
-        marginRight: 'auto'
-
-    },
     inputpicker: {
         width: 170,
         height: 60,
@@ -221,10 +216,8 @@ const styles = StyleSheet.create({
 
     logo: {
         position: 'absolute',
-        height: 170,
+        height: '130%',
         resizeMode: "contain",
-        position: 'absolute',
-        top: 20,
         right: '40%',
         zIndex: 1,
     },
@@ -364,11 +357,17 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     background: {
-        width: '100%',
+
         borderRadius: 30,
-        marginTop: '-158%'
+        width: '100%'
     },
 
+    headerContainer: {
+
+        marginTop: "-159%",
+        width: '100%'
+
+    },
 
 })
 

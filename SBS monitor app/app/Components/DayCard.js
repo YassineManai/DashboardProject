@@ -4,19 +4,21 @@ import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 const DayCard = ({ Dsheet }) => {
     const navigation = useNavigation();
-
+    const myDate = new Date( Dsheet.date);
+    const formattedDate = myDate.toLocaleDateString('en-CA', { weekday: 'long' });
+   
     const handleDailySheetClick = () => {
-      navigation.navigate('Daily', { id: Dsheet._id, DateCart: Dsheet.date });
+      navigation.navigate('Daily', { id: Dsheet._id, DateCart: formattedDate });
     };
 
   return (
     <View style={styles.cardContainer}>
       <View style={styles.imageContainer}>
-      {Dsheet.TypeJ =="travail" ? (
+      {Dsheet.TypeJ =="Working" ? (
               <Image source={require('../assets/icon2.png')} style={styles.image} />
-            ) : Dsheet.TypeJ =="Congé" ?(
+            ) : Dsheet.TypeJ =="DayOff" ?(
               <Image source={require('../assets/icon1.png')} style={styles.image} />
-            ) : Dsheet.TypeJ =="Ferié" ? (
+            ) : Dsheet.TypeJ =="Holiday" ? (
               <Image source={require('../assets/icon3.png')} style={styles.image} />
             ) : null }
       </View>

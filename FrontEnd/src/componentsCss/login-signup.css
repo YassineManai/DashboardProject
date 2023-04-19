@@ -150,7 +150,7 @@ label span {
   height: 49px;
   font-size: 16px;
   position: absolute;
-  top: 83%;
+  top: 85%;
   left: 8%;
   transition: 0.3s;
   cursor: pointer;
@@ -181,7 +181,7 @@ label span {
 
 .dnthave {
   position: absolute;
-  top: 92%;
+  top: 94%;
   left: 24%;
 }
 
@@ -229,7 +229,8 @@ label span {
   color: red;
 }
 
-.success {
+.error3 {
+
   font-size: 15px;
 
 
@@ -241,11 +242,41 @@ label span {
   border-radius: 5px;
   margin: 10px auto 10px;
   position: absolute;
-  top: 34%;
+  top: 23%;
   left: 7.2%;
   color: green;
 }
 
+.error4 {
+
+  font-size: 15px;
+
+
+  text-align: center;
+  width: 337px;
+  height: 20px;
+  padding: 2px;
+  border: 0;
+  border-radius: 5px;
+  margin: 10px auto 10px;
+ 
+  color: green;
+}
+.error5 {
+
+  font-size: 15px;
+
+
+  text-align: center;
+  width: 337px;
+  height: 20px;
+  padding: 2px;
+  border: 0;
+  border-radius: 5px;
+  margin: 10px auto 10px;
+ 
+  color: red;
+}
 .error1 {
 
   font-size: 15px;
@@ -263,6 +294,24 @@ label span {
   left: 7.2%;
   color: red;
 }
+.error6 {
+
+  font-size: 15px;
+
+
+  text-align: center;
+  width: 337px;
+  height: 20px;
+  padding: 2px;
+  border: 0;
+  border-radius: 5px;
+  margin: 10px auto 10px;
+  position: absolute;
+  top: 34%;
+  left: 7.2%;
+  color: green;
+}
+
 
 .animated {
   animation-duration: 1s;
@@ -781,4 +830,12 @@ label span {
 
   
  
+}
+.icon {
+  position: absolute;
+  /* height: 50px; */
+  /* width: 50px; */
+  right: 60px;
+
+  margin-top: 15px;
 }

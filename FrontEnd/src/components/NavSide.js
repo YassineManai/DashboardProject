@@ -4,7 +4,18 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import '../App.css';
 import { useNavigate } from "react-router-dom";
-
+import jwtDecode from 'jwt-decode';
+function getUserName(token) {
+    try {
+      const decodedToken = jwtDecode(token);
+  console.log(decodedToken)
+      return { firstName: decodedToken.FirstName, lastName: decodedToken.LastName };
+  
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  }
 const NavSide = ({ children }) => {
     const sidebar = useRef(null);
     const menubar = useRef(null)
@@ -18,6 +29,12 @@ const NavSide = ({ children }) => {
 
     }
 
+    const userToken = localStorage.getItem('token');
+    const Username = getUserName(userToken)
+
+
+    console.log ( Username .firstName)
+    console.log ( Username .lastName)
     function handleMenuClick() {
 
         sidebar.current.classList.toggle('hide')
@@ -80,8 +97,8 @@ const NavSide = ({ children }) => {
                             <a id="4" onClick={handleMenuItemClick}>
 
                                 <Link to="/Dash/Task">
-                                    <i className='bx bxs-doughnut-chart' ></i>
-                                    <span className="text" >Task  </span>
+                                    <i className='bx bx-task'></i>
+                                    <span className="text" >SBS Time Tracking  </span>
                                 </Link>
                             </a>
                         </li>
@@ -91,7 +108,7 @@ const NavSide = ({ children }) => {
                                 <Link to='/Dash/PArchived'>
 
                                     <i className='bx bxs-shopping-bag-alt' ></i>
-                                    <span className="text" >ArchivedProjects</span>
+                                    <span className="text" >Archived Projects</span>
                                 </Link>
 
                             </a>
@@ -105,13 +122,13 @@ const NavSide = ({ children }) => {
                             </a>
                         </li>
                         <li>
-                       
-                                <a href="" className="logout">
-                                    <i className='bx bxs-log-out-circle' ></i>
 
-                                    <span className="text" onClick={logout}>Logout</span>
-                                </a>
-                          
+                            <a href="" className="logout">
+                                <i className='bx bxs-log-out-circle' ></i>
+
+                                <span className="text" onClick={logout}>Logout</span>
+                            </a>
+
 
 
                         </li>
@@ -127,11 +144,15 @@ const NavSide = ({ children }) => {
                         <div className='navprofile'>
                             <input type="checkbox" id="switch-mode" onChange={handleModeChange} hidden />
                             <label htmlFor="switch-mode" className="switch-mode"></label>
-
-
                             <a href="#" className="profile">
-                                <img src={require('../assets/User.png')} />
+                                <img src={require('../assets/admin.png')} />
                             </a>
+                            <div className='UserName'>
+                                {Username.firstName} {Username.lastName}
+                            </div>
+
+
+                          
                         </div>
 
                     </nav>

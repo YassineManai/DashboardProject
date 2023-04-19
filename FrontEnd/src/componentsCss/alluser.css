@@ -19,6 +19,7 @@ h2{
 .table-wrapper{
     margin: 2px 2px 2px;
     box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+    position: relative;
 }
 
 .fl-table {

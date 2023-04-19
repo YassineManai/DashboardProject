@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Button, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, Button, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,7 +8,7 @@ import axios from 'axios';
 
 import { Picker } from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import { baseURL } from '../../Config';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useNavigation } from '@react-navigation/native';
 
@@ -37,7 +37,7 @@ const Day = ({ Daysheet }) => {
 
     const [success, setSuccess] = useState(false);
 
- 
+    const brackets = require('../assets/brackets.png');
 
 
     const handleProjectChange = (itemValue, itemIndex) => {
@@ -74,7 +74,7 @@ const Day = ({ Daysheet }) => {
 
 
     const handleStimeConfirm = (selectedTime) => {
-      
+
         setStartTime(selectedTime.toLocaleTimeString());
         hideStimePicker();
     };
@@ -98,7 +98,7 @@ const Day = ({ Daysheet }) => {
 
     const [Projects, setProjects] = useState([]);
     useEffect(() => {
-        axios.get('http://192.168.1.16:3000/project/allprojects')
+        axios.get(`${baseURL}/project/allprojects`)
             .then((res) => {
                 const filteredProjects = res.data.filter(project => project.Status === false);
                 setProjects(filteredProjects);
@@ -110,10 +110,10 @@ const Day = ({ Daysheet }) => {
 
     const handleSave = () => {
         const updatedDaySheet = {
-            UserId:Daysheet.UserId,
-            date:Daysheet.date,
-            Monthlysheetid:Daysheet.Monthlysheetid,
-            TypeJ:typeJ,
+            UserId: Daysheet.UserId,
+            date: Daysheet.date,
+            Monthlysheetid: Daysheet.Monthlysheetid,
+            TypeJ: typeJ,
             Location: location,
             ProjectName: selectedProject,
             Timed: startTime,
@@ -122,7 +122,7 @@ const Day = ({ Daysheet }) => {
             Task: task
         };
 
-        axios.put(`http://192.168.1.16:3000/dailysheet/updateDay/${Daysheet._id}`, updatedDaySheet)
+        axios.put(`${baseURL}/dailysheet/updateDay/${Daysheet._id}`, updatedDaySheet)
             .then(res => {
                 console.log(res);
                 setDaysheet(updatedDaySheet);
@@ -136,14 +136,15 @@ const Day = ({ Daysheet }) => {
         setSuccess(true);
     };
 
-
+console.log(typeJ)
 
     return (
+
         <View >
 
             {isEditing ? (
-                <>
-                    <Text style={styles.title1} >  Type Day </Text>
+                <ScrollView>
+                    <Text style={styles.title1} > Update Day Type </Text>
                     <Picker
                         style={styles.picker}
                         itemStyle={styles.pickerItem}
@@ -153,8 +154,9 @@ const Day = ({ Daysheet }) => {
                         dropdownIconName={dropdownIcon}
                     >
                         <Picker.Item label='Choose' value='' disabled />
-                        <Picker.Item label='Travail' value='travail' />
-                        <Picker.Item label='Congé' value='Congé' />
+                        <Picker.Item label='Working' value='Working' />
+                        <Picker.Item label='DayOff' value='DayOff' />
+                        <Picker.Item label='Holiday' value='Holiday' />
                     </Picker>
 
                     <TouchableOpacity onPress={showStimePicker} style={styles.pickerContainer} >
@@ -259,37 +261,44 @@ const Day = ({ Daysheet }) => {
                     </TouchableOpacity>
 
 
-                </>
+                </ScrollView>
             )
                 : success ? (
                     <>
                         <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
-                            <Text style={styles.label} > TypeJ</Text>
+                            <Image style={styles.logo} source={brackets} />
+                            <Text style={styles.label} > Day Type </Text>
                             <Text style={styles.label1}>{daysheet.TypeJ}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                            <Image style={styles.logo} source={brackets} />
                             <Text style={styles.label} > Project</Text>
                             <Text style={styles.label1}>{daysheet.ProjectName}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                            <Image style={styles.logo} source={brackets} />
                             <Text style={styles.label} > Task</Text>
                             <Text style={styles.label1}>{daysheet.Task}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                            <Image style={styles.logo} source={brackets} />
                             <Text style={styles.label} > startTime</Text>
                             <Text style={styles.label1}>{daysheet.Timed}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                            <Image style={styles.logo} source={brackets} />
                             <Text style={styles.label} > startFinish</Text>
                             <Text style={styles.label1}>{daysheet.TimeF}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                            <Image style={styles.logo} source={brackets} />
                             <Text style={styles.label} > VehiclePrice</Text>
                             <Text style={styles.label1}>{daysheet.VehiclePrice}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                            <Image style={styles.logo} source={brackets} />
                             <Text style={styles.label} > Location</Text>
                             <Text style={styles.label1}>{daysheet.Location}</Text>
                         </TouchableOpacity>
@@ -298,32 +307,39 @@ const Day = ({ Daysheet }) => {
                     : (
                         <>
                             <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
-                                <Text style={styles.label} > TypeJ</Text>
+                                <Image style={styles.logo} source={brackets} />
+                                <Text style={styles.label} > Day Type</Text>
                                 <Text style={styles.label1}>{Daysheet.TypeJ}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                                <Image style={styles.logo} source={brackets} />
                                 <Text style={styles.label} > Project</Text>
                                 <Text style={styles.label1}>{Daysheet.ProjectName}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                                <Image style={styles.logo} source={brackets} />
                                 <Text style={styles.label} > Task</Text>
                                 <Text style={styles.label1}>{Daysheet.Task}</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                                <Image style={styles.logo} source={brackets} />
                                 <Text style={styles.label} > startTime</Text>
                                 <Text style={styles.label1}>{Daysheet.Timed}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                                <Image style={styles.logo} source={brackets} />
                                 <Text style={styles.label} > startFinish</Text>
                                 <Text style={styles.label1}>{Daysheet.TimeF}</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                                <Image style={styles.logo} source={brackets} />
                                 <Text style={styles.label} > VehiclePrice</Text>
                                 <Text style={styles.label1}>{Daysheet.VehiclePrice}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.pickerContainer} onPress={() => setIsEditing(true)} >
+                                <Image style={styles.logo} source={brackets} />
                                 <Text style={styles.label} > Location</Text>
                                 <Text style={styles.label1}>{Daysheet.Location}</Text>
                             </TouchableOpacity>
@@ -331,6 +347,7 @@ const Day = ({ Daysheet }) => {
                     )}
 
         </View>
+
     );
 }
 
@@ -357,13 +374,15 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     label1: {
-        color: '#234b9a'
+        color: '#234b9a',
+
     },
     label: {
         fontSize: 18,
         fontFamily: 'sans-serif-condensed',
         marginBottom: 5,
-        color: 'black'
+        color: 'black',
+        marginLeft: 45
     },
     inputpicker: {
         width: 170,
@@ -489,6 +508,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: '#234b9a'
     },
+    logo: {
+        width: 30,
+        resizeMode: "contain",
+        position: 'absolute',
+        left: 10
+    }
 
 })
 

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import axios from "axios"
 import { useState } from "react"
+import { useEffect } from "react";
 
 
 const SignUp = () => {
@@ -11,6 +12,48 @@ const SignUp = () => {
   const [Password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+
+
+  const toggleShowPassword = () => {
+    setShowPassword(prevShowPassword => !prevShowPassword);
+  }
+
+
+
+
+
+
+
+
+  const [success, setSuccess] = useState("");
+
+
+
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError('');
+      }, 5000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+    if (success) {
+      const timeout = setTimeout(() => {
+        setSuccess('');
+      }, 5000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+
+
+  }, [error, success]);
+
 
   const handleSubmit = e => {
     // Prevent the default submit and page reload
@@ -28,7 +71,6 @@ const SignUp = () => {
 
 
 
-
     // Handle validations
 
     // Make API request
@@ -41,7 +83,7 @@ const SignUp = () => {
         Password,
       })
       .then((response) => {
-        setError("Signup successful! Please log in");
+        setSuccess("Signup successful! Please log in");
         window.location.href = '/'
         console.log(response);
         // Handle successful signup
@@ -77,12 +119,16 @@ const SignUp = () => {
 
       <div className="animated bounceInDown">
         <div className="container1">
+          {success && <span className="error3 animated tada">{success}</span>}
           {error && <span className="error animated tada">{error}</span>}
 
           <form name="form1" className="box" id="login" method="post" onSubmit={handleSubmit} >
             <h4>Smart <span>Business Solution</span></h4>
             <img width="30%" src="sbs.png"></img>
             <h5>SignUp to your account.</h5>
+            <span className="icon">
+              <i className="fa fa-user"></i>
+            </span>
             <input
               type="text"
               name="firstName"
@@ -91,9 +137,11 @@ const SignUp = () => {
               onChange={(e) => setFirstName(e.target.value)}
               placeholder="First Name"
               autoComplete="off"
+              maxLength={20} // maximum 20 characters
             />
-            <i className="typcn typcn-eye" ></i>
-
+            <span className="icon">
+              <i className="fa fa-user"></i>
+            </span>
             <input
               type="text"
               name="lastName"
@@ -102,8 +150,11 @@ const SignUp = () => {
               onChange={(e) => setLastName(e.target.value)}
               placeholder="Last Name"
               autoComplete="off"
+              maxLength={20} // maximum 20 characters
             />
-            <i className="typcn typcn-eye" ></i>
+            <span className="icon">
+              <i className="fa fa-envelope"></i>
+            </span>
             <input
               type="text"
               name="email"
@@ -112,10 +163,13 @@ const SignUp = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
               autoComplete="off"
+              maxLength={30} // maximum 20 characters
             />
-            <i className="typcn typcn-eye" ></i>
 
 
+            <span className="icon">
+              <i className="fa fa-phone"></i>
+            </span>
 
             <input
               type="text"
@@ -125,30 +179,36 @@ const SignUp = () => {
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Phone Number"
               autoComplete="off"
+              maxLength={8} // maximum 20 characters
             />
-
+            <span className="icon">
+              <i className={showPassword ? " fa fa-eye" : 'fa fa-eye-slash'} onClick={toggleShowPassword}> </i>
+            </span>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name="password"
               id="password"
               value={Password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               autoComplete="off"
+              maxLength={20} // maximum 20 characters
             />
 
-
+            <span className="icon">
+              <i className={showPassword ? " fa fa-eye" : 'fa fa-eye-slash'} onClick={toggleShowPassword}> </i>
+            </span>
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               name="confirmPassword"
               id="confirmPassword"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
               autoComplete="off"
+              maxLength={20} // maximum 20 characters
             />
 
-            <i className="typcn typcn-eye" ></i>
 
 
 

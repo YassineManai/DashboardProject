@@ -568,10 +568,10 @@ body {
 
 #content main .table-data .order table td img {
 	width: 40px;
-	height: 40pxpx;
-	border-radius: 50%;
+	height: 40px;
+
 	object-fit: cover;
-	padding: 3px;
+
 }
 
 #content main .table-data .order table tbody tr:hover {
@@ -734,12 +734,12 @@ body {
 
 .ligne {
 	max-height: 300px;
-	overflow: auto;
+	overflow: overlay;
 }
 
 .ligne1 {
 	max-height: 500px;
-	overflow: auto;
+	overflow: overlay;
 
 }
 
@@ -752,7 +752,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: var(--thumbBG);
+	background-color: #144CCC;
 	box-shadow: 0 -100vh 0 100vh var(--shadow), 0 0 15px 5px black;
 }
 
@@ -1346,12 +1346,12 @@ textarea.form-control {
 	box-sizing: border-box;
 	animation: rotation 1s linear infinite;
 	position: absolute;
-	top:50%;
-	left:50%
-	;
-  }
-  .loader::after {
-	content: '';  
+	top: 50%;
+	left: 50%;
+}
+
+.loader::after {
+	content: '';
 	box-sizing: border-box;
 	position: absolute;
 	left: 0;
@@ -1362,12 +1362,268 @@ textarea.form-control {
 	border-left: 4px solid #5c7fda;
 	border-bottom: 4px solid transparent;
 	animation: rotation 0.5s linear infinite reverse;
-  }
-  @keyframes rotation {
+}
+
+@keyframes rotation {
 	0% {
-	  transform: rotate(0deg);
+		transform: rotate(0deg);
 	}
+
 	100% {
-	  transform: rotate(360deg);
+		transform: rotate(360deg);
 	}
-  } 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: white;
+}
+
+input[type="text"],
+input[type="time"],
+input[type="number"],
+select {
+	width: 50%;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
+
+
+button[type="submit"]:hover {
+	background-color: #0069d9;
+}
+
+.icon1 {
+	position: absolute;
+	/* height: 50px; */
+	/* width: 50px; */
+	right: 40px;
+	margin-top: 45px;
+	color: black;
+}
+
+.icon3 {
+	position: absolute;
+	/* height: 50px; */
+	/* width: 50px; */
+	right: 40px;
+	margin-top: 25px;
+	color: black;
+}
+
+.ligne3 {
+	max-height: 700px;
+	overflow: overlay;
+}
+
+.updatebtn {
+	border: 0;
+	background: #234b9a;
+	color: #dfdeee;
+	border-radius: 100px;
+	width: 340px;
+	height: 49px;
+	font-size: 16px;
+
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+
+.iconupdate {
+	position: absolute;
+	top: 9%;
+	left: 41%;
+}
+
+.iconupdate2 {
+	position: absolute;
+	top: 26%;
+	left: 41%;
+}
+
+.iconupdate3 {
+	position: absolute;
+	top: 43%;
+	left: 41%;
+}
+
+.iconupdate4 {
+	position: absolute;
+	top: 60%;
+	left: 41%;
+}
+
+.iconupdate5 {
+	position: absolute;
+	top: 77%;
+	left: 41%;
+}
+.Picon {
+	position: absolute;
+	top: 6.3%;
+	left: 27%;
+}
+.Picon1 {
+	position: absolute;
+	top: 17.3%;
+	left: 27%;
+}
+.Picon2 {
+	position: absolute;
+	top: 29.7%;
+	left: 27%;
+}
+.Picon3 {
+	position: absolute;
+	top: 43%;
+	left: 27%;
+}
+.Picon4 {
+	position: absolute;
+	top: 55.8%;
+	left: 27%;
+}
+.Picon5 {
+	position: absolute;
+	top: 69%;
+	left: 27%;
+}
+.Picon6 {
+	position: absolute;
+	top: 82%;
+	left: 27%;
+}
+.LogoSBS{
+	width: 100%;
+    color: white;
+    justify-content: end;
+    position: absolute;
+    top: 0;
+    left: 0;
+	
+   
+}
+
+.button-36 {
+    appearance: button;
+    background-color: #1652F0;
+    border: 1px solid #1652F0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Graphik, -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    line-height: 1.15;
+    overflow: visible;
+    /* padding: 12px; */
+    /* position: relative; */
+    text-align: center;
+    text-transform: none;
+    transition: all 80ms ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-right: 10px;
+    height: 40px;
+    width: 60px;
+}
+
+.button-delete {
+    appearance: button;
+    background-color: red;
+    border: 1px solid red;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Graphik, -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    line-height: 1.15;
+    overflow: visible;
+  
+    text-align: center;
+    text-transform: none;
+    transition: all 80ms ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-right: 10px;
+    height: 40px;
+    width: 60px;
+}
+.button-details {
+    appearance: button;
+    background-color: rgb(151, 237, 23);
+    border: 1px solid rgb(148, 229, 26);
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: Graphik, -apple-system, system-ui, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    line-height: 1.15;
+    overflow: visible;
+  
+    text-align: center;
+    text-transform: none;
+    transition: all 80ms ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-right: 10px;
+    height: 40px;
+    width: 60px;
+}
+
+.updatebtnProject {
+	border: 0;
+    background: #234b9a;
+    color: #dfdeee;
+    border-radius: 100px;
+    width: 340px;
+    height: 49px;
+    font-size: 16px;
+    transition: 0.3s;
+    cursor: pointer;
+    position: absolute;
+    right: 15%;
+    top: 45%;
+}
+
+.UserName {
+	font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--dark);
+    margin-top: 5px;
+	margin-left: 5px;
+}

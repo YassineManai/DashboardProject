@@ -5,7 +5,7 @@ const MonthlySheet = require('../models/MonthlySheet')
 const Task = require('../models/Task')
 const mongoose = require('mongoose')
 const moment = require('moment');
-
+const User = require('../models/User')
 
 router.post('/CreateDailySheet/:id', async (req, res) => {
 
@@ -32,10 +32,10 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
       newMonthlySheet._id = mongoose.Types.ObjectId();
 
       const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet ?? {};
-      const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
+      const isWorkingDay = TypeJ !== 'DayOff' && TypeJ !== 'Holiday';
       const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
-      const newNbrJConge = TypeJ === 'Congé' ? (NbrJConge || 0) + 1 : NbrJConge;
-      const newNbrJFeries = TypeJ === 'Férié' ? (NbrJFeries || 0) + 1 : NbrJFeries;
+      const newNbrJConge = TypeJ === 'DayOff' ? (NbrJConge || 0) + 1 : NbrJConge;
+      const newNbrJFeries = TypeJ === 'Holiday' ? (NbrJFeries || 0) + 1 : NbrJFeries;
       const newNbrHours = (NbrHours || 0) + parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
       newMonthlySheet.set({ NbrJTrav: newNbrJTrav, NbrJConge: newNbrJConge, NbrJFeries: newNbrJFeries, NbrHours: newNbrHours });
       await newMonthlySheet.save();
@@ -44,10 +44,10 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
     } else {
       // Update existing monthly sheet entry with new daily sheet data
       const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet ?? {};
-      const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
+      const isWorkingDay = TypeJ !== 'DayOff' && TypeJ !== 'Holiday';
       const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
-      const newNbrJConge = TypeJ === 'Congé' ? (NbrJConge || 0) + 1 : NbrJConge;
-      const newNbrJFeries = TypeJ === 'Férié' ? (NbrJFeries || 0) + 1 : NbrJFeries;
+      const newNbrJConge = TypeJ === 'DayOff' ? (NbrJConge || 0) + 1 : NbrJConge;
+      const newNbrJFeries = TypeJ === 'Holiday' ? (NbrJFeries || 0) + 1 : NbrJFeries;
       const newNbrHours = (NbrHours || 0) + parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
       monthlySheet.set({ NbrJTrav: newNbrJTrav, NbrJConge: newNbrJConge, NbrJFeries: newNbrJFeries, NbrHours: newNbrHours });
       await monthlySheet.save();
@@ -83,6 +83,13 @@ router.post('/CreateDailySheet/:id', async (req, res) => {
       dailySheet.Monthlysheetid = monthlySheet._id; // assign monthly sheet id to daily sheet
     }
     dailySheet.Taskid = task._id
+   
+    const user = await User.findById(idUser);
+    if (user) {
+      user.Lastadd = dailySheet.date;
+      user.MonthlySheetid = monthlySheet._id;
+      await user.save();
+    }
 
     res.status(201).send(dailySheet);
   } catch (error) {
@@ -100,6 +107,7 @@ router.post('/CreateDailySheeto/:id', async (req, res) => {
     const idUser = req.params.id;
     data = req.body;
     data.UserId = idUser
+
     // Create new daily sheet entry from request body
     const dailySheet = new DailySheet(req.body);
 
@@ -119,10 +127,10 @@ router.post('/CreateDailySheeto/:id', async (req, res) => {
       newMonthlySheet._id = mongoose.Types.ObjectId();
 
       const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet ?? {};
-      const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
+      const isWorkingDay = TypeJ !== 'DayOff' && TypeJ !== 'Holiday';
       const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
-      const newNbrJConge = TypeJ === 'Congé' ? (NbrJConge || 0) + 1 : NbrJConge;
-      const newNbrJFeries = TypeJ === 'Férié' ? (NbrJFeries || 0) + 1 : NbrJFeries;
+      const newNbrJConge = TypeJ === 'DayOff' ? (NbrJConge || 0) + 1 : NbrJConge;
+      const newNbrJFeries = TypeJ === 'Holiday' ? (NbrJFeries || 0) + 1 : NbrJFeries;
       const newNbrHours = (NbrHours || 0) + parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
       newMonthlySheet.set({ NbrJTrav: newNbrJTrav, NbrJConge: newNbrJConge, NbrJFeries: newNbrJFeries, NbrHours: newNbrHours });
       await newMonthlySheet.save();
@@ -131,10 +139,10 @@ router.post('/CreateDailySheeto/:id', async (req, res) => {
     } else {
       // Update existing monthly sheet entry with new daily sheet data
       const { NbrJTrav, NbrJConge, NbrJFeries, NbrHours } = monthlySheet ?? {};
-      const isWorkingDay = TypeJ !== 'Congé' && TypeJ !== 'Férié';
+      const isWorkingDay = TypeJ !== 'DayOff' && TypeJ !== 'Holiday';
       const newNbrJTrav = isWorkingDay ? (NbrJTrav || 0) + 1 : NbrJTrav;
-      const newNbrJConge = TypeJ === 'Congé' ? (NbrJConge || 0) + 1 : NbrJConge;
-      const newNbrJFeries = TypeJ === 'Férié' ? (NbrJFeries || 0) + 1 : NbrJFeries;
+      const newNbrJConge = TypeJ === 'DayOff' ? (NbrJConge || 0) + 1 : NbrJConge;
+      const newNbrJFeries = TypeJ === 'Holiday' ? (NbrJFeries || 0) + 1 : NbrJFeries;
       const newNbrHours = (NbrHours || 0) + parseFloat(req.body.TimeF) - parseFloat(req.body.Timed);
       monthlySheet.set({ NbrJTrav: newNbrJTrav, NbrJConge: newNbrJConge, NbrJFeries: newNbrJFeries, NbrHours: newNbrHours });
       await monthlySheet.save();
@@ -145,6 +153,13 @@ router.post('/CreateDailySheeto/:id', async (req, res) => {
     if (monthlySheet) {
       dailySheet.Monthlysheetid = monthlySheet._id; // assign monthly sheet id to daily sheet
     }
+  
+    const user = await User.findById(idUser);
+    if (user) {
+      user.Lastadd = dailySheet.date;
+      user.MonthlySheetid = monthlySheet._id;
+      await user.save();
+    }
 
 
     res.status(201).send(dailySheet);
@@ -154,6 +169,37 @@ router.post('/CreateDailySheeto/:id', async (req, res) => {
   }
 
 })
+
+
+
+router.get('/GetDailySheet/:userId/:datedsheet', async (req, res) => {
+  
+  const userId = req.params.userId;
+  const date = req.params.datedsheet;
+  console.log(date)
+  console.log(userId)
+  try {
+    const dailySheet = await DailySheet.findOne({  userId, date });
+   
+    return res.json(dailySheet);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -226,7 +272,7 @@ router.put("/updateDay/:id", async (req, res) => {
 
 
 
-    if (newTypeJ === "Congé" || newTypeJ === "Férié") {
+    if (newTypeJ === "DayOff" || newTypeJ === "Holiday") {
       existingResource.Task = "";
       existingResource.VehiclePrice = "";
       existingResource.Timed = ""
@@ -246,18 +292,18 @@ router.put("/updateDay/:id", async (req, res) => {
 
     const monthlySheet = await MonthlySheet.findOne({ _id: Monthlysheetid });
     const { NbrJTrav, NbrJConge, NbrJFeries } = monthlySheet ?? {};
-    const isWorkingDay = newTypeJ === 'travail';
-    const isCongeDay = newTypeJ === 'Congé';
-    const isFerieDay = newTypeJ === 'Férié';
+    const isWorkingDay = newTypeJ === 'Working';
+    const isCongeDay = newTypeJ === 'DayOff';
+    const isFerieDay = newTypeJ === 'Holiday';
     let newNbrJTrav = NbrJTrav || 0;
     let newNbrJConge = NbrJConge || 0;
     let newNbrJFeries = NbrJFeries || 0;
 
-    if (originalTypeJ === 'travail') {
+    if (originalTypeJ === 'Working') {
       newNbrJTrav--;
-    } else if (originalTypeJ === 'Congé') {
+    } else if (originalTypeJ === 'DayOff') {
       newNbrJConge--;
-    } else if (originalTypeJ === 'Férié') {
+    } else if (originalTypeJ === 'Holiday') {
       newNbrJFeries--;
     }
 

@@ -32,7 +32,7 @@ const Home = () => {
         try {
             const response = await axios.get('http://127.0.0.1:3000/user/allusers');
             setUsers(response.data);
-           setLoading(false); // set loading to false after receiving response
+            setLoading(false); // set loading to false after receiving response
         } catch (error) {
             console.error(error);
         }
@@ -40,7 +40,7 @@ const Home = () => {
 
 
     useEffect(() => {
-      
+
 
         fetchUsers();
 
@@ -75,91 +75,91 @@ const Home = () => {
 
         <div>
             {
-                loading ? (<span className="loader" >
-                   
-                </span >) : (
-                    <div >
-                        <div class="head-title">
-                            <div class="left">
-                                <h1>Dashboard</h1>
-                                <ul class="breadcrumb">
-                                    <li>
-                                        <a href="#">Dashboard</a>
-                                    </li>
-                                    <li><i class='bx bx-chevron-right' ></i></li>
-                                    <li>
-                                        <a class="active" href="#">Home</a>
-                                    </li>
-                                </ul>
+                loading ? (<span className="loader" > </span >)
+                    : (
+                        <div >
+                            <div class="head-title">
+                                <div class="left">
+                                    <h1>Dashboard</h1>
+                                    <ul class="breadcrumb">
+                                        <li>
+                                            <a href="#">Dashboard</a>
+                                        </li>
+                                        <li><i class='bx bx-chevron-right' ></i></li>
+                                        <li>
+                                            <a class="active" href="#">Home</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             </div>
 
-                        </div>
 
 
+                            <ul className="box-info">
+                                <li>
+                                    <i className='bx bxs-calendar-check' ></i>
+                                    <span className="text">
+                                        <h3>{Projects.length}</h3>
+                                        <p>Projects</p>
+                                    </span>
+                                </li>
+                                <li>
+                                    <i className='bx bxs-group' ></i>
+                                    <span className="text">
+                                        <h3>{Users.length}</h3>
+                                        <p>Users</p>
+                                    </span>
+                                </li>
+                                <li>
+                                    <i className='bx bxs-calendar-check' ></i>
+                                    <span className="text">
+                                        <h3>{BILL.length}</h3>
+                                        <p>Archived Project</p>
+                                    </span>
+                                </li>
 
-                        <ul className="box-info">
-                            <li>
-                                <i className='bx bxs-calendar-check' ></i>
-                                <span className="text">
-                                    <h3>{Projects.length}</h3>
-                                    <p>Projects</p>
-                                </span>
-                            </li>
-                            <li>
-                                <i className='bx bxs-group' ></i>
-                                <span className="text">
-                                    <h3>{Users.length}</h3>
-                                    <p>Users</p>
-                                </span>
-                            </li>
-                            <li>
-                                <i className='bx bxs-calendar-check' ></i>
-                                <span className="text">
-                                    <h3>{BILL.length}</h3>
-                                    <p>Archived Project</p>
-                                </span>
-                            </li>
-
-                        </ul>
+                            </ul>
 
 
-                        <div className="table-data">
-                            <div className="order">
-                                <div className="head">
-                                    <h3>All Users</h3>
-                                    <i className='bx bx-search' ></i>
-                                    <i className='bx bx-filter' ></i>
-                                </div>
-                                <div className="table-wrapper">
-                                    <table className="fl-table">
-                                        <thead >
-                                            <tr>
-                                                <th>FirstName</th>
-                                                <th>LastName</th>
-                                                <th>Email</th>
-                                                <th> Phone</th>
-                                                <th></th>
+                            <div className="table-data">
+                                <div className="order">
+                                    <div className="head">
+                                        <h3>All Users</h3>
+                                        <i className='bx bx-search' ></i>
+                                        <i className='bx bx-filter' ></i>
+                                    </div>
+                                    <div className="table-wrapper">
+                                        <table className="fl-table">
+                                            <thead >
+                                                <tr>
+                                                    <th style={{background:"#144CCC"}} >User Name</th>
+                                                   
+                                                    <th style={{background:"#144CCC"}} >Email</th>
+                                                    <th style={{background:"#144CCC"}} > Date of Latest Entry</th>
+                                                    <th style={{background:"#144CCC"}} >Delete User</th>
 
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                    <div className='ligne'>
-                                        {listUsers}
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div className='ligne'>
+                                            {listUsers}
+
+                                        </div>
+
 
                                     </div>
-
-
                                 </div>
+
+                                <Calendar onChange={onChange} value={value} />
+
+
+
+
                             </div>
 
-                            <Calendar onChange={onChange} value={value} />
-
-
-
-
                         </div>
-
-                    </div>)}
+                    )}
 
         </div>
 

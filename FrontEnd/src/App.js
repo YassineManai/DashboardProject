@@ -10,7 +10,7 @@ import PArchived from './DashPages/PArchived';
 import PMonthlysheet from './DashPages/PMonthlysheet';
 import PDailySheet from './DashPages/PDailySheet';
 import ProjectManagement from './DashPages/ProjectManagement';
-
+import Project_info from './DashPages/PProject_info';
 
 
 function App() {
@@ -27,8 +27,10 @@ function App() {
           <Route path="/Dash/PProjects" element={<PProjects />}></Route>
           <Route path="/Dash/PArchived" element={<PArchived />}></Route>
           <Route path="/Dash/PMsheet/:userId" element={<PMonthlysheet />}></Route>
-          <Route path="/Dash/PDsheet/:MsheetId" element={<PDailySheet />}></Route>
+          <Route path="/Dash/PDsheet/:MsheetId" element={<PDailySheet />}></Route>      
           <Route path="/Dash/Task" element={<ProjectManagement />}></Route>
+          <Route path="/Dash/ProjectInfo/:ProjectId" element={<Project_info />}></Route>  
+
         </Routes>
       </NavSide>
 

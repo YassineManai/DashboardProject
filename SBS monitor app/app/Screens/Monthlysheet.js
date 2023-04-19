@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MonthCard from '../Components/MonthCard';
 import { useCallback } from 'react';
+import { baseURL } from '../../Config';
 const MonthlySheet = () => {
 
     const [userId, setUserId] = useState(null);
@@ -30,8 +31,7 @@ const MonthlySheet = () => {
 
     const navigation = useNavigation();
 
-    const myImage = require('../assets/sbs.png');
-
+   
     const [year, setYear] = useState(new Date().getFullYear());
 
     const years = Array.from({ length: 50 }, (v, i) => new Date().getFullYear() - i);
@@ -57,7 +57,7 @@ const MonthlySheet = () => {
 
     const fetchMonthlySheet = async (id) => {
         try {
-            const response = await axios.get(`http://192.168.1.16:3000/monthlysheet/allMonthlySheet/${id}`);
+            const response = await axios.get(`${baseURL}/monthlysheet/allMonthlySheet/${id}`);
             const data = response.data;
             const filteredData = data.filter((task) => task.Year == year);
             setMonthlySheet(filteredData);
@@ -97,25 +97,6 @@ const MonthlySheet = () => {
     };
 
 
-    navigation.setOptions({
-        headerStyle: {
-            backgroundColor: '#234b9a'
-
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerTitleAlign: 'center',
-        headerTitle: () => (
-            <View>
-                <Text style={{ color: '#fff', fontSize: 20 }}>
-                    List of MonthlySheet
-                </Text>
-            </View>
-        ),
-
-    });
 
     return (
         <View style={styles.container}>
@@ -162,7 +143,7 @@ const MonthlySheet = () => {
                     <Image style={styles.icon} source={Msheet} />
                     <Text style={styles.navigationText}>Msheet</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Screen3')} style={styles.navigationItem} >
+                <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.navigationItem} >
                     <Image style={styles.icon1} source={Profile} />
                 </TouchableOpacity>
             </View>
@@ -200,7 +181,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         position: 'absolute',
-        top: 30,
+        top: 10,
         height: '20%',
         resizeMode: "contain",
 

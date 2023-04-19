@@ -28,17 +28,17 @@ const MonthCard = ({ Msheet }) => {
             <View style={styles.detailItem}>
               <Image source={require('../assets/icon2.png')} style={styles.detailIcon} />
               <Text style={styles.detailText}>{Msheet.NbrJTrav}</Text>
-              <Text style={styles.detailLabel}>NbrTrav</Text>
+              <Text style={styles.detailLabel}>Works</Text>
             </View>
             <View style={styles.detailItem}>
               <Image source={require('../assets/icon1.png')} style={styles.detailIcon} />
               <Text style={styles.detailText}>{Msheet.NbrJConge}</Text>
-              <Text style={styles.detailLabel}>NbrCongé</Text>
+              <Text style={styles.detailLabel}>DayOffs</Text>
             </View>
             <View style={styles.detailItem}>
               <Image source={require('../assets/icon3.png')} style={styles.detailIcon} />
               <Text style={styles.detailText}>{Msheet.NbrJFeries}</Text>
-              <Text style={styles.detailLabel}>NbrFérie</Text>
+              <Text style={styles.detailLabel}>Holidays</Text>
             </View>
           </View>
         </View>

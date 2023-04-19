@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import axios from 'axios';
 
-
+import { baseURL } from '../../Config';
 import jwtDecode from 'jwt-decode';
 import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -53,7 +53,7 @@ const DailyList = ({ route }) => {
 
     const fetchDailySheet = async () => {
         try {
-            const response = await axios.get(`http://192.168.1.16:3000/dailySheet/allDailySheet/${id}`);
+            const response = await axios.get(`${baseURL}/dailySheet/allDailySheet/${id}`);
             setDailySheet(response.data);
         } catch (error) {
             console.error(error);
@@ -61,25 +61,7 @@ const DailyList = ({ route }) => {
     };
 
 
-    navigation.setOptions({
-        headerStyle: {
-            backgroundColor: '#234b9a'
-
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerTitleAlign: 'center',
-        headerTitle: () => (
-            <View>
-                <Text style={{ color: '#fff', fontSize: 20 }}>
-                    DailyList OF {month} {year}
-                </Text>
-            </View>
-        ),
-
-    });
+   
     const listDsheet = DailySheet.map((Dsheet) => (
         <DayCard key={Dsheet._id} Dsheet={Dsheet} />
     ));
@@ -103,7 +85,7 @@ const DailyList = ({ route }) => {
             </View>
 
             <View style={styles.bottomNavigation}>
-                <TouchableOpacity style={styles.navigationItem}>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.navigationItem}>
                     <Image style={styles.icon1} source={Home} />
 
                 </TouchableOpacity>
@@ -118,7 +100,7 @@ const DailyList = ({ route }) => {
                     <Image style={styles.icon} source={Msheet} />
                     <Text style={styles.navigationText}>Msheet</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('Screen3')} style={styles.navigationItem} >
+                <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.navigationItem} >
                     <Image style={styles.icon1} source={Profile} />
                 </TouchableOpacity>
             </View>
@@ -158,7 +140,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         position: 'absolute',
-        top: 30,
+        top: 10,
         height: '20%',
         resizeMode: "contain",
 

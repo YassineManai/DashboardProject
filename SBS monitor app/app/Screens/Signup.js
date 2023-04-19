@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import validator from 'email-validator';
+import { baseURL } from '../../Config';
 export default function SignUpScreen() {
     const navigation = useNavigation();
     const [firstName, setFirstName] = useState('');
@@ -13,55 +15,46 @@ export default function SignUpScreen() {
     const [error, setError] = useState('');
     const myImage = require('../assets/sbs.png');
 
-    const handleSubmit = () => {
+
+
+
+    const handleSubmit = async () => {
         // Form validation
         if (!firstName || !lastName || !email || !phone || !password || !confirmPassword) {
-          setError('Please fill out all fields');
-          return;
+            setError('Please fill out all fields');
+            return;
         }
         if (password !== confirmPassword) {
-          setError('Passwords do not match');
-          return;
+            setError('Passwords do not match');
+            return;
         }
-    
-        // Make API request
-        axios.post('http://192.168.1.16:3000/user/Signup', {
-          FirstName: firstName,
-          LastName: lastName,
-          Email: email,
-          Phone: phone,
-          Password: password,
+       
+        if (!validator.validate(email)) {
+            setError('Please enter a valid email address');
+            return;
+          }
+
+        // Make API request to sign up user
+        axios.post(`${baseURL}/user/Signup`, {
+            FirstName: firstName,
+            LastName: lastName,
+            Email: email,
+            Phone: phone,
+            Password: password,
         })
-          .then((response) => {
-            setError('Signup successful! Please log in');
-            navigation.navigate('Login');
-            console.log(response);
-            // Handle successful signup
-          })
-          .catch((error) => {
-            console.log(error);
-            setError('An error occurred, please try again');
-          });
-      };
+            .then((response) => {
+                setError('Signup successful! Please log in');
+                navigation.navigate('Login');
+                console.log(response);
+                // Handle successful signup
+            })
+            .catch((error) => {
+                console.log(error);
+                setError('An error occurred, please try again');
+            });
+    };
 
-
-      navigation.setOptions({
-        headerStyle: {
-            backgroundColor: '#0d101b',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerTitleAlign: 'center',
-        headerTitle: () => (
-            <View>
-                <Text style={{ color: '#fff', fontSize: 20 }}>
-                    SBS Monitor
-                </Text>
-            </View>
-        ),
-    });
+    console.log(email)
 
     return (
 
@@ -95,9 +88,10 @@ export default function SignUpScreen() {
 
             <TextInput
                 style={styles.input}
-                placeholder="Email"
+                placeholder="your.email@example.com"
                 value={email}
                 onChangeText={setEmail}
+                defaultValue="your.email@example.com"
                 autoCapitalize="none"
                 autoCompleteType="email"
                 keyboardType="email-address"
@@ -128,7 +122,7 @@ export default function SignUpScreen() {
             />
 
             <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Sign Up</Text>
+                <Text style={styles.buttonText}>Creat Account</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.signupText}>
@@ -147,7 +141,7 @@ const styles = {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#0d101b'
+        backgroundColor: 'white'
     },
     title: {
         fontSize: 24,
@@ -157,7 +151,7 @@ const styles = {
 
     },
     titleSpan: {
-        color: 'white',
+        color: 'black',
 
     },
     logo: {
@@ -182,7 +176,16 @@ const styles = {
         padding: 10,
         marginVertical: 10,
         backgroundColor: 'white',
-        color: 'black'
+        color: 'black',
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+    
+        elevation: 3,
     },
     forgotPassword: {
         alignSelf: 'flex-end',

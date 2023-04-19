@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import DailySheetLigneinfo from "../secondary -components/singleDailySheet";
 
 import { useLocation } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 
 function getUserName(token) {
@@ -31,7 +31,7 @@ const DailyUser = () => {
 
     const userToken = localStorage.getItem('token');
 
-
+    const navigate = useNavigate();
     const Username = getUserName(userToken)
 
     const { MsheetId } = useParams();
@@ -41,7 +41,7 @@ const DailyUser = () => {
 
     const queryParams = new URLSearchParams(search);
     const Month = queryParams.get('Month');
-    
+
 
 
 
@@ -79,6 +79,15 @@ const DailyUser = () => {
     }
 
 
+    const Profile = () => {
+
+        navigate('/ProfileUser');
+    }
+    const Home = () => {
+
+        navigate('/User');
+    }
+
 
 
 
@@ -106,10 +115,16 @@ const DailyUser = () => {
                     <li></li>
                     <li></li>
                 </ul>
-                <img src={require('../assets/sbs.png')} width="9%" />
+                <div className="LogoSBS">
+               <img src={require('../assets/sbs.png')} onClick={Home} width="9%" style={{
+                    cursor: "pointer"
+                }} />
+               </div>
                 <div className="Userinfo">
                     <div className="Username">Hello ! {Username}</div>
-                    <img src={require('../assets/User.png')} width="7.5%" height="6%" />
+                    <img src={require('../assets/User.png')} onClick={Profile} width="7.5%" height="6%" style={{
+                        cursor: "pointer"
+                    }} />
 
 
                 </div>
@@ -140,27 +155,28 @@ const DailyUser = () => {
                                 position: "absolute",
                                 top: "15%",
                                 left: "2%",
-                                width:"97%"
-                             
+                                width: "97%"
+
                             }}>
+
                                 <table className="fl-table">
                                     <thead >
                                         <tr>
-                                            <th style={{background:"#234b9a"}}>Date</th>
-                                            <th style={{background:"#234b9a"}}>Type of Day </th>
-                                            <th style={{background:"#234b9a"}}>Project Name</th>
-                                            <th style={{background:"#234b9a"}}>Task</th>
-                                            <th style={{background:"#234b9a"}}>Time Start</th>
-                                            <th style={{background:"#234b9a"}}>Time Finish</th>
-                                            <th style={{background:"#234b9a"}}>Location</th>
-                                            <th style={{background:"#234b9a"}}>VehiclePrice</th>
-
+                                            <th style={{ background: "#234b9a" }}>Date</th>
+                                            <th style={{ background: "#234b9a" }}>Type of Day </th>
+                                            <th style={{ background: "#234b9a" }}>Project Project Name</th>
+                                            <th style={{ background: "#234b9a" }}>Task</th>
+                                            <th style={{ background: "#234b9a" }}>Time Start</th>
+                                            <th style={{ background: "#234b9a" }}>Time Finish</th>
+                                            <th style={{ background: "#234b9a" }}>Location</th>
+                                            <th style={{ background: "#234b9a" }}>VehiclePrice</th>
+                                            <th style={{ background: "#234b9a" }}></th>
 
 
                                         </tr>
                                     </thead>
                                 </table>
-                                <div className='ligne1' style={{maxheight: "700px"}}>
+                                <div className='ligne3' style={{ maxheight: "700px" }}>
                                     {listDsheet}
                                 </div>
 

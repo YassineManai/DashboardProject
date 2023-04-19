@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, Button, ScrollView } from 'react-native';
+import {
+  View, Text, TextInput, TouchableOpacity, Image, Button, ScrollView, KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { StyleSheet } from 'react-native';
 import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,11 +14,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useNavigation } from '@react-navigation/native';
-
+import { baseURL } from '../../Config';
 
 
 const DailySheet = ({ route }) => {
- 
+
   const dropdownIcon = () => (
     <Icon name="keyboard-arrow-down" size={24} color="gray" />
   );
@@ -26,7 +29,7 @@ const DailySheet = ({ route }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isStimePickerVisible, setStimePickerVisibility] = useState(false);
   const [isFtimePickerVisible, setFtimePickerVisibility] = useState(false);
- 
+
 
   const [location, setLocation] = useState('');
   const [selectedProject, setSelectedProject] = useState('');
@@ -36,10 +39,11 @@ const DailySheet = ({ route }) => {
   const [vehiclePrice, setVehiclePrice] = useState('');
   const [task, setTask] = useState('');
   const navigation = useNavigation();
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
-
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const Home = require('../assets/Home!active.png');
   const Dsheet = require('../assets/ADsheetactive.png');
   const OffDay = require('../assets/offdayactive.png');
@@ -56,6 +60,13 @@ const DailySheet = ({ route }) => {
     setPickupPlace(itemValue);
   };
 
+  const onKeyboardShow = () => {
+    setKeyboardVisible(true);
+  };
+
+  const onKeyboardHide = () => {
+    setKeyboardVisible(false);
+  };
   const handleConfirm = (selectedDate) => {
     const currentDate = selectedDate || date;
     setDate(currentDate);
@@ -91,6 +102,10 @@ const DailySheet = ({ route }) => {
 
 
 
+  console.log(errorMessage)
+
+
+
   const handleStimeConfirm = (selectedTime) => {
     const currentTime = selectedTime || startTime;
     setStartTime(currentTime);
@@ -119,7 +134,7 @@ const DailySheet = ({ route }) => {
 
   const [Projects, setProjects] = useState([]);
   useEffect(() => {
-    axios.get('http://192.168.1.16:3000/project/allprojects')
+    axios.get(`${baseURL}/project/allprojects`)
       .then((res) => {
         const filteredProjects = res.data.filter(project => project.Status === false);
         setProjects(filteredProjects);
@@ -128,19 +143,40 @@ const DailySheet = ({ route }) => {
       .catch(error => console.error(error));
   }, []);
 
+console.log(date.toLocaleDateString('en-CA'))
+  const handleSubmit = async () => {
+
+    if (!date || !selectedProject || !task || !startTime || !finishTime || !location) {
+      setErrorMessage('Please fill out all fields');
+    
+      setError(true);
+      return;
+    }
+
+    const existingDailySheet = await axios.get(`${baseURL}/dailysheet/GetDailySheet/${userId}/${date.toLocaleDateString('en-CA')}`, {
+      headers: {
+        Authorization: `Bearer ${await AsyncStorage.getItem('token')}`
+      }
+    });
+
+    if (existingDailySheet.data) {
+      setErrorMessage('A daily sheet  already exists');
+      setError(true);
+      return;
+    }
+  
 
 
-  const handleSubmit = () => {
 
 
     // Make API request
-    axios.post(`http://192.168.1.16:3000/dailysheet/CreateDailySheet/${userId}`, {
+    axios.post(`${baseURL}/dailysheet/CreateDailySheet/${userId}`, {
       date: date.toLocaleDateString('en-CA'),
-      TypeJ: 'travail',
+      TypeJ: 'Working',
       ProjectName: selectedProject,
       Task: task,
-      Timed: startTime.toLocaleTimeString(),
-      TimeF: finishTime.toLocaleTimeString(),
+      Timed: startTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }),
+      TimeF: finishTime.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: false }),
       Location: location,
       VehiclePrice: vehiclePrice,
     }, {
@@ -160,199 +196,207 @@ const DailySheet = ({ route }) => {
           setSuccess(false);
           navigation.navigate('MonthlySheet');
 
-        }, 2000);
+        }, 5000);
 
       })
       .catch((error) => {
         console.log(error);
-        setError('An error occurred, please try again');
+        setErrorMessage('An error occurred, please try again');
       });
   }
 
 
-  navigation.setOptions({
-    headerStyle: {
-   backgroundColor:'#234b9a'
-     
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerTitleAlign: 'center',
-    headerTitle: () => (
-      <View>
-        <Text style={{ color: '#fff', fontSize: 20 }}>
-          ADD DailySheet
-        </Text>
-      </View>
-    ),
 
-  });
+  useEffect(() => {
+    if (error) {
+      const timeoutId = setTimeout(() => {
+        setError(false);
+        setErrorMessage('');
+      }, 5000);
 
+      // Clear the timeout if the component unmounts or the state changes
+      return () => clearTimeout(timeoutId);
+    }
+  }, [error]);
 
   return (
 
-    <View style={styles.container} >
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
 
       {success && (
 
         <View style={styles.successContainer}>
-          <Text style={styles.successText}>Task saved</Text>
+          <Text style={styles.successText}>DailySheet saved</Text>
         </View>
 
 
       )}
-      {success == false && (
+      {error && (
 
-
-        <ScrollView  >
-          {error ? (
-            <Text style={styles.error}>{error}</Text>
-          ) : null}
-          <Image style={styles.background} source={background} />
-          <Image style={styles.logo} source={Add} />
-          <TouchableOpacity onPress={showDatePicker} style={styles.pickerContainer} >
-            <Text style={styles.label} >Pickup Date/Time</Text>
-            <Text style={styles.label1}>{date.toLocaleDateString()}</Text>
-          </TouchableOpacity>
-
-          <DateTimePickerModal
-            isVisible={isDatePickerVisible}
-
-            mode="date"
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
-          />
-
-
-          <TouchableOpacity onPress={showStimePicker} style={styles.pickerContainer} >
-            <Text style={styles.label} >Start Time</Text>
-            <Text style={styles.label1} >{startTime.toLocaleTimeString()}</Text>
-          </TouchableOpacity>
-
-          <DateTimePickerModal
-            isVisible={isStimePickerVisible}
-
-            mode="time"
-            onConfirm={handleStimeConfirm}
-            onCancel={hideStimePicker}
-          />
-
-
-          <TouchableOpacity onPress={showFtimePicker} style={styles.pickerContainer} >
-            <Text style={styles.label} >FinishTime</Text>
-            <Text style={styles.label1}>{finishTime.toLocaleTimeString()}</Text>
-          </TouchableOpacity>
-
-          <DateTimePickerModal
-            isVisible={isFtimePickerVisible}
-
-            mode="time"
-            onConfirm={handleFtimeConfirm}
-            onCancel={hideFtimePicker}
-          />
-
-
-
-
-          <Text style={styles.title}>Select Project</Text>
-          <Picker
-            style={styles.picker}
-            itemStyle={styles.pickerItem}
-            selectedValue={selectedProject}
-            onValueChange={handleProjectChange}
-            dropdownIconColor="#234b9a"
-            dropdownIconName={dropdownIcon}>
-            <Picker.Item label='List Projects' value='' />
-            {/* Projects array is mapped to generate Picker Items */}
-            {Projects.map((project) => (
-              <Picker.Item key={project._id} label={project.ProjectName} value={project.ProjectName} />
-            ))}
-          </Picker>
-
-
-
-
-          <TextInput
-            style={styles.input}
-            value={location}
-            onChangeText={(text) => setLocation(text)}
-            placeholder="Location"
-            autoCompleteType='off'
-            autoCapitalize='none'
-            autoCorrect={false}
-          />
-
-          <Text style={styles.title1} >  Trasport </Text>
-          <Picker
-            style={styles.picker}
-            itemStyle={styles.pickerItem}
-            selectedValue={pickupPlace}
-            onValueChange={handlePickupPlaceChange}
-            dropdownIconColor="#234b9a"
-            dropdownIconName={dropdownIcon}
-          >
-            <Picker.Item label='Select Transport' value='' disabled />
-            <Picker.Item label='Taxi' value='office' />
-            <Picker.Item label='Voiture Privé' value='town_hall' />
-          </Picker>
-
-          {pickupPlace === 'office' && (
-            <TextInput
-              style={styles.input}
-              placeholder="Vehicle Price"
-              autoCompleteType="off"
-              onChangeText={(value) => setVehiclePrice(value)}
-              value={vehiclePrice}
-              name="vehicle_price"
-              id="vehicle_price"
-              keyboardType="numeric"
-            />
-          )}
-          <TextInput
-            style={styles.input}
-            placeholder="Task"
-            autoCompleteType="off"
-            onChangeText={(value) => setTask(value)}
-            value={task}
-            name="Task"
-            id="Task"
-          />
-          <TouchableOpacity style={styles.Button} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Done</Text>
-          </TouchableOpacity>
-
-
-
-        </ScrollView>
-
+        <View style={styles.errorContainer}>
+          <Text style={styles.successText}>{errorMessage}</Text>
+        </View>
 
 
       )}
 
-      <View style={styles.bottomNavigation}>
-        <TouchableOpacity style={styles.navigationItem} onPress={() => navigation.navigate('Home')}>
-          <Image style={styles.icon1} source={Home} />
 
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navigationItem}>
-          <Image style={styles.icon} source={Dsheet} />
-          <Text style={styles.navigationText}>Dsheet</Text>
 
+      <ScrollView  >
+        {error ? (
+          <Text style={styles.error}>{error}</Text>
+        ) : null}
+        <Image style={styles.background} source={background} />
+        <Image style={styles.logo} source={Add} />
+        <TouchableOpacity onPress={showDatePicker} style={styles.pickerContainer} >
+          <Text style={styles.label} >Pickup Date</Text>
+          <Text style={styles.label1}>{date.toLocaleDateString()}</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('OffDay', { userId: userId })} style={styles.navigationItem} >
-          <Image style={styles.icon1} source={OffDay} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('MonthlySheet')} style={styles.navigationItem} >
-          <Image style={styles.icon1} source={Msheet} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Screen3')} style={styles.navigationItem} >
-          <Image style={styles.icon1} source={Profile} />
-        </TouchableOpacity>
-      </View>
 
-    </View>
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+
+          mode="date"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+        />
+
+
+        <TouchableOpacity onPress={showStimePicker} style={styles.pickerContainer} >
+          <Text style={styles.label} >Start Time</Text>
+          <Text style={styles.label1} >{startTime.toLocaleTimeString()}</Text>
+        </TouchableOpacity>
+
+        <DateTimePickerModal
+          isVisible={isStimePickerVisible}
+
+          mode="time"
+          onConfirm={handleStimeConfirm}
+          onCancel={hideStimePicker}
+        />
+
+
+        <TouchableOpacity onPress={showFtimePicker} style={styles.pickerContainer} >
+          <Text style={styles.label} >FinishTime</Text>
+          <Text style={styles.label1}>{finishTime.toLocaleTimeString()}</Text>
+        </TouchableOpacity>
+
+        <DateTimePickerModal
+          isVisible={isFtimePickerVisible}
+
+          mode="time"
+          onConfirm={handleFtimeConfirm}
+          onCancel={hideFtimePicker}
+        />
+
+
+
+
+        <Text style={styles.title}>Select Project</Text>
+        <Picker
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
+          selectedValue={selectedProject}
+          onValueChange={handleProjectChange}
+          dropdownIconColor="#234b9a"
+          dropdownIconName={dropdownIcon}>
+          <Picker.Item label='List Projects' value='' />
+          {/* Projects array is mapped to generate Picker Items */}
+          {Projects.map((project) => (
+            <Picker.Item key={project._id} label={project.ProjectName} value={project.ProjectName} />
+          ))}
+        </Picker>
+
+
+
+
+        <TextInput
+          style={styles.input}
+          value={location}
+          onChangeText={(text) => setLocation(text)}
+          placeholder="Location"
+          autoCompleteType='off'
+          autoCapitalize='none'
+          autoCorrect={false}
+        />
+
+        <Text style={styles.title1} >  Type Vehicle </Text>
+        <Picker
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
+          selectedValue={pickupPlace}
+          onValueChange={handlePickupPlaceChange}
+          dropdownIconColor="#234b9a"
+          dropdownIconName={dropdownIcon}
+        >
+          <Picker.Item label='Select Type Vehicle' value='' disabled />
+          <Picker.Item label='Taxi' value='office' />
+          <Picker.Item label='Voiture Privé' value='town_hall' />
+        </Picker>
+
+        {pickupPlace === 'office' && (
+          <TextInput
+            style={styles.input}
+            placeholder="Vehicle Price"
+            autoCompleteType="off"
+            onChangeText={(value) => setVehiclePrice(value)}
+            value={vehiclePrice}
+            name="vehicle_price"
+            id="vehicle_price"
+            keyboardType="numeric"
+          />
+        )}
+        <TextInput
+          style={styles.input}
+          placeholder="Task"
+          autoCompleteType="off"
+          onChangeText={(value) => setTask(value)}
+          value={task}
+          name="Task"
+          id="Task"
+        />
+        <TouchableOpacity style={styles.Button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Done</Text>
+        </TouchableOpacity>
+
+
+
+      </ScrollView>
+
+
+
+
+
+
+
+      {!keyboardVisible && (
+        <View style={styles.bottomNavigation}>
+          <TouchableOpacity style={styles.navigationItem} onPress={() => navigation.navigate('Home')}>
+            <Image style={styles.icon1} source={Home} />
+
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.navigationItem}>
+            <Image style={styles.icon} source={Dsheet} />
+            <Text style={styles.navigationText}>Dsheet</Text>
+
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('OffDay', { userId: userId })} style={styles.navigationItem} >
+            <Image style={styles.icon1} source={OffDay} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('MonthlySheet')} style={styles.navigationItem} >
+            <Image style={styles.icon1} source={Msheet} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.navigationItem} >
+            <Image style={styles.icon1} source={Profile} />
+          </TouchableOpacity>
+        </View>
+      )}
+    </KeyboardAvoidingView>
+
+
 
   );
 }
@@ -400,15 +444,7 @@ const styles = StyleSheet.create({
     color: 'white',
 
   },
-  logo: {
 
-    height: '10%',
-    resizeMode: "contain",
-
-    marginLeft: -133,
-    marginRight: 'auto'
-
-  },
   inputpicker: {
     width: 170,
     height: 60,
@@ -430,7 +466,7 @@ const styles = StyleSheet.create({
     height: 170,
     resizeMode: "contain",
     position: 'absolute',
-    top: 20,
+    top: 10,
     right: '40%',
     zIndex: 1,
   },
@@ -510,9 +546,26 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 200,
     height: 50,
-    top: '40%',
-    left: '30%',
+    bottom: 52,
+    alignContent: 'center',
+    alignSelf: 'center',
     zIndex: 1,
+    opacity: 0.7,
+
+    alignItems: 'center'
+  },
+  errorContainer: {
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 5,
+    position: 'absolute',
+    width: 200,
+    height: 50,
+    bottom: 52,
+    alignContent: 'center',
+    alignSelf: 'center',
+    zIndex: 1,
+    opacity: 0.7,
 
     alignItems: 'center'
   },
@@ -520,6 +573,7 @@ const styles = StyleSheet.create({
   successText: {
     color: 'white',
     fontWeight: 'bold',
+    alignContent: 'center'
   },
   picker: {
     borderWidth: 1,
@@ -574,7 +628,7 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 30,
     marginBottom: 20,
-    marginTop: -25
+    marginTop: -74
 
 
   },

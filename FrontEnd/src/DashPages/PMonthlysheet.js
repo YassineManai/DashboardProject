@@ -14,7 +14,7 @@ const PMonthlysheet = () => {
     const firstName = queryParams.get('firstName');
     const lastName = queryParams.get('lastName');
 
-
+    const [loading, setLoading] = useState(true);
 
     const today = new Date();
     const currentYear = today.getFullYear();
@@ -69,21 +69,22 @@ const PMonthlysheet = () => {
 
 
     useEffect(() => {
-      
+
         fetchMonthlySheet();
     }, [Year, userId]);
-   
+
     const fetchMonthlySheet = async () => {
         try {
-          const response = await axios.get(`http://127.0.0.1:3000/monthlysheet/allMonthlySheet/${userId}`);
-          const data = response.data;
-          const filteredData = data.filter(task => (task.Year == Year));
-          setMonthlySheet(filteredData);
+            const response = await axios.get(`http://127.0.0.1:3000/monthlysheet/allMonthlySheet/${userId}`);
+            const data = response.data;
+            const filteredData = data.filter(task => (task.Year == Year));
+            setMonthlySheet(filteredData);
+            setLoading(false); // set loading to false after receiving response
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-    
+    };
+
 
 
 
@@ -105,79 +106,83 @@ const PMonthlysheet = () => {
         <div>
 
 
+            {
+                loading ? (<span className="loader" > </span >)
+                    : (
+
+
+                        <><div class="head-title">
+                            <div class="left">
+                                <h1>MonthlySheet</h1>
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <a href="#">Dashboard</a>
+                                    </li>
+                                    <li><i class='bx bx-chevron-right'></i></li>
+
+                                    <Link to="/Dash/PUsers">
+                                        <li>
+                                            <a>Users</a>
+                                        </li>
+
+                                    </Link>
+                                    <li><i class='bx bx-chevron-right'></i></li>
+                                    <li>
+                                        <a class="active" href="#">MonthlySheet</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a>
+                                <span htmlFor="start">Pick a Date</span> <br></br>
+                                <select id="year" className="yearpicker1" value={Year} onChange={handleSelect}>
+                                    {Years.map((year) => (
+                                        <option key={year} value={year}>
+                                            {year}
+                                        </option>
+                                    ))}
+                                </select>
+                            </a>
+                        </div><div className="table-data">
+                                <div className="order">
+                                    <div className="head">
+                                        <h3> Monthly Sheet of User : {firstName} {lastName} </h3>
+                                        <i className='bx bx-search'></i>
+                                        <i className='bx bx-filter'></i>
+                                    </div>
+                                    <div className="table-wrapper">
+                                        <table className="fl-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style={{background:"#144CCC"}}>Month</th>
+                                                    <th style={{background:"#144CCC"}} >Year</th>
+                                                    <th style={{background:"#144CCC"}} >NbrJTrav</th>
+                                                    <th style={{background:"#144CCC"}} >NbrJConge</th>
+                                                    <th style={{background:"#144CCC"}} >NbrJFeries</th>
+                                                    <th style={{background:"#144CCC"}} >NbrHours</th>
+                                                    <th style={{background:"#144CCC"}} >Statue</th>
+                                                    <th style={{background:"#144CCC"}} >Details</th>
+
+
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <div className='ligne1'>
+                                            {listMsheet}
+                                        </div>
+
+                                    </div>
 
 
 
-            <div class="head-title">
-                <div class="left">
-                    <h1>MonthlySheet</h1>
-                    <ul class="breadcrumb">
-                        <li>
-                            <a href="#">Dashboard</a>
-                        </li>
-                        <li><i class='bx bx-chevron-right' ></i></li>
-
-                        <Link to="/Dash/PUsers">
-                            <li>
-                                <a>Users</a>
-                            </li>
-
-                        </Link>
-                        <li><i class='bx bx-chevron-right' ></i></li>
-                        <li>
-                            <a class="active" href="#">MonthlySheet</a>
-                        </li>
-                    </ul>
-                </div>
-                <a>
-                    <span htmlFor="start">Pick a Date</span> <br></br>
-                    <select id="year" className="yearpicker1" value={Year} onChange={handleSelect}>
-                        {Years.map((year) => (
-                            <option key={year} value={year}>
-                                {year}
-                            </option>
-                        ))}
-                    </select>
-                </a>
-            </div>
+                                </div>
+                            </div></>
 
 
 
 
-            <div className="table-data">
-                <div className="order">
-                    <div className="head">
-                        <h3> Monthly Sheet of User : {firstName} {lastName} </h3>
-                        <i className='bx bx-search' ></i>
-                        <i className='bx bx-filter' ></i>
-                    </div>
-                    <div className="table-wrapper">
-                        <table className="fl-table">
-                            <thead >
-                                <tr>
-                                    <th>Month</th>
-                                    <th>Year</th>
-                                    <th>NbrJTrav</th>
-                                    <th>NbrJConge</th>
-                                    <th>NbrJFeries</th>
-                                    <th>NbrHours</th>
-                                    <th>Statue</th>
-                                    <th>Details</th>
+                    )
+            }
 
-
-                                </tr>
-                            </thead>
-                        </table>
-                        <div className='ligne1'>
-                            {listMsheet}
-                        </div>
-
-                    </div>
-
-
-
-                </div>
-            </div>
 
 
 

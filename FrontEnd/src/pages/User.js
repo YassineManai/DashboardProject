@@ -18,6 +18,7 @@ function getUserIdFromToken(token) {
     return null;
   }
 }
+
 function getUserName(token) {
   try {
     const decodedToken = jwtDecode(token);
@@ -35,7 +36,7 @@ function getUserName(token) {
 const User = () => {
   //DailySheet Form : 
   const [date, setdate] = useState('')
-
+  console.log(date)
   const [ProjectName, setProjectName] = useState('')
   const [Task, setTask] = useState('')
   const [Timed, setTimed] = useState('')
@@ -43,6 +44,7 @@ const User = () => {
   const [Location, setLocation] = useState("");
   const [VehiclePrice, setVehiclePrice] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [Projects, setProjects] = useState([]);
   const [pickupPlace, setPickupPlace] = useState("");
 
@@ -59,7 +61,7 @@ const User = () => {
   //Extract UserId  from token : 
 
   const userToken = localStorage.getItem('token');
-  
+
   const userId = getUserIdFromToken(userToken);
   const Username = getUserName(userToken)
   const [MonthlySheet, setMonthlySheet] = useState([]);
@@ -75,7 +77,7 @@ const User = () => {
 
 
 
-
+  console.log(date)
   const handleSelect = (event) => {
     setYear(event.target.value);
     console.log(Year)
@@ -91,11 +93,34 @@ const User = () => {
       })
       .catch(error => console.error(error));
 
-   
+
     fetchMonthlySheet();
 
 
   }, [userId, Year]);
+
+  useEffect(() => {
+    if (error) {
+      const timeout = setTimeout(() => {
+        setError('');
+      }, 5000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+    if (success) {
+      const timeout = setTimeout(() => {
+        setSuccess('');
+      }, 5000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+
+
+  }, [error, success]);
 
   const fetchMonthlySheet = async () => {
     try {
@@ -139,13 +164,33 @@ const User = () => {
         setError('An error occurred, please try again');
       });
   }
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!date || !ProjectName || !Task || !Timed || !TimeF || !Location) {
+      setError('Please fill out all fields');
+
+
+      return;
+    }
+
+
+    const existingDailySheet = await axios.get(`http://127.0.0.1:3000/dailysheet/GetDailySheet/${userId}/${date}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}` // Include user token in header
+      }
+    });
+
+    if (existingDailySheet.data) {
+      setError('A daily sheet  already exists');
+      return;
+    }
+
 
     // Make API request
     axios.post(`http://127.0.0.1:3000/dailysheet/CreateDailySheet/${userId}`, {
       date,
-      TypeJ: "travail",
+      TypeJ: "Working",
       ProjectName,
       Task,
       Timed,
@@ -158,7 +203,7 @@ const User = () => {
       }
     })
       .then((response) => {
-        setError('Task saved');
+        setSuccess('Task saved');
         setdate('');
         setProjectName('');
         setTask('');
@@ -174,7 +219,7 @@ const User = () => {
         setError('An error occurred, please try again');
       });
   }
-console.log(ProjectName)
+  console.log(ProjectName)
 
   const listMsheet = MonthlySheet.map((Msheet) => (
     <MonthCard key={Msheet._id} Msheet={Msheet} />
@@ -196,10 +241,17 @@ console.log(ProjectName)
   const navigate = useNavigate();
 
   const logout = () => {
-      localStorage.clear();
-      navigate('/');
+    localStorage.clear();
+    navigate('/');
   }
+  const Profile = () => {
 
+    navigate('/ProfileUser');
+  }
+  const Home = () => {
+    console.log("yo")
+    navigate('/User');
+  }
 
 
   return (
@@ -209,12 +261,13 @@ console.log(ProjectName)
 
         <div className="animated bounceInDown">
           <div className="container3">
-            <img src={require('../assets/close.png')} width="6%" height="6%" className="close" onClick={() => { setshow(!show) }} />
+            <img src={require('../assets/close.png')} width="6%" height="6%" className="close" onClick={() => { setshow(!show); setSuccess(''); setError('') }} />
             <div className="daily">
               <h4 style={{ color: "#234b9a", fontSize: "20px", fontFamily: "'Source Sans Pro', sans-serif" }}>Smart <span style={{ color: "#dfdeee" }}>Business Solution</span></h4>
               <img width="300px" src="sbs.png"></img>
 
             </div>
+            {success && <span className="error3 animated tada">{success}</span>}
             {error && <span className="error animated tada">{error}</span>}
 
             <form name="form1" className=" myForm box" id="login" method="post" onSubmit={handleSubmit}  >
@@ -240,7 +293,9 @@ console.log(ProjectName)
               </fieldset>
 
               <fieldset id="taxi" style={{ height: "80%" }}>
-
+                <span className="icon1">
+                  <i className="fa fa-home"></i>
+                </span>
                 <label for="pickup_time">Location</label>
                 <input
                   type="text"
@@ -259,7 +314,7 @@ console.log(ProjectName)
               <fieldset id="pickup">
                 <label for="pickup_time">Select Project</label>
                 <select name="pickup_place" id="pickup_place" onChange={handleProjectChange} class="datepicker-here form-control" >
-                  <option value="" selected="selected">Select Project </option>
+                  <option value="" selected disabled>Select Project </option>
                   {Projects.map(project => (
                     <option key={project._id} value={project.ProjectName} >{project.ProjectName}</option>
                   ))}
@@ -267,7 +322,7 @@ console.log(ProjectName)
 
                 <label for="pickup_time">Location</label>
                 <select name="pickup_place" id="pickup_place" onChange={handlePickupPlaceChange} class="datepicker-here form-control" >
-                  <option value="" selected disabled>Select Transport</option>
+                  <option value="" selected disabled>Select Vehicle</option>
                   <option value="office">Taxi</option>
                   <option value="town_hall">Voiture Privé</option>
                 </select>
@@ -304,17 +359,20 @@ console.log(ProjectName)
 
               <fieldset id="instructions">
                 {pickupPlace === "office" && (
-                  <input
-                    type="text"
-                    name="vehicle_price"
-                    id="vehicle_price"
-                    value={VehiclePrice}
-                    onChange={(e) => setVehiclePrice(e.target.value)}
-                    placeholder="Vehicle Price"
-                    autoComplete="off"
-                  />
+                  <><span className="icon3">
+                    <i className="fa fa-taxi"></i>
+                  </span><input
+                      type="text"
+                      name="vehicle_price"
+                      id="vehicle_price"
+                      value={VehiclePrice}
+                      onChange={(e) => setVehiclePrice(e.target.value)}
+                      placeholder="Vehicle Price"
+                      autoComplete="off" /></>
                 )}
-
+                <span className="icon3">
+                  <i className="fa fa-tasks"></i>
+                </span>
                 <input
                   type="text"
                   name="Task"
@@ -351,13 +409,15 @@ console.log(ProjectName)
           <div className="animated bounceInDown">
             <div className="container">
               <img src={require('../assets/close.png')} width="10%" height="8%" className="close" onClick={() => { setshow1(!show1) }} />
-              {error && <span className="error animated tada">{error}</span>}
+              {success && <span className="error animated tada">{success}</span>}
+              {error && <span className="error6 animated tada">{error}</span>}
+
               <span className="error animated tada" id="msg"></span>
 
               <form name="form1" className="box" onSubmit={handleSubmitCongé} >
                 <h4>Smart <span>Business Solution</span></h4>
                 <img width="30%" src={require('../assets/sbs.png')}></img>
-                <h5>Add congé </h5>
+                <h5>Add Day Off</h5>
 
 
                 <input
@@ -373,24 +433,24 @@ console.log(ProjectName)
 
                 />
                 <div className="radiob">
-                  <label for="html" style={{ marginLeft: "15px" }}>Congé</label><br></br>
+                  <label for="html" style={{ marginLeft: "15px" }}>DayOff</label><br></br>
                   <input
                     type="radio"
-                    id="Congé"
+                    id="DayOff"
                     name="option"
-                    value="Congé"
-                    checked={TypeJ === "Congé"}
+                    value="DayOff"
+                    checked={TypeJ === "DayOff"}
                     onChange={handleOptionChange}
                   />
                 </div>
                 <div className="radiob">
-                  <label for="html" style={{ marginLeft: "15px" }}>Ferié</label><br></br>
+                  <label for="html" style={{ marginLeft: "15px" }}>Holiday</label><br></br>
                   <input
                     type="radio"
-                    id="Férié"
+                    id="Holiday"
                     name="option"
-                    value="Férié"
-                    checked={TypeJ === "Férié"}
+                    value="Holiday"
+                    checked={TypeJ === "Holiday"}
                     onChange={handleOptionChange}
                   />
                 </div>
@@ -425,10 +485,18 @@ console.log(ProjectName)
           <li></li>
           <li></li>
         </ul>
-        <img src={require('../assets/sbs.png')} width="9%" />
+
+        <img src={require('../assets/sbs.png')} width="9%" style={{
+          cursor: "pointer"
+        }} />
+
+
+
         <div className="Userinfo">
           <div className="Username">Hello ! {Username}</div>
-          <img src={require('../assets/User.png')} width="7.5%" height="6%" />
+          <img src={require('../assets/User.png')} onClick={Profile} width="7.5%" height="6%" style={{
+            cursor: "pointer"
+          }} />
 
 
         </div>
@@ -445,8 +513,8 @@ console.log(ProjectName)
             left: "3%",
             top: "3%",
             height: "60px",
-            cursor:"pointer"
-          
+            cursor: "pointer"
+
           }} />
           <button class="button-30" onClick={() => { setshow(!show) }} role="button">Add Dailysheet</button> <br></br>
           <button class="button-30" onClick={() => { setshow1(!show1) }} role="button">Add Off day</button>

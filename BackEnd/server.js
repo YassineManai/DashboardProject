@@ -9,11 +9,11 @@ require('./config/Connect');
 
 
 const userRoute = require('./routes/user');
-const ProjectRoute = require('./routes/Project')
-const BillRoute = require('./routes/Bill')
-const DailySheet = require('./routes/DailySheet')
-const MonthlySheet = require('./routes/MonthlySheet')
-const Task = require('./routes/Task')
+const ProjectRoute = require('./routes/Project');
+const BillRoute = require('./routes/Bill');
+const DailySheet = require('./routes/DailySheet');
+const MonthlySheet = require('./routes/MonthlySheet');
+const Task = require('./routes/Task');
 
 
 

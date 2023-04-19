@@ -17,7 +17,16 @@ Password:{
 },
 Phone :{
     type : Number
-}
+},
+Lastadd:{
+    type:Date
+},
+MonthlySheetid :{
+    type: String
+
+},
+
+
     
 })
 module.exports = User

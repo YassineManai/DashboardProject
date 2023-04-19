@@ -10,7 +10,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import User from './pages/User';
 import DailyUser from './pages/DailyUser';
 import ProtectedRoute from './util/ProtectedRoute'
-
+import DailySheetinfo from './pages/Dailysheetinfo';
+import ProfileUser from './pages/Profile';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -22,6 +23,8 @@ root.render(
         
         <Route path="/User" element={<ProtectedRoute> <User/> </ProtectedRoute>}></Route>
         <Route path="/DailyUser/:MsheetId" element={<ProtectedRoute><DailyUser/> </ProtectedRoute>}></Route>
+        <Route path="/DailyUserinfo/:DsheetId" element={<ProtectedRoute><DailySheetinfo /></ProtectedRoute>}></Route>
+        <Route path="/ProfileUser" element={<ProtectedRoute><ProfileUser /></ProtectedRoute>}></Route>
         <Route path="*" element={ 
           <ProtectedRoute>  <App /> </ProtectedRoute>
       
@@ -32,7 +35,5 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+
 reportWebVitals();
