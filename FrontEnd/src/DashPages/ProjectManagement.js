@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import * as XLSX from 'https://unpkg.com/xlsx/xlsx.mjs';
 
 
 const ProjectManagement = () => {
@@ -25,10 +26,11 @@ const ProjectManagement = () => {
     }, []);
 
     console.log(startDate)
+    
     useEffect(() => {
 
         // Fetch task data
-        fetchUsers(searchTerm);
+      
 
         const fetchTaskData = async () => {
 
@@ -41,24 +43,28 @@ const ProjectManagement = () => {
             console.log(filteredData)
         };
         fetchTaskData();
-    }, [startDate, searchTerm, userData]);
+        
+    }, [startDate ,userData]);
 
-
-    const fetchUsers = async (searchTerm) => {
-        try {
-            const response = await axios.get('http://127.0.0.1:3000/user/allusers');
-            // Add the Id property to each user object in the array
-            const usersWithId = response.data.map(user => ({ ...user, Id: user._id }));
-            // Filter the users array by first name if a search term is provided
-            const filteredUsers = searchTerm
-                ? usersWithId.filter(user => user.FirstName.toLowerCase().includes(searchTerm.toLowerCase()))
-                : usersWithId;
-            setUserData(filteredUsers);
-            setLoading(false); // set loading to false after receiving response
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    useEffect(() => {
+        const fetchUsers = async (searchTerm) => {
+            try {
+                const response = await axios.get('http://127.0.0.1:3000/user/allusers');
+                // Add the Id property to each user object in the array
+                const usersWithId = response.data.map(user => ({ ...user, Id: user._id }));
+                // Filter the users array by first name if a search term is provided
+                const filteredUsers = searchTerm
+                    ? usersWithId.filter(user => user.FirstName.toLowerCase().includes(searchTerm.toLowerCase()))
+                    : usersWithId;
+                setUserData(filteredUsers);
+                setLoading(false); // set loading to false after receiving response
+            } catch (error) {
+                console.error(error);
+            }
+        };
+    
+        fetchUsers(searchTerm);
+    }, [searchTerm]);
 
     // Extract unique project names from task data
     const projectNames = [...new Set(taskData.map(task => task.ProjectName))];
@@ -90,23 +96,59 @@ const ProjectManagement = () => {
         return <td key={`project-${columnIndex}`}>{totalHours}</td>;
     });
 
-    // Calculate total hours for all users
 
+
+
+
+
+
+
+
+
+    const exportToExcel = () => {
+        const flattenedRows = tableRows.reduce((flattened, row) => {
+            const flatProjects = {};
+            projectNames.forEach((projectName) => {
+                flatProjects[projectName] = row.projects[projectName] || 0;
+            });
+            flattened.push({ userName: row.userName, ...flatProjects, totalHours: row.totalHours });
+            return flattened;
+        }, []);
+
+        const worksheet = XLSX.utils.json_to_sheet(flattenedRows);
+
+        // Add a new row for the total project hours
+        const projectHoursRow = projectNames.map((projectName, columnIndex) => {
+            const totalHours = taskData.reduce(
+                (sum, task) => (task.ProjectName === projectName ? sum + task.TotlHours : sum),
+                0
+            );
+            return totalHours;
+        });
+        projectHoursRow.unshift('Total Project Hours');
+        XLSX.utils.sheet_add_aoa(worksheet, [projectHoursRow], { origin: -1 });
+
+        XLSX.utils.sheet_add_aoa(worksheet, [['', ...projectNames]], { origin: 0 });
+        flattenedRows.forEach((row, rowIndex) => {
+            const userHoursRow = Object.values(row).slice(1);
+            XLSX.utils.sheet_add_aoa(worksheet, [[row.userName, ...userHoursRow]], { origin: rowIndex + 1 });
+        });
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        XLSX.writeFile(workbook, "Productivity_report.xlsx");
+    };
 
 
     return (
         <div>
-
-
-
             {
                 loading ? (<span className="loader" > </span >)
                     : (
                         <>
-
                             <div className="head-title">
                                 <div className="left">
-                                    <h1>Project Management</h1>
+                                    <h1>  SBS Time Tracking</h1>
                                     <ul className="breadcrumb">
                                         <li>
                                             <a href="#">Dashboard</a>
@@ -116,13 +158,13 @@ const ProjectManagement = () => {
                                         </li>
                                         <li>
                                             <a className="active" href="#">
-                                                Project Management
+                                                SBS Time Tracking
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
-                                <a >
 
+                                <a >
                                     <span htmlFor="start">Pick a Date</span> <br></br>
                                     <input
                                         type="month"
@@ -133,11 +175,14 @@ const ProjectManagement = () => {
                                         onChange={(e) => setStartDate(e.target.value)}
                                     />
                                 </a>
+
                             </div>
                             <div className="table-data">
                                 <div className="order">
                                     <div className="head">
                                         <h3> Users Productivity and Total Hours Spent</h3>
+
+
                                         <i >
                                             <form action="" class="search-bar">
                                                 <input
@@ -153,27 +198,20 @@ const ProjectManagement = () => {
                                                 </button>
                                             </form>
                                         </i>
-
                                     </div>
                                     <div className="table-wrapper">
                                         <table className="fl-table">
-
                                             <thead>
-
                                                 <tr>
                                                     <th  >Users / Projects</th>
                                                     {projectNames.map((projectName, index) => (
-                                                        <th  style={{background:"#144CCC"}} key={index}>{projectName}</th>
+                                                        <th style={{ background: "#144CCC" }} key={index}>{projectName}</th>
                                                     ))}
                                                     <th  > Total User Hours</th>
-
-
-
                                                 </tr>
-
                                                 {tableRows.map((row, rowIndex) => (
                                                     <tr key={`user-${rowIndex}`}>
-                                                        <th  style={{background:"#144CCC"}} >{row.userName}</th>
+                                                        <th style={{ background: "#144CCC" }} >{row.userName}</th>
                                                         {projectNames.map((projectName, columnIndex) => (
                                                             <td key={`user-${rowIndex}-project-${columnIndex}`}>
                                                                 {row.projects[projectName] || 0}
@@ -181,7 +219,6 @@ const ProjectManagement = () => {
                                                         ))}
                                                         <td>{row.totalHours}</td>
                                                     </tr>
-
                                                 ))}
                                                 <tr key="total-project-row">
                                                     <th   >Total Project Hours</th>
@@ -197,22 +234,18 @@ const ProjectManagement = () => {
                                                         }, 0)}
                                                     </td>
                                                 </tr>
-
-
-
                                             </thead>
-
-
-
-
                                         </table>
                                     </div>
+                                    <a className='exel' >
+                                        <i class='bx bxs-cloud-download' ></i>
+                                        <span style={{ cursor: 'pointer', marginLeft: '10px' }} onClick={exportToExcel} class="text">Download Results</span>
+
+                                    </a>
                                 </div>
+
                             </div>
-
                         </>
-
-
                     )}
         </div>
     );

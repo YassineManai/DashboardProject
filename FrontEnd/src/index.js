@@ -12,6 +12,7 @@ import DailyUser from './pages/DailyUser';
 import ProtectedRoute from './util/ProtectedRoute'
 import DailySheetinfo from './pages/Dailysheetinfo';
 import ProfileUser from './pages/Profile';
+import Forget_Password from './pages/Forget_Password';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ root.render(
       <Routes>
         <Route exact path="/" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/Reset_Password" element={<Forget_Password />}></Route>
         
         <Route path="/User" element={<ProtectedRoute> <User/> </ProtectedRoute>}></Route>
         <Route path="/DailyUser/:MsheetId" element={<ProtectedRoute><DailyUser/> </ProtectedRoute>}></Route>

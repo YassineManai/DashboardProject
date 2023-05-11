@@ -5,6 +5,7 @@ import { useState } from 'react';
 import '../App.css';
 import { useNavigate } from "react-router-dom";
 import jwtDecode from 'jwt-decode';
+import { useEffect } from 'react';
 function getUserName(token) {
     try {
       const decodedToken = jwtDecode(token);
@@ -31,7 +32,7 @@ const NavSide = ({ children }) => {
 
     const userToken = localStorage.getItem('token');
     const Username = getUserName(userToken)
-
+const path = window.location.pathname;
 
     console.log ( Username .firstName)
     console.log ( Username .lastName)
@@ -51,7 +52,14 @@ const NavSide = ({ children }) => {
         navigate('/');
     }
 
-
+    useEffect(() => {
+    
+        if (path === '/Dash/PArchived') {
+          setActiveMenuItem('5');
+        } else {
+          setActiveMenuItem(null);
+        }
+      }, [path]);
 
     return (
         <div>
@@ -65,7 +73,7 @@ const NavSide = ({ children }) => {
 
 
                         <a id="1" onClick={handleMenuItemClick} >
-                            <li className={activeMenuItem == 1 ? 'active' : ''}>
+                            <li className={ path === '/Dash/Home' ||   activeMenuItem == 1 ? 'active' : ''}>
                                 <Link to="/Dash/Home" >
                                     <i className='bx bxs-dashboard' ></i>
                                     <span className="text" >Home</span>
@@ -74,7 +82,7 @@ const NavSide = ({ children }) => {
                         </a>
 
 
-                        <li className={activeMenuItem == 2 ? 'active' : ''} >
+                        <li className={ path === '/Dash/PUsers' || activeMenuItem == 2 ? 'active' : ''} >
                             <a id="2" onClick={handleMenuItemClick} >
                                 <Link to="/Dash/PUsers">
                                     <i className='bx bxs-group' ></i>
@@ -84,7 +92,7 @@ const NavSide = ({ children }) => {
 
 
                         </li>
-                        <li className={activeMenuItem == 3 ? "active" : ''} >
+                        <li className={ path === '/Dash/PProjects' || activeMenuItem == 3 ? "active" : ''} >
                             <a id="3" onClick={handleMenuItemClick} >
                                 <Link to="/Dash/PProjects">
                                     <i className='bx bxs-doughnut-chart' ></i>
@@ -93,7 +101,7 @@ const NavSide = ({ children }) => {
                             </a>
                         </li>
 
-                        <li className={activeMenuItem == 4 ? "active" : ''} >
+                        <li className={ path === '/Dash/Task' || activeMenuItem == 4 ? "active" : ''} >
                             <a id="4" onClick={handleMenuItemClick}>
 
                                 <Link to="/Dash/Task">
@@ -103,7 +111,8 @@ const NavSide = ({ children }) => {
                             </a>
                         </li>
 
-                        <li className={activeMenuItem == 5 ? 'active' : ''}>
+                        <li className={ path === '/Dash/PArchived' || activeMenuItem == 5 ? 'active' : ''}>
+
                             <a id="5" onClick={handleMenuItemClick} >
                                 <Link to='/Dash/PArchived'>
 

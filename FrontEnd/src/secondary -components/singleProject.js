@@ -4,8 +4,17 @@ import '../componentsCss/alluser.css'
 import { useNavigate } from 'react-router-dom';
 
 const SingleProject = ({ project, onArchieveProject , onDeleteProject }) => {
+   
+   
     const handleAchieveClick = () => {
-        onArchieveProject(project._id);
+
+        const confirmed = window.confirm('You want to Archive this Project ?');
+        if (confirmed) {
+          navigate(`/Dash/PArchived`);
+          onArchieveProject(project._id);
+        }
+       
+      
     }
 
     const navigate = useNavigate();

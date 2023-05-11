@@ -839,3 +839,33 @@ label span {
 
   margin-top: 15px;
 }
+
+.reset_Password_Container {
+  margin: 0;
+  top: 175px;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+  background-color: #0d101b;
+  border-radius: 9px;
+  border-top: 10px solid #234b9a;
+  border-bottom: 10px solid rgb(25 31 53);
+  width: 400px;
+  height: 450px;
+  box-shadow: 1px 1px 108.8px 19.2px rgb(25, 31, 53);
+}
+.btn_reset {
+  border: 0;
+  background: #234b9a;
+  color: #dfdeee;
+  border-radius: 100px;
+  width: 340px;
+  height: 49px ;
+  font-size: 16px;
+  position: absolute;
+  top: 75%;
+  left: 8%;
+  transition: 0.3s;
+  cursor: pointer;
+}

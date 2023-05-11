@@ -517,7 +517,7 @@ const User = () => {
 
           }} />
           <button class="button-30" onClick={() => { setshow(!show) }} role="button">Add Dailysheet</button> <br></br>
-          <button class="button-30" onClick={() => { setshow1(!show1) }} role="button">Add Off day</button>
+          <button class="button-30" onClick={() => { setshow1(!show1) }} role="button">Add Day Off</button>
 
           <div className="Datepicker">
             <label htmlFor="year">Select Year:</label>

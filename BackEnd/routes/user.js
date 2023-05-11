@@ -31,8 +31,7 @@ router.post('/Signup', async (req, res) => {
 router.post('/Login', async (req, res) => {
     data = req.body;
     user = await User.findOne({ Email: data.Email })
-    console.log(user.Password)
-    console.log(data.Password)
+   
     if (!user) {
         res.status(404).send('Email or Password invalid :3')
 

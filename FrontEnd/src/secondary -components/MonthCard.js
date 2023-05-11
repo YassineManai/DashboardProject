@@ -33,17 +33,17 @@ const MonthCard = ({ Msheet }) => {
                         <li className="recipe-details-item time">
                             <i><img src={require('../assets/icon2.png')} alt="Working days" width="35px" /></i>
                             <span className="value">{Msheet.NbrJTrav}</span>
-                            <span className="title">NbrTrav</span>
+                            <span className="title">Working</span>
                         </li>
                         <li className="recipe-details-item ingredients">
                             <i><img src={require('../assets/icon1.png')} alt="Off days" width="35px" /></i>
                             <span className="value">{Msheet.NbrJConge}</span>
-                            <span className="title">NbrCongé</span>
+                            <span className="title">DayOffs</span>
                         </li>
                         <li className="recipe-details-item servings">
                             <i><img src={require('../assets/icon3.png')} alt="Holidays" width="35px" /></i>
                             <span className="value">{Msheet.NbrJFeries}</span>
-                            <span className="title">NbrFérie</span>
+                            <span className="title">Holidays</span>
                         </li>
                     </ul>
                 </div>

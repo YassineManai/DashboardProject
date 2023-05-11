@@ -18,7 +18,7 @@ function getUserIdFromToken(token) {
 const Login = () => {
     const [Email, setEmail] = useState('')
     const [Password, setPassword] = useState('')
-   
+
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -149,9 +149,12 @@ const Login = () => {
                             value={Password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <a href="#" className="forgetpass">
-                            Forget Password?
-                        </a>
+                        <Link to="/Reset_Password">
+                            <a className="forgetpass">
+                                Forget Password?
+                            </a>
+                        </Link>
+
                         <input type="submit" value="Login" className="btn1" />
                     </form>
                     <Link to="/signup" > <a className="dnthave">Don't have an account?  SignUp </a></Link>

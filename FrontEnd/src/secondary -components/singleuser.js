@@ -10,6 +10,7 @@ const Userligne = ({user, onDeleteUser }) => {
     const navigate = useNavigate();
 
 
+
     const handleDeleteClick = () => {
         const confirmed = window.confirm('Are you sure you want to delete this user?');
         if (confirmed) {
@@ -34,7 +35,14 @@ const Userligne = ({user, onDeleteUser }) => {
                   
                     <td>{user.Email}</td>
                   <td onClick={handleDailySheetClick} style={{cursor:'pointer'}}>  {user.Lastadd ? user.Lastadd.substring(0, 10) : "Not Avaiable"}</td>
-                    <td> <img style={{cursor : 'pointer'}} src={require('../assets/deleteUser.png')}  className="trash" onClick={handleDeleteClick}></img> </td>
+                   
+                    <td> 
+                    <div class="tooltip-container">
+                    <img style={{cursor : 'pointer'}} src={require('../assets/deleteUser.png')}  className="trash" onClick={handleDeleteClick}></img> 
+                                <span class="tooltip-text">Delete</span>
+                            </div>
+                        
+                       </td>
                   
 
 

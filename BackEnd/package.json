@@ -13,16 +13,24 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.2",
+    "@mui/styled-engine-sc": "^5.12.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "crypto-browserify": "^3.12.0",
+    "emailjs": "3.8.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
     "mongoose": "^6.9.1",
     "nodemon": "^2.0.20",
     "react-calendar": "^4.0.0",
-    "react-router-dom": "^6.8.2"
+    "react-router-dom": "^6.8.2",
+    "styled-components": "^5.3.10",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "concurrently": "^7.1.0"

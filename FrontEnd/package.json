@@ -27,7 +27,8 @@
     "stream-http": "^3.2.0",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4",
-    "webpack": "^5.76.1"
+    "webpack": "^5.76.1",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

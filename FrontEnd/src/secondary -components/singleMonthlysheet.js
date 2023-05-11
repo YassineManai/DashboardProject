@@ -3,6 +3,8 @@ import axios from "axios";
 import '../componentsCss/alluser.css'
 import { useNavigate } from 'react-router-dom';
 
+
+
 const MonthlySheetLigneinfo = ({ Msheet, onValideMonth, onRefuseMonth }) => {
 
     const navigate = useNavigate();
@@ -18,44 +20,55 @@ const MonthlySheetLigneinfo = ({ Msheet, onValideMonth, onRefuseMonth }) => {
     const handleMonthClickrefuse = () => {
         onRefuseMonth(Msheet._id);
     }
-    
+
 
 
     return (
-    <div className="tableuser">
+        <div className="tableuser">
 
-        <div className="table-wrapper">
-            <table className="fl-table">
+            <div className="table-wrapper">
+                <table className="fl-table">
 
-                <tbody>
+                    <tbody>
 
-                    <td ><img src={require('../assets/canlandar.png')} style={{ position: 'absolute', left: '1%', marginTop: '-12px' }} ></img> {Msheet.Month}</td>
-                    <td >{Msheet.Year}</td>
-                    <td >{Msheet.NbrJTrav}</td>
-                    <td >{Msheet.NbrJConge}</td>
-                    <td >{Msheet.NbrJFeries}</td>
-                    <td>{Msheet.NbrHours}</td>
-                    <td>{Msheet.Status ? <img src={require('../assets/valideS.png')} height={"15px"} className="trash"></img> : <img src={require('../assets/refuseS.png')} height={"15px"} className="trash"></img>}</td>
-                    <td> <img src={require('../assets/Approve.png')} height={"15px"} className="trash" onClick={handleMonthClick}></img>
-                        <img src={require('../assets/unvalide.png')} height={"41px"} onClick={handleMonthClickrefuse}></img>
-                        <img src={require('../assets/information.png')} height={"15px"} onClick={handleDailySheetClick} className="trash" ></img>
-                    </td>
+                        <td ><img src={require('../assets/canlandar.png')} style={{ position: 'absolute', left: '1%', marginTop: '-12px' }} ></img> {Msheet.Month}</td>
+                        <td >{Msheet.Year}</td>
+                        <td >{Msheet.NbrJTrav}</td>
+                        <td >{Msheet.NbrJConge}</td>
+                        <td >{Msheet.NbrJFeries}</td>
+                        <td>{Msheet.NbrHours}</td>
+                        <td>{Msheet.Status ? <img src={require('../assets/valideS.png')} height={"15px"} className="trash"></img> : <img src={require('../assets/refuseS.png')} height={"15px"} className="trash"></img>}</td>
+                        <td>
 
-
-
-
-
-                </tbody>
-
-
-            </table>
-        </div>
-
-
-
+                            <div class="tooltip-container">
+                                <img src={require('../assets/Approve.png')} height={"15px"} style={{cursor : "pointer"}} className="trash" onClick={handleMonthClick}></img>
+                                <span class="tooltip-text">Valide</span>
+                            </div>
+                            <div class="tooltip-container">
+                                <img src={require('../assets/unvalide.png')} height={"41px"} style={{cursor : "pointer"}} onClick={handleMonthClickrefuse}></img>
+                                <span class="tooltip-text">Reject</span>
+                            </div>
+                            <div class="tooltip-container">
+                                <img src={require('../assets/information.png')} height={"15px"} style={{cursor : "pointer"}} onClick={handleDailySheetClick} className="trash"></img>
+                                <span class="tooltip-text">Details</span>
+                            </div>
+                        </td>
 
 
-    </div >
+
+
+
+                    </tbody>
+
+
+                </table>
+            </div>
+
+
+
+
+
+        </div >
 
     )
 }

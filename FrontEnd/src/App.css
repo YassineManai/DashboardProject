@@ -1627,3 +1627,66 @@ button[type="submit"]:hover {
     margin-top: 5px;
 	margin-left: 5px;
 }
+.exel{
+	position: relative;
+    /* margin-top: 100px; */
+    left: 10px;
+    left: 85%;
+    top: 10px;
+	
+}
+
+
+.Succ {
+	font-size: 15px;
+    text-align: center;
+    width: 337px;
+    height: 20px;
+    padding: 2px;
+    border: 0;
+    border-radius: 5px;
+    margin: 10px auto 10px;
+    position: absolute;
+    top: 40%;
+    left: 7.2%;
+    color: green;
+}
+.err {
+	font-size: 15px;
+    text-align: center;
+    width: 337px;
+    height: 20px;
+    padding: 2px;
+    border: 0;
+    border-radius: 5px;
+    margin: 10px auto 10px;
+    position: absolute;
+    top: 40%;
+    left: 7.2%;
+    color: red;
+}
+.tooltip-container {
+	position: relative;
+	display: inline-block;
+  }
+  
+  .tooltip-text {
+	visibility: hidden;
+	width: 70px;
+	background-color: #555;
+	color: #fff;
+	text-align: center;
+	border-radius: 6px;
+	padding: 5px;
+	/* Position the tooltip text */
+	position: absolute;
+	z-index: 1;
+	Top: 100%;
+	left: 50%;
+	margin-left: -35px;
+	
+  }
+  
+  .tooltip-container:hover .tooltip-text {
+	visibility: visible;
+  }

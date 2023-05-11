@@ -155,10 +155,10 @@ const PMonthlysheet = () => {
                                                 <tr>
                                                     <th style={{background:"#144CCC"}}>Month</th>
                                                     <th style={{background:"#144CCC"}} >Year</th>
-                                                    <th style={{background:"#144CCC"}} >NbrJTrav</th>
-                                                    <th style={{background:"#144CCC"}} >NbrJConge</th>
-                                                    <th style={{background:"#144CCC"}} >NbrJFeries</th>
-                                                    <th style={{background:"#144CCC"}} >NbrHours</th>
+                                                    <th style={{background:"#144CCC"}} >Works</th>
+                                                    <th style={{background:"#144CCC"}} >Day Off</th>
+                                                    <th style={{background:"#144CCC"}} >Holiday</th>
+                                                    <th style={{background:"#144CCC"}} >Hours Working</th>
                                                     <th style={{background:"#144CCC"}} >Statue</th>
                                                     <th style={{background:"#144CCC"}} >Details</th>
 

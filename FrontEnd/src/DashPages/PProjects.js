@@ -2,6 +2,7 @@ import axios from "axios"
 
 import { useEffect, useState } from "react";
 import SingleProject from "../secondary -components/singleProject";
+import { useNavigate } from "react-router-dom";
 
 
 const PProjects = () => {
@@ -11,7 +12,7 @@ const PProjects = () => {
   const [ProjectName, setProjectName] = useState('');
   const [CompanyName, setCompanyName] = useState('');
   const [Designation, setDesignation] = useState('');
-
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   const [error, setError] = useState("")
@@ -33,6 +34,7 @@ const PProjects = () => {
         console.log(res);
         console.log(res.data);
         setProjects(prevProjects => prevProjects.filter(Project => Project._id !== id));
+      
       })
       .catch(error => console.error(error));
   }
@@ -145,7 +147,7 @@ const PProjects = () => {
                       <input type="text" name="Cname" placeholder="Company Name" id="Cname" onChange={(e) => { setCompanyName(e.target.value) }} autocomplete="off"
                       />
 
-                      <input type="text" name="Destination" placeholder="Destination" id="Destination" onChange={(e) => { setDesignation(e.target.value) }} autocomplete="off"
+                      <input type="text" name="Destination" placeholder="Designation" id="Designation" onChange={(e) => { setDesignation(e.target.value) }} autocomplete="off"
                       />
                       <input type="submit" value="Done" className="btn2" />
 
@@ -174,6 +176,7 @@ const PProjects = () => {
                 </div>
                 <a href="#" class="btn-download">
                   <i class='bx bxs-cloud-download' ></i>
+                 
                   <span onClick={() => { setshow(!show) }} class="text">Add Project</span>
 
                 </a>
