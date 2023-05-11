@@ -81,7 +81,7 @@ const ProfileUser = ({ ProfUser }) => {
                     <Image style={styles.Editicon} source={Edit} />
                     <Text style={styles.title1} >  FirstName </Text>
                     <TextInput
-                    
+
                         style={styles.input}
                         value={FirstName}
                         onChangeText={(text) => setFirstName(text)}
@@ -90,9 +90,9 @@ const ProfileUser = ({ ProfUser }) => {
                         autoCapitalize='none'
                         autoCorrect={false}
                     />
-                     <Image style={styles.Editicon1} source={Edit} />
+                    <Image style={styles.Editicon1} source={Edit} />
                     <Text style={styles.title1} >  LastName </Text>
-                   
+
                     <TextInput
                         style={styles.input}
                         value={LastName}
@@ -129,13 +129,11 @@ const ProfileUser = ({ ProfUser }) => {
                     <Text style={styles.title1} >  Phone </Text>
                     <TextInput
                         style={styles.input}
-                        value={Phone}
+                        value={Phone.toString()} // convert to string
                         onChangeText={setPhone}
                         placeholder={`${ProfUser.Phone}`}
                         keyboardType="phone-pad"
-
                     />
-
 
 
                     <TouchableOpacity style={styles.Button} onPress={handleSave}>
@@ -385,28 +383,28 @@ const styles = StyleSheet.create({
         width: 60,
         resizeMode: "contain",
         position: 'absolute',
-       top:'13%',
+        top: '13%',
         left: 50
     },
     Editicon2: {
         width: 60,
         resizeMode: "contain",
         position: 'absolute',
-       top:'29%',
+        top: '29%',
         left: 50
-    }, 
+    },
     Editicon3: {
         width: 60,
         resizeMode: "contain",
         position: 'absolute',
-       top:'45%',
+        top: '45%',
         left: 50
     },
     Editicon4: {
         width: 60,
         resizeMode: "contain",
         position: 'absolute',
-       top:'62%',
+        top: '62%',
         left: 50
     }
 

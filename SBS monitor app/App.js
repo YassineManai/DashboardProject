@@ -17,6 +17,7 @@ import Profile from './app/Screens/Profile';
 import { StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import ResetScreen from './app/Screens/Reset_Password';
 import { baseURL } from './Config';
 const App = () => {
   
@@ -45,6 +46,25 @@ const App = () => {
         <Stack.Screen
           name="Login"
           component={LoginScreen}
+          options={{
+           
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerTitleAlign: 'center',
+            headerTitle: () => (
+              <View>
+                <Text style={{ color: '#fff', fontSize: 20 }}>
+                  SBS Monitor
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Reset"
+          component={ResetScreen}
           options={{
            
             headerTintColor: '#fff',

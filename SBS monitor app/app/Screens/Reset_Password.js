@@ -4,42 +4,39 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { baseURL } from '../../Config';
-export default function LoginScreen() {
+export default function ResetScreen() {
     const navigation = useNavigation();
     const [Email, setEmail] = useState('');
-    const [Password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const myImage = require('../assets/sbs.png');
-    console.log(Email)
-    console.log(Password)
 
-    async function loginUser(event) {
+    const [errorMessage, setErrorMessage] = useState('');
+    const [SuccMessage, setSuccMessage] = useState('');
+    const myImage = require('../assets/sbs.png');
+
+
+    async function Reset(event) {
         event.preventDefault();
-        if (!Email || !Password) {
+        if (!Email) {
             setErrorMessage("Please fill out all fields");
             return;
         }
-    
+        const updatedDaySheet = {
+
+            Email: Email,
+
+        };
+
         try {
-            const response = await axios.post(`${baseURL}/user/Login`, {
-                Email: Email,
-                Password: Password,
-            });
+            const response = await axios.put(`${baseURL}/Mail/updatePassword/${Email}`, updatedDaySheet);
             const data = response.data;
-            console.log(data.mytoken);
-            if (data.mytoken) {
-                // Save the token to local storage
-                await AsyncStorage.setItem('token',data.mytoken);
-                setErrorMessage('Login successful');     
-                navigation.navigate('Home');
-                setErrorMessage(''); 
-                setEmail('');
-                setPassword('');   
-              
-                // Redirect to another screen or perform other actions on success
-            } else {
-                setErrorMessage('An error occurred while logging in');
-            }
+            console.log(data)
+            const Mail = await axios.post(`${baseURL}/Mail/Send`, {
+                Email: Email,
+                subject: '[SBS]Password reset for SBS Application'
+            })
+            const dataMail = Mail.data
+            console.log(dataMail)
+            setSuccMessage('Reset Email Successfully ! Please chaeck your Email Inbox');
+
         } catch (error) {
             console.log(error);
             setErrorMessage('Invalid Email');
@@ -56,9 +53,12 @@ export default function LoginScreen() {
                 Smart <Text style={styles.titleSpan}>Business Solution</Text>
             </Text>
             <Image style={styles.logo} source={myImage} />
-            <Text style={styles.subtitle}>Sign in to your account.</Text>
+            <Text style={styles.subtitle}>Reset your Password</Text>
             {errorMessage ? (
                 <Text style={styles.error}>{errorMessage}</Text>
+            ) : null}
+            {SuccMessage ? (
+                <Text style={styles.succ}>{SuccMessage}</Text>
             ) : null}
 
             <TextInput
@@ -70,27 +70,16 @@ export default function LoginScreen() {
                 autoCompleteType="email"
                 keyboardType="email-address"
             />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                value={Password}
-                onChangeText={setPassword}
-                secureTextEntry
-            />
-               <TouchableOpacity onPress={() => navigation.navigate('Reset')}>
-               <Text style={styles.forgotPassword} >Forgot Password?</Text>
-               </TouchableOpacity>
-         
-          
+
             <TouchableOpacity
                 style={styles.loginButton}
-                onPress={loginUser}
+                onPress={Reset}
             >
-                <Text style={styles.buttonText}>Login</Text>
+                <Text style={styles.buttonText}>Reset Password</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={styles.signupText}>
-                    Don't have an account? Sign up
+                    Have an account? Login
                 </Text>
             </TouchableOpacity>
         </View>
@@ -124,7 +113,7 @@ const styles = {
     subtitle: {
         fontSize: 13,
         marginBottom: 10,
-       
+
 
         fontWeight: 'bold',
         color: '#a1a4ad'
@@ -142,20 +131,19 @@ const styles = {
         color: 'black',
         shadowColor: '#000',
         shadowOffset: {
-          width: 0,
-          height: 1,
+            width: 0,
+            height: 1,
         },
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
-    
+
         elevation: 3,
     },
     forgotPassword: {
-      
+        alignSelf: 'flex-end',
         marginVertical: 10,
-    marginLeft:'50%',
         color: '#5c7fda',
-      
+
     },
     loginButton: {
         backgroundColor: '#234b9a',
@@ -180,4 +168,8 @@ const styles = {
         color: 'red',
         marginBottom: 10,
     },
+    succ: {
+        color: 'green',
+        marginBottom: 10
+    }
 };

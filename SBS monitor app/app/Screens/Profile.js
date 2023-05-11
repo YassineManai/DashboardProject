@@ -106,7 +106,7 @@ const Profile = ({ route }) => {
                     >
                         <Image style={styles.icon1} source={Home} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.navigationItem}>
+                    <TouchableOpacity onPress={() => navigation.navigate('DailySheet', { userId: userId })} style={styles.navigationItem}>
                         <Image style={styles.icon1} source={Dsheet} />
                     </TouchableOpacity>
                     <TouchableOpacity

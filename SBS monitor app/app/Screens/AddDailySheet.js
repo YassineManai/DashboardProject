@@ -310,9 +310,6 @@ console.log(date.toLocaleDateString('en-CA'))
           ))}
         </Picker>
 
-
-
-
         <TextInput
           style={styles.input}
           value={location}
@@ -381,7 +378,6 @@ console.log(date.toLocaleDateString('en-CA'))
           <TouchableOpacity style={styles.navigationItem}>
             <Image style={styles.icon} source={Dsheet} />
             <Text style={styles.navigationText}>Dsheet</Text>
-
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('OffDay', { userId: userId })} style={styles.navigationItem} >
             <Image style={styles.icon1} source={OffDay} />

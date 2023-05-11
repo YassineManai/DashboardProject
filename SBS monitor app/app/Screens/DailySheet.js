@@ -16,10 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import axios from 'axios';
 import Day from '../Components/Daily';
-import { Picker } from '@react-native-picker/picker';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import jwtDecode from 'jwt-decode';
 import { useNavigation } from '@react-navigation/native';
 import { baseURL } from '../../Config';
 
@@ -28,7 +25,7 @@ const OneDailySheet = ({ route }) => {
 
 
 
-
+    const [userId, setUserId] = useState(null);
     const Home = require('../assets/Home!active.png');
     const Dsheet = require('../assets/ADsheet!active.png');
     const OffDay = require('../assets/offdayactive.png');
@@ -66,6 +63,16 @@ const OneDailySheet = ({ route }) => {
 
 
 
+    useEffect(() => {
+        async function fetchData() {
+            const userToken = await AsyncStorage.getItem('token');
+            const decodedToken = jwtDecode(userToken);
+            setUserId(decodedToken._id);
+        }
+        fetchData();
+       
+
+    }, [userId]);
 
     useEffect(() => {
 
@@ -123,11 +130,10 @@ const OneDailySheet = ({ route }) => {
                         <Image style={styles.icon1} source={Home} />
 
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.navigationItem}>
+                    <TouchableOpacity onPress={() => navigation.navigate('DailySheet', { userId: userId })} style={styles.navigationItem}>
                         <Image style={styles.icon1} source={Dsheet} />
-
-
                     </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => navigation.navigate('OffDay', { userId: userId })} style={styles.navigationItem} >
                         <Image style={styles.icon1} source={OffDay} />
                     </TouchableOpacity>
