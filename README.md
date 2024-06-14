@@ -1,5 +1,8 @@
 # END OF STUDY PROJECT
-
+Couvrir le domaine d'activité de l'entreprise tout en assurant la sécurité des données personnelles.
+- Mise en place d'une feuille de suivi mensuelle à la fin de chaque mois pour suivre le travail des consultants et les échéances des projets.
+- Mise en place d'une feuille de suivi quotidienne pour surveiller les performances des consultants.
+- Développement d'une application Web/Mobile et d'un tableau de bord Web.
 
 #ADMIN
 ![image](https://github.com/YasyneBK201/DashboardProject/assets/98694575/f13d7c65-4d87-4127-a0c0-ffc399f961b5)
