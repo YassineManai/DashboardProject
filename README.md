@@ -1,4 +1,5 @@
-# Projet-Sbs
+# END OF STUDY PROJECT
+
 
 #ADMIN
 ![image](https://github.com/YasyneBK201/DashboardProject/assets/98694575/f13d7c65-4d87-4127-a0c0-ffc399f961b5)
